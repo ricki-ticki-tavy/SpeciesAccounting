@@ -1,0 +1,90 @@
+apply plugin: 'java'
+apply plugin: 'jetty'
+apply plugin: 'war'
+
+project.ext {
+    springVersion = "5.0.4.RELEASE"
+    springBootVersion = "2.0.0.RELEASE"
+    springSecurityVersion = "5.0.3.RELEASE"
+//    vaadinVersion = "8.0.0"
+    vaadinVersion = "8.3.2"
+    vaadinSassVersion = "0.9.13"
+    hibernateVersion="5.2.15.Final"
+    gsonVersion='2.3.1'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.0'
+}
+sourceCompatibility = 1.8
+//version = '0.99'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://maven.vaadin.com/vaadin-addons"
+    }
+}
+
+dependencies {
+    compile('org.apache.tomcat.embed:tomcat-embed-jasper:9.0.5')
+    compile group: 'com.google.code.gson', name: 'gson', version: rootProject.ext.gsonVersion
+    compile group: 'org.glassfish.hk2.external', name: 'javax.inject', version: '2.3.0'
+    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.0.0'
+
+    compile (group: 'org.springframework', name: 'spring-context', version: project.ext.springVersion){
+        exclude group: 'commons-logging', module: 'commons-logging'
+    }
+    compile group: 'org.springframework', name: 'spring-webmvc', version: project.ext.springVersion
+    compile group: 'org.springframework', name: 'spring-tx', version: project.ext.springVersion
+    compile group: 'org.springframework', name: 'spring-orm', version: project.ext.springVersion
+
+    compile group: 'org.springframework.boot', name: 'spring-boot', version: project.ext.springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: project.ext.springBootVersion
+
+
+    compile group: 'org.javassist', name: 'javassist', version: '3.12.1.GA'
+
+    compile group: 'org.hibernate', name: 'hibernate-core', version: project.ext.hibernateVersion
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: project.ext.hibernateVersion
+    compile group: 'org.apache.tomcat', name: 'tomcat-dbcp', version: '9.0.6'
+//    compile group: 'org.hibernate', name: 'validation-api', version: '1.1.0.Final'
+    compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
+    compile group: 'org.springframework', name: 'spring-core', version: project.ext.springVersion
+    compile group: 'org.springframework', name: 'spring-web', version: project.ext.springVersion
+    compile group: 'org.springframework', name: 'spring-aspects', version: project.ext.springVersion
+//
+//    compile group: 'org.springframework.security', name: 'spring-security-web', version: project.ext.springSecurityVersion
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: project.ext.springSecurityVersion
+//    compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: project.ext.springSecurityVersion
+//
+    compile (group: 'com.vaadin', name: 'vaadin-server', version: project.ext.vaadinVersion)
+    compile group: 'com.vaadin', name: 'vaadin-themes', version: project.ext.vaadinVersion
+    compile group: 'org.vaadin.addons', name: 'toolbar', version: '1.0.0'
+
+    compile group: 'com.vaadin', name: 'vaadin-client-compiled', version: rootProject.ext.vaadinVersion
+    compile (group: 'com.vaadin', name: 'vaadin-client', version: rootProject.ext.vaadinVersion){
+        exclude group: 'com.vaadin', module: 'vaadin-server'
+    }
+    compile group: 'com.vaadin', name: 'vaadin-push', version: rootProject.ext.vaadinVersion
+    compile group: 'com.vaadin', name: 'vaadin-sass-compiler', version: rootProject.ext.vaadinSassVersion
+    compile (group: 'com.vaadin', name: 'vaadin-spring', version: '3.0.0')
+
+    compile group: 'org.springframework', name: 'spring-context-support', version: project.ext.springVersion
+//    compile group: 'org.springframework.security', name: 'spring-security-core', version: project.ext.springSecurityVersion
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+//jar {
+//    into('lib') {
+//        from configurations.compile
+//    }
+//
+//}
+
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}
