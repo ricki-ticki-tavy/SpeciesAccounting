@@ -18,4 +18,6 @@ public class StartView extends BasePlanView {
   public String getPageCaption() {
     return "Стартовая";
   }
+
+
 }

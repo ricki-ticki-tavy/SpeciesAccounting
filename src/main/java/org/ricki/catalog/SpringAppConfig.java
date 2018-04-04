@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.inject.Inject;
@@ -104,11 +105,11 @@ public class SpringAppConfig implements WebApplicationInitializer {
     dispatcher.setLoadOnStartup(1);
     dispatcher.addMapping("/*");
 
-//    AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-//
-//    ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
-//    dispatcher.setLoadOnStartup(1);
-//    dispatcher.addMapping("/");
+    AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
+
+    ServletRegistration.Dynamic springDispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
+    springDispatcher.setLoadOnStartup(1);
+    springDispatcher.addMapping("/idp/*");
   }
 
 

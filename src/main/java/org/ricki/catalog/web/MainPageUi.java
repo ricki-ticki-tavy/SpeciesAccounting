@@ -1,23 +1,11 @@
 package org.ricki.catalog.web;
 
-//import com.vaadin.navigator.Navigator;
-//import com.vaadin.server.VaadinRequest;
-//import com.vaadin.spring.annotation.SpringUI;
-//import com.vaadin.spring.annotation.SpringViewDisplay;
-//import com.vaadin.ui.*;
-//import org.ricki.catalog.service.FoodService;
-//import org.ricki.catalog.web.abstracts.form.BaseForm;
-//import org.ricki.catalog.web.page.*;
-//import org.springframework.beans.factory.BeanFactory;
-//
-//import javax.inject.Inject;
-
 import com.vaadin.navigator.Navigator;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
-import org.ricki.catalog.service.FoodService;
 import org.ricki.catalog.web.abstracts.form.BaseForm;
 import org.ricki.catalog.web.page.*;
 import org.springframework.beans.factory.BeanFactory;
@@ -28,10 +16,8 @@ import javax.inject.Inject;
 @SpringViewDisplay
 public class MainPageUi extends UI {
 
-  Panel navigatorLayout;
-
-  @Inject
-  FoodService foodService;
+  Layout navigatorLayout;
+  Layout menuLayout;
 
   @Inject
   BeanFactory beanFactory;
@@ -42,11 +28,11 @@ public class MainPageUi extends UI {
 
   private MenuBar.MenuItem addPageToMenu(Class<? extends BaseForm> pageClass, MenuBar.MenuItem parent) {
     BaseForm page = beanFactory.getBean(pageClass);
-    page.injectNavigator(navigator, mainMenu);
     if (mainMenu == null) {
       mainMenu = new MenuBar();
-      ((Layout) navigatorLayout.getContent()).addComponent(mainMenu);
+      menuLayout.addComponent(mainMenu);
     }
+    page.injectNavigator(navigator, navigatorLayout);
     MenuBar.MenuItem item;
     navigator.addView(page.getPageId(), page);
     MenuBar.Command cmd = (MenuBar.Command) selectedItem -> navigator.navigateTo(page.getPageId());
@@ -59,17 +45,34 @@ public class MainPageUi extends UI {
   }
 
 
+  private void addStyles() {
+    Page.getCurrent().getStyles().add(".myTopMenu { margin: 0; padding: 0 !important; }");
+  }
+
   @Override
   protected void init(VaadinRequest request) {
+    addStyles();
     navigator = new Navigator(this, this);
 
-    HorizontalLayout nlcont = new HorizontalLayout();
-    navigatorLayout = new Panel();
-    navigatorLayout.setContent(nlcont);
-    navigatorLayout.setId("NavigatorViewContent");
+    navigatorLayout = new VerticalLayout();
+    navigatorLayout.addStyleName("myTopMenu");
+    navigatorLayout.setId("navigatorLayout");
     navigatorLayout.setWidth("100%");
-    navigatorLayout.setHeight(40, Unit.PIXELS);
-    //setContent(content);   // Attach to the UI
+    navigatorLayout.setHeight(80, Unit.PIXELS);
+
+    HorizontalLayout topLineLayout = new HorizontalLayout();
+    topLineLayout.addStyleName("myTopMenu");
+    topLineLayout.setHeight(30, Unit.PIXELS);
+    topLineLayout.setWidth("100%");
+    topLineLayout.addComponent(new Label("asdasdadad"));
+    navigatorLayout.addComponent(topLineLayout);
+
+    menuLayout = new HorizontalLayout();
+    topLineLayout.addStyleName("myTopMenu");
+    menuLayout.setHeight(40, Unit.PIXELS);
+    menuLayout.setWidth(100, Unit.PERCENTAGE);
+
+    navigatorLayout.addComponent(menuLayout);
 
     addPageToMenu(StartView.class, null);
 

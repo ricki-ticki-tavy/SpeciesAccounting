@@ -1,5 +1,6 @@
 package org.ricki.catalog.web.page.actions;
 
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import org.ricki.catalog.entity.AnAction;
@@ -49,7 +50,7 @@ public class ActionView extends BaseForm {
   }
 
   @Override
-  public void onOpen() {
+  public void onOpen(ViewChangeListener.ViewChangeEvent event) {
     grid.setItems(actionService.getActionsList());
   }
 

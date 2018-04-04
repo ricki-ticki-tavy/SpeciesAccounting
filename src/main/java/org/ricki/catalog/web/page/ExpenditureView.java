@@ -1,5 +1,6 @@
 package org.ricki.catalog.web.page;
 
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import org.ricki.catalog.web.abstracts.form.BaseForm;
@@ -37,7 +38,7 @@ public class ExpenditureView extends BaseForm {
   }
 
   @Override
-  public void onOpen() {
+  public void onOpen(ViewChangeListener.ViewChangeEvent event) {
 
   }
 

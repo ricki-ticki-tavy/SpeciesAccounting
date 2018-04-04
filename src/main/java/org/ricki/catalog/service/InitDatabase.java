@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.ricki.catalog.entity.ActionResult;
 import org.ricki.catalog.entity.AnAction;
+import org.ricki.catalog.entity.UserAccount;
 import org.ricki.catalog.entity.UserWebStyle;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -44,6 +45,8 @@ public class InitDatabase {
       feeding.getAvailableResults().add(new ActionResult("Забрано", styleRed, feeding));
 
       session.saveOrUpdate(feeding);
+
+      session.save(new UserAccount("root", "system account", "root", false, ""));
       session.flush();
 
     }

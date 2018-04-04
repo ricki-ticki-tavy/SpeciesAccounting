@@ -1,5 +1,6 @@
 package org.ricki.catalog.web.page;
 
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Layout;
@@ -48,7 +49,7 @@ public class StaffView extends BaseForm {
   }
 
   @Override
-  public void onOpen() {
+  public void onOpen(ViewChangeListener.ViewChangeEvent event) {
 
   }
 
