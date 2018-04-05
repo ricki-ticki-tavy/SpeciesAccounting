@@ -4,6 +4,7 @@ import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.server.SpringVaadinServlet;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
+import org.ricki.catalog.web.filter.security.AuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -107,9 +108,11 @@ public class SpringAppConfig implements WebApplicationInitializer {
 
     AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
 
-    ServletRegistration.Dynamic springDispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
+    ServletRegistration.Dynamic springDispatcher = servletContext.addServlet("idp", new DispatcherServlet(dispatcherContext));
     springDispatcher.setLoadOnStartup(1);
     springDispatcher.addMapping("/idp/*");
+
+    servletContext.addFilter("auth", new AuthFilter()).addMappingForServletNames(null, false, "idp");
   }
 
 

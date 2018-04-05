@@ -52,10 +52,11 @@ public abstract class MetadataGrid<T> extends com.vaadin.ui.Grid<T> {
     this.anClass = anClass;
     GridMetadata gridMetadata = this.getClass().getDeclaredAnnotation(GridMetadata.class);
     if (gridMetadata != null) {
+      skipReorderEvent = true;
       final String[] order = new String[gridMetadata.columns().length];
       final int[] cnt = {0};
       Arrays.stream(gridMetadata.columns()).forEach(info -> {
-        Column col = addColumn(info.fieldName()).setCaption(info.columnCaption()).setWidth(info.width());
+        addColumn(info.fieldName()).setCaption(info.columnCaption()).setWidth(info.width());
         order[cnt[0]++] = info.fieldName();
       });
       if (columnParamInfos != null) {
@@ -65,7 +66,6 @@ public abstract class MetadataGrid<T> extends com.vaadin.ui.Grid<T> {
           getColumn(colParamInfo.name).setWidth(colParamInfo.width);
         });
       }
-      skipReorderEvent = true;
       setColumnOrder(order);
       skipReorderEvent = false;
       setSelectionMode(SelectionMode.SINGLE);

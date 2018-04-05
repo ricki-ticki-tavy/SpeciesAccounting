@@ -8,6 +8,8 @@ import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import org.ricki.catalog.web.abstracts.form.BaseForm;
 import org.ricki.catalog.web.page.*;
+import org.ricki.catalog.web.page.boxes.BoxView;
+import org.ricki.catalog.web.page.styles.StyleView;
 import org.springframework.beans.factory.BeanFactory;
 
 import javax.inject.Inject;
@@ -46,7 +48,8 @@ public class MainPageUi extends UI {
 
 
   private void addStyles() {
-    Page.getCurrent().getStyles().add(".myTopMenu { margin: 0; padding: 0 !important; }");
+    Page.getCurrent().getStyles().add(".myTopMenu { margin: 0 0 0 10px !important; padding: 0 0 0 10px !important; }");
+    Page.getCurrent().getStyles().add(".myWindowTitle { margin: 0 0 0 30px !important; padding: 0 0 0 10px !important; }");
   }
 
   @Override

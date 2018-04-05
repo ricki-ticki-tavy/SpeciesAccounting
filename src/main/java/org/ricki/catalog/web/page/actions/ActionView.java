@@ -38,7 +38,6 @@ public class ActionView extends BaseForm {
   public Layout buildContent() {
     VerticalLayout content = new VerticalLayout();
     content.setSizeFull();
-    content.setId("StylesViewContent");
     setCaption(getPageCaption());
 
     grid = new ActionListGrid();
@@ -51,7 +50,7 @@ public class ActionView extends BaseForm {
 
   @Override
   public void onOpen(ViewChangeListener.ViewChangeEvent event) {
-    grid.setItems(actionService.getActionsList());
+    grid.setItems(actionService.getList());
   }
 
 }

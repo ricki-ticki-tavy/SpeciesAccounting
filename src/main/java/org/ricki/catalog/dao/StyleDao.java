@@ -1,25 +1,24 @@
 package org.ricki.catalog.dao;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.ricki.catalog.entity.Food;
+import org.ricki.catalog.entity.UserWebStyle;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.Query;
 import java.util.List;
 
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class FoodDao {
+public class StyleDao {
 
-  //  @PersistenceContext
   @Inject
-  private SessionFactory sessionFactory;
+  SessionFactory sessionFactory;
 
-  public List<Food> getList() {
-    Query q = sessionFactory.getCurrentSession().createQuery("from Food order by name", Food.class);
-    return q.getResultList();
+  public List<UserWebStyle> getList() {
+    Session session = sessionFactory.getCurrentSession();
+    return session.createQuery("from UserWebStyle order by name").list();
   }
 }

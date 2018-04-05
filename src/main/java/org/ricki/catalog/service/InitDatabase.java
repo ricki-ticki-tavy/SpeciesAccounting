@@ -25,17 +25,17 @@ public class InitDatabase {
   public void init() {
     Session session = sessionFactory.getCurrentSession();
     if ((Long) (session.createQuery("select count(*) from UserWebStyle").uniqueResult()) == 0) {
-      session.save(new UserWebStyle("Обычный", "none", "Не изменяет ничего", ""));
-      UserWebStyle styleRed = new UserWebStyle("Красный фон", "red", "Не изменяет ничего", "background: red");
+      session.save(new UserWebStyle("Обычный", "none", "Не изменяет ничего", "", true));
+      UserWebStyle styleRed = new UserWebStyle("Красный фон", "red", "Не изменяет ничего", "background: red", true);
       session.save(styleRed);
 
-      UserWebStyle styleGrey = new UserWebStyle("Серый фон", "red", "Не изменяет ничего", "background: grey");
+      UserWebStyle styleGrey = new UserWebStyle("Серый фон", "red", "Не изменяет ничего", "background: grey", true);
       session.save(styleGrey);
 
-      UserWebStyle styleLightGreen = new UserWebStyle("Светло зеленый фон", "lightGreen", "Не изменяет ничего", "background: lightGreen");
+      UserWebStyle styleLightGreen = new UserWebStyle("Светло зеленый фон", "lightGreen", "Не изменяет ничего", "background: lightGreen", true);
       session.save(styleLightGreen);
 
-      UserWebStyle styleYellow = new UserWebStyle("Желтый фон", "yellow", "Не изменяет ничего", "background: yellow");
+      UserWebStyle styleYellow = new UserWebStyle("Желтый фон", "yellow", "Не изменяет ничего", "background: yellow", true);
       session.save(styleYellow);
 
       AnAction feeding = new AnAction("Кормление", "Кормление ВСЕХ особей в контейнере", styleYellow, true, AnAction.ActionRecipient.BOX);

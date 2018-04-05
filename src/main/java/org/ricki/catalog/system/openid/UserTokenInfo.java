@@ -1,4 +1,4 @@
-package org.ricki.catalog.system;
+package org.ricki.catalog.system.openid;
 
 import org.ricki.catalog.entity.UserAccount;
 

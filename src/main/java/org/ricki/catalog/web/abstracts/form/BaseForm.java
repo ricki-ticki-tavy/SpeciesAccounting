@@ -38,6 +38,7 @@ public abstract class BaseForm extends GridLayout implements View, PageIdentifie
     captionLabel.setSizeFull();
     HorizontalLayout captionLayout = new HorizontalLayout(captionLabel);
     captionLayout.setComponentAlignment(captionLabel, Alignment.MIDDLE_CENTER);
+    captionLayout.addStyleName("myWindowTitle");
     HorizontalLayout titlePanel = new HorizontalLayout(captionLayout);
     titlePanel.setWidth(100, Unit.PERCENTAGE);
     titlePanel.setHeight(25, Unit.PIXELS);

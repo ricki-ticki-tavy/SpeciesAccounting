@@ -14,6 +14,9 @@ public class UserWebStyle extends BaseNamedCommentedEntity {
   @Column(length = 256, nullable = true)
   private String styleText;
 
+  @Column(nullable = false)
+  private boolean system;
+
   public String getStyleText() {
     return styleText;
   }
@@ -22,9 +25,10 @@ public class UserWebStyle extends BaseNamedCommentedEntity {
     this.styleText = styleText;
   }
 
-  public UserWebStyle(String name, String systemName, String comment, String styleText) {
+  public UserWebStyle(String name, String systemName, String comment, String styleText, boolean system) {
     this.systemName = systemName;
     this.styleText = styleText;
+    this.system = system;
     this.setName(name);
     this.setComment(comment);
   }
@@ -43,5 +47,13 @@ public class UserWebStyle extends BaseNamedCommentedEntity {
 
   public void setSystemName(String systemName) {
     this.systemName = systemName;
+  }
+
+  public boolean isSystem() {
+    return system;
+  }
+
+  public void setSystem(boolean system) {
+    this.system = system;
   }
 }

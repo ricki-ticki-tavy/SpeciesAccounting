@@ -32,7 +32,7 @@ public class SystemSettingDao {
       parameter.setOwner(owner);
       parameter.setName(name);
     }
-    if (value.length() > 128) {
+    if (value.length() <= 128) {
       parameter.setShortData(null);
       parameter.setLongData(value.getBytes());
     } else {

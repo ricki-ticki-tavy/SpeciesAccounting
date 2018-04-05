@@ -17,7 +17,7 @@ public class Test {
 
   @GetMapping
   public String request() {
-    foodService.getAllFoods();
+    foodService.getList();
     return "sdfsdfsfdsdf";
   }
 

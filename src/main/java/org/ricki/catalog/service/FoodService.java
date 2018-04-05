@@ -20,7 +20,7 @@ public class FoodService {
   @Inject
   FoodDao foodDao;
 
-  public List<Food> getAllFoods() {
-    return foodDao.getAllFoods();
+  public List<Food> getList() {
+    return foodDao.getList();
   }
 }

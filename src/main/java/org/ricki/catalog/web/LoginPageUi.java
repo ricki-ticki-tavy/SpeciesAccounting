@@ -1,13 +1,11 @@
 package org.ricki.catalog.web;
 
-import com.vaadin.server.Page;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinService;
+import com.vaadin.server.*;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
-import org.ricki.catalog.system.UserTokenHolder;
-import org.ricki.catalog.system.UserTokenInfo;
+import org.ricki.catalog.system.openid.UserTokenHolder;
+import org.ricki.catalog.system.openid.UserTokenInfo;
 import org.springframework.beans.factory.BeanFactory;
 
 import javax.inject.Inject;
@@ -17,8 +15,10 @@ import javax.inject.Inject;
 public class LoginPageUi extends UI {
 
   public static final String BACK_URL = "backUrl";
+  public static final String TOKEN = "token";
 
   String backUrl;
+  UserTokenInfo userTokenInfo;
 
   TextField loginField;
   PasswordField passwordField;
@@ -35,8 +35,25 @@ public class LoginPageUi extends UI {
     Page.getCurrent().getStyles().add(".myLoginForm { margin: 10 !important; padding: 0 !important; background-color: grey}");
   }
 
+  private String makeToken(UserTokenInfo userTokenInfo) {
+    StringBuilder sb = new StringBuilder();
+
+    return sb.toString();
+  }
+  //---------------------------------------------------------------------------------------
+
   @Override
   protected void init(VaadinRequest request) {
+
+    VaadinSession.getCurrent().addRequestHandler((RequestHandler) (session, request1, response) -> {
+      if (backUrl != null && request.getPathInfo().startsWith(backUrl)) {
+        response.setHeader(TOKEN, userTokenInfo.token);
+        response.setHeader(TOKEN, userTokenInfo.token);
+      }
+      return false;
+    });
+
+
     backUrl = request.getParameter(BACK_URL);
     addStyles();
     vaadinService = request.getService();
@@ -58,11 +75,10 @@ public class LoginPageUi extends UI {
       String login = loginField.getValue();
       String password = passwordField.getValue();
 
-      UserTokenInfo tokenInfo = userTokenHolder.authenticate("THIS", login, password);
-      if (tokenInfo == null) {
+      userTokenInfo = userTokenHolder.authenticate("THIS", login, password);
+      if (userTokenInfo == null) {
 
       } else {
-        getCurrent().getSession().setAttribute("token", tokenInfo.token);
         getCurrent().getPage().setLocation(backUrl);
       }
     });
