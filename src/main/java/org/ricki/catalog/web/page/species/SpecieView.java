@@ -1,4 +1,4 @@
-package org.ricki.catalog.web.page;
+package org.ricki.catalog.web.page.species;
 
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Layout;
@@ -10,20 +10,20 @@ import org.springframework.context.annotation.Scope;
 import javax.inject.Named;
 
 /**
- * Стили для вывода разных ячеек
+ * Оборудование
  */
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class FoodView extends BaseForm {
+public class SpecieView extends BaseForm {
 
   @Override
   public String getPageId() {
-    return "food";
+    return "species";
   }
 
   @Override
   public String getPageCaption() {
-    return "Корм";
+    return "Особи";
   }
 
   @Override
@@ -31,7 +31,7 @@ public class FoodView extends BaseForm {
     VerticalLayout content = new VerticalLayout();
     content.setHeight(200, Unit.PIXELS);
     content.setWidth(100, Unit.PERCENTAGE);
-    content.setId("StylesViewContent");
+    content.setId("SpeciesViewContent");
     setCaption(getPageCaption());
 
     return content;

@@ -1,16 +1,22 @@
 package org.ricki.catalog.entity;
 
 
-import org.ricki.catalog.entity.abstracts.BaseNamedEntity;
+import org.ricki.catalog.entity.abstracts.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * Контейнеры, терры
  */
 @Entity
-public class SystemSetting extends BaseNamedEntity {
+@Table(uniqueConstraints = {@UniqueConstraint(name = "sys_set_name_owner", columnNames = {"name", "owner"})})
+public class SystemSetting extends BaseEntity {
+
+  @Column(nullable = false, length = 128)
+  private String name;
 
   @Column(nullable = true)
   private byte[] longData;
@@ -43,5 +49,13 @@ public class SystemSetting extends BaseNamedEntity {
 
   public void setShortData(String shortData) {
     this.shortData = shortData;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

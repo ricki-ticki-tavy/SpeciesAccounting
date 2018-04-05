@@ -1,6 +1,8 @@
-package org.ricki.catalog.web.page;
+package org.ricki.catalog.web.page.staff;
 
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import org.ricki.catalog.web.abstracts.form.BaseForm;
@@ -14,16 +16,16 @@ import javax.inject.Named;
  */
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class SpecieView extends BaseForm {
+public class StaffView extends BaseForm {
 
   @Override
   public String getPageId() {
-    return "species";
+    return "staff";
   }
 
   @Override
   public String getPageCaption() {
-    return "Особи";
+    return "Оборудование и аксессуары";
   }
 
   @Override
@@ -31,9 +33,18 @@ public class SpecieView extends BaseForm {
     VerticalLayout content = new VerticalLayout();
     content.setHeight(200, Unit.PIXELS);
     content.setWidth(100, Unit.PERCENTAGE);
-    content.setId("SpeciesViewContent");
-    setCaption(getPageCaption());
+    content.setId("MainViewContent");
 
+    Button button = new Button("!!!!!!!!!!!!!!",
+            new Button.ClickListener() {
+              @Override
+              public void buttonClick(Button.ClickEvent event) {
+                navigator.navigateTo("");
+              }
+            });
+
+    content.addComponent(button);
+    content.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
     return content;
   }
 

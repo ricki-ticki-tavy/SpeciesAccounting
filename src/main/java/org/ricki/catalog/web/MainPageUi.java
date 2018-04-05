@@ -7,8 +7,15 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import org.ricki.catalog.web.abstracts.form.BaseForm;
-import org.ricki.catalog.web.page.*;
+import org.ricki.catalog.web.page.ExpenditureView;
+import org.ricki.catalog.web.page.PlanView;
+import org.ricki.catalog.web.page.StartView;
 import org.ricki.catalog.web.page.boxes.BoxView;
+import org.ricki.catalog.web.page.food.FoodView;
+import org.ricki.catalog.web.page.sales.SaleView;
+import org.ricki.catalog.web.page.species.SpecieView;
+import org.ricki.catalog.web.page.species.types.SpecieTypeView;
+import org.ricki.catalog.web.page.staff.StaffView;
 import org.ricki.catalog.web.page.styles.StyleView;
 import org.springframework.beans.factory.BeanFactory;
 

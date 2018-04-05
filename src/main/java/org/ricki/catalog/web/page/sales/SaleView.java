@@ -1,8 +1,6 @@
-package org.ricki.catalog.web.page;
+package org.ricki.catalog.web.page.sales;
 
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import org.ricki.catalog.web.abstracts.form.BaseForm;
@@ -12,20 +10,20 @@ import org.springframework.context.annotation.Scope;
 import javax.inject.Named;
 
 /**
- * Оборудование
+ *
  */
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class StaffView extends BaseForm {
+public class SaleView extends BaseForm {
 
   @Override
   public String getPageId() {
-    return "staff";
+    return "sales";
   }
 
   @Override
   public String getPageCaption() {
-    return "Оборудование и аксессуары";
+    return "Приходы";
   }
 
   @Override
@@ -33,18 +31,9 @@ public class StaffView extends BaseForm {
     VerticalLayout content = new VerticalLayout();
     content.setHeight(200, Unit.PIXELS);
     content.setWidth(100, Unit.PERCENTAGE);
-    content.setId("MainViewContent");
+    content.setId("BoxViewContent");
+    setCaption(getPageCaption());
 
-    Button button = new Button("!!!!!!!!!!!!!!",
-            new Button.ClickListener() {
-              @Override
-              public void buttonClick(Button.ClickEvent event) {
-                navigator.navigateTo("");
-              }
-            });
-
-    content.addComponent(button);
-    content.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
     return content;
   }
 
@@ -52,5 +41,4 @@ public class StaffView extends BaseForm {
   public void onOpen(ViewChangeListener.ViewChangeEvent event) {
 
   }
-
 }

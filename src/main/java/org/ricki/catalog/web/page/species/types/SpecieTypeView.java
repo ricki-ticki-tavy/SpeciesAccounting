@@ -1,4 +1,4 @@
-package org.ricki.catalog.web.page;
+package org.ricki.catalog.web.page.species.types;
 
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Layout;
@@ -10,20 +10,20 @@ import org.springframework.context.annotation.Scope;
 import javax.inject.Named;
 
 /**
- *
+ * Стили для вывода разных ячеек
  */
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class SaleView extends BaseForm {
+public class SpecieTypeView extends BaseForm {
 
   @Override
   public String getPageId() {
-    return "sales";
+    return "specieTypes";
   }
 
   @Override
   public String getPageCaption() {
-    return "Приходы";
+    return "Виды и условия содержания";
   }
 
   @Override
@@ -31,7 +31,7 @@ public class SaleView extends BaseForm {
     VerticalLayout content = new VerticalLayout();
     content.setHeight(200, Unit.PIXELS);
     content.setWidth(100, Unit.PERCENTAGE);
-    content.setId("BoxViewContent");
+    content.setId("StylesViewContent");
     setCaption(getPageCaption());
 
     return content;
@@ -41,4 +41,5 @@ public class SaleView extends BaseForm {
   public void onOpen(ViewChangeListener.ViewChangeEvent event) {
 
   }
+
 }

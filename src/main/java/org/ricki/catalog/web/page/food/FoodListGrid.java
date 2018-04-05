@@ -1,4 +1,4 @@
-package org.ricki.catalog.web.page.boxes;
+package org.ricki.catalog.web.page.food;
 
 import org.ricki.catalog.entity.metadata.annotation.ColumnInfo;
 import org.ricki.catalog.entity.metadata.annotation.GridMetadata;
@@ -11,12 +11,12 @@ import org.ricki.catalog.web.abstracts.component.MetadataGrid;
         , @ColumnInfo(columnCaption = "Цена", fieldName = "requiredPrice", width = 120)
         , @ColumnInfo(columnCaption = "Продано за", fieldName = "payedPrice", width = 120)
         , @ColumnInfo(columnCaption = "Примечание", fieldName = "comment", width = 400)
-        , @ColumnInfo(columnCaption = "Акт", fieldName = "active", width = 80)
-        , @ColumnInfo(columnCaption = "Параметры", fieldName = "info", width = 200)
+        , @ColumnInfo(columnCaption = "Акт", fieldName = "active", width = 70)
+        , @ColumnInfo(columnCaption = "Остаток", fieldName = "quantity", width = 75)
 })
-public class BoxListGrid<Box> extends MetadataGrid<Box> {
+public class FoodListGrid<Food> extends MetadataGrid<Food> {
   @Override
   public String getGridUniqueId() {
-    return "boxesList";
+    return "foodList";
   }
 }
