@@ -11,6 +11,7 @@ project.ext {
     vaadinSassVersion = "0.9.13"
     hibernateVersion="5.2.15.Final"
     gsonVersion='2.3.1'
+    bouncycastleVersion='1.59'
 }
 
 task wrapper(type: Wrapper) {
@@ -27,6 +28,9 @@ repositories {
 }
 
 dependencies {
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: rootProject.ext.bouncycastleVersion
+    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: rootProject.ext.bouncycastleVersion
+
     compile('org.apache.tomcat.embed:tomcat-embed-jasper:9.0.5')
     compile group: 'com.google.code.gson', name: 'gson', version: rootProject.ext.gsonVersion
     compile group: 'org.glassfish.hk2.external', name: 'javax.inject', version: '2.3.0'

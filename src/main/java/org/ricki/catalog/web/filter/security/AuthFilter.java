@@ -8,6 +8,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -16,20 +17,23 @@ public class AuthFilter implements Filter {
   @Inject
   OpenIdAuthenticator openIdAuthenticator;
 
-  @Value("${keystore.filename:.}")
+  @Value("${openid.keystore.filename:/home/dsporykhin/openid-esia.jks}")
   private String keystoreFileName;
 
-  @Value("${keystore.password:openid-pass}")
+  @Value("${openid.keystore.password:openid-pass}")
   private String keystorePassword;
 
-  @Value("${keystore.key.password:openid-pass}")
+  @Value("${openid.keystore.key.password:openid-pass}")
   private String keyPassword;
 
-  @Value("${keystore.key.alias:openid-esia}")
+  @Value("${openid.keystore.key.alias:openid-esia}")
   private String keyAlias;
 
-  @Value("${keystore.client_id:sso}")
+  @Value("${openid.keystore.client_id:sso}")
   private String client_id;
+
+  @Value("${openid.login.url:http://localhost:8080/login}")
+  private String openidLoginUrl;
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
@@ -41,6 +45,7 @@ public class AuthFilter implements Filter {
     openIdAuthenticator.setKeyPassword(keyPassword);
     openIdAuthenticator.setClient_id(client_id);
     openIdAuthenticator.setKeyAlias(keyAlias);
+    openIdAuthenticator.setRedirect_uri("http://localhost:8080/idp/");
   }
 
   @Override
@@ -50,7 +55,9 @@ public class AuthFilter implements Filter {
 
     if (session.getAttribute("SPRING_SECURITY_CONTEXT") == null) {
       String redirectParams = openIdAuthenticator.createAuthRequest();
+      ((HttpServletResponse) response).sendRedirect(openidLoginUrl + "?" + redirectParams);
+    } else {
+      chain.doFilter(request, response);
     }
-    chain.doFilter(request, response);
   }
 }
