@@ -1,11 +1,14 @@
 package org.ricki.catalog.web;
 
-import com.vaadin.server.*;
+import com.vaadin.server.Page;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinService;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import org.ricki.catalog.system.openid.UserTokenHolder;
 import org.ricki.catalog.system.openid.UserTokenInfo;
+import org.ricki.catalog.system.openid.server.AuthCodeRequestStruct;
 import org.springframework.beans.factory.BeanFactory;
 
 import javax.inject.Inject;
@@ -17,8 +20,8 @@ public class LoginPageUi extends UI {
   public static final String BACK_URL = "backUrl";
   public static final String TOKEN = "token";
 
-  String backUrl;
   UserTokenInfo userTokenInfo;
+  AuthCodeRequestStruct authRequest = null;
 
   TextField loginField;
   PasswordField passwordField;
@@ -45,16 +48,16 @@ public class LoginPageUi extends UI {
   @Override
   protected void init(VaadinRequest request) {
 
-    VaadinSession.getCurrent().addRequestHandler((RequestHandler) (session, request1, response) -> {
-      if (backUrl != null && request.getPathInfo().startsWith(backUrl)) {
-        response.setHeader(TOKEN, userTokenInfo.token);
-        response.setHeader(TOKEN, userTokenInfo.token);
-      }
-      return false;
-    });
+//    VaadinSession.getCurrent().addRequestHandler((RequestHandler) (session, request1, response) -> {
+//      if (backUrl != null && request.getPathInfo().startsWith(backUrl)) {
+//        response.setHeader(TOKEN, userTokenInfo.token);
+//        response.setHeader(TOKEN, userTokenInfo.token);
+//      }
+//      return false;
+//    });
 
+    authRequest = AuthCodeRequestStruct.fromRequest(request);
 
-    backUrl = request.getParameter(BACK_URL);
     addStyles();
     vaadinService = request.getService();
     GridLayout form = new GridLayout(20, 8);
@@ -79,7 +82,10 @@ public class LoginPageUi extends UI {
       if (userTokenInfo == null) {
 
       } else {
-        getCurrent().getPage().setLocation(backUrl);
+        if ("code".equals(authRequest.response_type)) {
+          // Соберем ответ с кодом авторизации
+          getCurrent().getPage().setLocation(authRequest.redirect_uri);
+        }
       }
     });
 

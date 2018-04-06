@@ -101,8 +101,23 @@ public class SpringAppConfig implements WebApplicationInitializer {
 
     servletContext.addListener(new ContextLoaderListener(rootContext));
 
+//    ServletRegistration.Dynamic loginDispatcher = servletContext.addServlet(
+//            "auth", SpringVaadinServlet.class);
+//    loginDispatcher.setLoadOnStartup(1);
+//    loginDispatcher.addMapping("/login");
+//
+
+//    SpringVaadinServlet springVaadinServlet = new SpringVaadinServlet();
+//    springVaadinServlet.setServiceUrlPath("/");
+//    ServletRegistration.Dynamic dispatcherLogin = servletContext.addServlet(
+//            "login", springVaadinServlet);
+//    dispatcherLogin.setLoadOnStartup(1);
+//    dispatcherLogin.addMapping("/login");
+
+    SpringVaadinServlet appSpringVaadinServlet = new SpringVaadinServlet();
+//    appSpringVaadinServlet.setServiceUrlPath("/");
     ServletRegistration.Dynamic dispatcher = servletContext.addServlet(
-            "vaadin", SpringVaadinServlet.class);
+            "vaadin", appSpringVaadinServlet);
     dispatcher.setLoadOnStartup(1);
     dispatcher.addMapping("/*");
 
@@ -112,7 +127,7 @@ public class SpringAppConfig implements WebApplicationInitializer {
     springDispatcher.setLoadOnStartup(1);
     springDispatcher.addMapping("/idp/*");
 
-    servletContext.addFilter("auth", new AuthFilter()).addMappingForServletNames(null, false, "idp");
+    servletContext.addFilter("auth", new AuthFilter()).addMappingForServletNames(null, false, "vaadin");
   }
 
 

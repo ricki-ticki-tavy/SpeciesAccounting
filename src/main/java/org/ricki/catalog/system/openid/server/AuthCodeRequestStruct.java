@@ -1,5 +1,7 @@
 package org.ricki.catalog.system.openid.server;
 
+import com.vaadin.server.VaadinRequest;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class AuthCodeRequestStruct {
@@ -22,10 +24,27 @@ public class AuthCodeRequestStruct {
   public String timestamp;
   public String access_type;
 
+  @SuppressWarnings("Duplicates")
   public static AuthCodeRequestStruct fromRequest(HttpServletRequest request) {
     AuthCodeRequestStruct authStruct = new AuthCodeRequestStruct();
-    authStruct.client_id = request.getParameter(RESPONSE_TYPE_PARAM_NAME);
-    authStruct.response_type = request.getParameter(CLIENT_ID_PARAM_NAME);
+    authStruct.client_id = request.getParameter(CLIENT_ID_PARAM_NAME);
+    authStruct.response_type = request.getParameter(RESPONSE_TYPE_PARAM_NAME);
+    authStruct.redirect_uri = request.getParameter(REDIRECT_URI_PARAM_NAME);
+    authStruct.scope = request.getParameter(SCOPE_PARAM_NAME);
+    authStruct.client_secret = request.getParameter(CLIENT_SECRET_PARAM_NAME);
+    authStruct.state = request.getParameter(STATE_PARAM_NAME);
+    authStruct.timestamp = request.getParameter(TIMESTAMP_PARAM_NAME);
+    authStruct.access_type = request.getParameter(ACCESS_TYPE_PARAM_NAME);
+
+    return authStruct;
+  }
+
+
+  @SuppressWarnings("Duplicates")
+  public static AuthCodeRequestStruct fromRequest(VaadinRequest request) {
+    AuthCodeRequestStruct authStruct = new AuthCodeRequestStruct();
+    authStruct.client_id = request.getParameter(CLIENT_ID_PARAM_NAME);
+    authStruct.response_type = request.getParameter(RESPONSE_TYPE_PARAM_NAME);
     authStruct.redirect_uri = request.getParameter(REDIRECT_URI_PARAM_NAME);
     authStruct.scope = request.getParameter(SCOPE_PARAM_NAME);
     authStruct.client_secret = request.getParameter(CLIENT_SECRET_PARAM_NAME);
