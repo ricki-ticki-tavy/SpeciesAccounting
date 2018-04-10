@@ -13,13 +13,13 @@ import javax.persistence.ManyToOne;
 public class StuffAction extends BaseThingAction {
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  private Stuff stuff;
+  private Staff stuff;
 
-  public Stuff getStuff() {
+  public Staff getStuff() {
     return stuff;
   }
 
-  public void setStuff(Stuff stuff) {
+  public void setStuff(Staff stuff) {
     this.stuff = stuff;
   }
 }

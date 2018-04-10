@@ -8,7 +8,7 @@ import javax.persistence.OneToMany;
 import java.util.Set;
 
 @Entity
-public class Stuff extends BaseThing {
+public class Staff extends BaseThing {
   @OneToMany(fetch = FetchType.LAZY)
   private Set<StuffAction> actions;
 

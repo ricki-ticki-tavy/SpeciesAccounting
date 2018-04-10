@@ -12,6 +12,7 @@ project.ext {
     hibernateVersion="5.2.15.Final"
     gsonVersion='2.3.1'
     bouncycastleVersion='1.59'
+    vaadinMessageBosVersion='4.0.21'
 }
 
 task wrapper(type: Wrapper) {
@@ -66,6 +67,8 @@ dependencies {
 //
     compile (group: 'com.vaadin', name: 'vaadin-server', version: project.ext.vaadinVersion)
     compile group: 'com.vaadin', name: 'vaadin-themes', version: project.ext.vaadinVersion
+    compile group: 'de.steinwedel.vaadin.addon', name: 'messagebox', version: project.ext.vaadinMessageBosVersion
+
     compile group: 'org.vaadin.addons', name: 'toolbar', version: '1.0.0'
 
     compile group: 'com.vaadin', name: 'vaadin-client-compiled', version: rootProject.ext.vaadinVersion

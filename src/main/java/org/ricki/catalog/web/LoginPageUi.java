@@ -6,6 +6,7 @@ import com.vaadin.server.VaadinService;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
+import de.steinwedel.messagebox.MessageBox;
 import org.ricki.catalog.system.openid.UserTokenHolder;
 import org.ricki.catalog.system.openid.UserTokenInfo;
 import org.ricki.catalog.system.openid.server.AuthCodeRequestStruct;
@@ -80,11 +81,13 @@ public class LoginPageUi extends UI {
 
       userTokenInfo = userTokenHolder.authenticate("THIS", login, password);
       if (userTokenInfo == null) {
-
+        MessageBox.createError().withCaption("Авторизация")
+                .withMessage("Пользователь или пароль не верен!")
+                .withOkButton().open();
       } else {
         if ("code".equals(authRequest.response_type)) {
           // Соберем ответ с кодом авторизации
-          getCurrent().getPage().setLocation(authRequest.redirect_uri);
+          getCurrent().getPage().setLocation(authRequest.redirect_uri + "?code=" + userTokenInfo.accessCode + "&state=" + authRequest.state);
         }
       }
     });

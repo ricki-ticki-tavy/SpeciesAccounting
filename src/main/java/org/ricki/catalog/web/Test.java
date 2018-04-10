@@ -1,7 +1,6 @@
 package org.ricki.catalog.web;
 
-import org.ricki.catalog.service.FoodService;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.ricki.catalog.system.openid.UserTokenHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,21 +8,16 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.inject.Inject;
 
 @RestController
-@RequestMapping("/main")
+@RequestMapping("/login/marker")
 public class Test {
 
   @Inject
-  FoodService foodService;
-
-  @GetMapping
-  public String request() {
-    foodService.getList();
-    return "sdfsdfsfdsdf";
-  }
+  UserTokenHolder userTokenHolder;
 
   @PostMapping
   public String postRequest() {
-    return request();
+    userTokenHolder.toString();
+    return "sdsdsd";
   }
 
 }

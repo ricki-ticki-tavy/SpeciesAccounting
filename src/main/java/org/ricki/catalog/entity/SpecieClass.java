@@ -9,4 +9,11 @@ import javax.persistence.Entity;
  */
 @Entity
 public class SpecieClass extends BaseNamedEntity {
+  public SpecieClass() {
+
+  }
+
+  public SpecieClass(String name) {
+    setName(name);
+  }
 }

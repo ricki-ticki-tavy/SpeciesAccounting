@@ -1,8 +1,8 @@
 package org.ricki.catalog.service;
 
 import com.vaadin.spring.annotation.UIScope;
-import org.ricki.catalog.dao.AnActionDao;
-import org.ricki.catalog.entity.AnAction;
+import org.ricki.catalog.dao.SpecieTypeDao;
+import org.ricki.catalog.entity.SpecieType;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
@@ -15,12 +15,12 @@ import java.util.List;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @UIScope
 @Transactional
-public class AnActionService {
+public class SpecieTypeService {
 
   @Inject
-  AnActionDao anActionDao;
+  SpecieTypeDao specieTypeDao;
 
-  public List<AnAction> getList() {
-    return anActionDao.getList();
+  public List<SpecieType> getList() {
+    return specieTypeDao.getList();
   }
 }

@@ -13,7 +13,7 @@ public class Sale extends BaseCommentedEntity {
   private double cost;
 
   @ManyToOne(optional = true)
-  private Stuff stuff;
+  private Staff stuff;
 
   @ManyToOne(optional = true)
   private Specie specie;
@@ -29,11 +29,11 @@ public class Sale extends BaseCommentedEntity {
     this.cost = cost;
   }
 
-  public Stuff getStuff() {
+  public Staff getStuff() {
     return stuff;
   }
 
-  public void setStuff(Stuff stuff) {
+  public void setStuff(Staff stuff) {
     this.stuff = stuff;
   }
 

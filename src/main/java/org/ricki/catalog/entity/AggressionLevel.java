@@ -38,7 +38,17 @@ public class AggressionLevel extends BaseNamedEntity {
     this.balls = balls;
   }
 
+  public String toString() {
+    return getName();
+  }
+
   public AggressionLevel() {
 
+  }
+
+  public AggressionLevel(String name, UserWebStyle style, int balls) {
+    setName(name);
+    setBalls(balls);
+    setUserWebStyle(style);
   }
 }

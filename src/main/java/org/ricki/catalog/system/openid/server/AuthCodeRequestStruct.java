@@ -14,6 +14,9 @@ public class AuthCodeRequestStruct {
   public static final String STATE_PARAM_NAME = "state";
   public static final String TIMESTAMP_PARAM_NAME = "timestamp";
   public static final String ACCESS_TYPE_PARAM_NAME = "access_type";
+  public static final String TOKEN_TYPE_PARAM_NAME = "token_type";
+  public static final String GRANT_TYPE_PARAM_NAME = "grant_type";
+  public static final String CODE_PARAM_NAME = "code";
 
   public String client_id;
   public String response_type;

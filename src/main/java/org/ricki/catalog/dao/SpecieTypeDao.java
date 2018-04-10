@@ -2,7 +2,7 @@ package org.ricki.catalog.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.ricki.catalog.entity.AnAction;
+import org.ricki.catalog.entity.SpecieType;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
@@ -12,13 +12,13 @@ import java.util.List;
 
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class AnActionDao {
+public class SpecieTypeDao {
 
   @Inject
   SessionFactory sessionFactory;
 
-  public List<AnAction> getList() {
+  public List<SpecieType> getList() {
     Session session = sessionFactory.getCurrentSession();
-    return session.createQuery("from AnAction order by name").list();
+    return session.createQuery("from SpecieType order by name").list();
   }
 }
