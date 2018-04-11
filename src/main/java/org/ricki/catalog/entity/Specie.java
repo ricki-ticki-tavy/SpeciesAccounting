@@ -86,9 +86,18 @@ public class Specie extends BaseThing {
     this.moltCountMax = moltCountMax;
   }
 
+  public Gender getGender() {
+    return gender;
+  }
+
+  public void setGender(Gender gender) {
+    this.gender = gender;
+  }
+
   public enum Gender {
     MALE("Самец"),
-    FEMALE("Самка");
+    FEMALE("Самка"),
+    UNKNOWN("Неопред.");
 
     private String caption;
 

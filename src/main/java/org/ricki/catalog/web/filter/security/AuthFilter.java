@@ -35,7 +35,7 @@ public class AuthFilter implements Filter {
   @Value("${openid.login.url:http://localhost:8080/login}")
   private String openidLoginUrl;
 
-  @Value("${openid.login.marker.url:http://localhost:8080/login/marker}")
+  @Value("${openid.login.marker.url:http://localhost:8080/token/factory}")
   private String openidMarkerUrl;
 
   public String thisAppAddress;
@@ -56,7 +56,7 @@ public class AuthFilter implements Filter {
     String path = ((RequestFacade) request).getPathInfo();
     HttpSession session = ((HttpServletRequest) request).getSession(true);
 
-    if (!"/login".equals(path) && !path.contains("/VAADIN/") && !path.contains("/UIDL/") && session.getAttribute("SPRING_SECURITY_CONTEXT") == null) {
+    if (!"/login".equals(path) && !path.contains("/VAADIN/") && !path.contains("/VAADIN/") && !path.contains("/UIDL/") && session.getAttribute("SPRING_SECURITY_CONTEXT") == null) {
       openIdAuthenticator.doFilter(request, response, chain);
 //      if (request.getParameter("code") != null){
 //          // пришел авторизационный код

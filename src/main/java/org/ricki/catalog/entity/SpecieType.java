@@ -173,4 +173,9 @@ public class SpecieType extends BaseNamedEntity {
   public void setDescription(byte[] description) {
     this.description = description;
   }
+
+  @Override
+  public String toString() {
+    return getName();
+  }
 }

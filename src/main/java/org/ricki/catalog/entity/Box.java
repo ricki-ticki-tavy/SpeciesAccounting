@@ -39,4 +39,9 @@ public class Box extends BaseThing {
   public void setActions(Set<BoxAction> actions) {
     this.actions = actions;
   }
+
+  @Override
+  public String toString() {
+    return getName();
+  }
 }

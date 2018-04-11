@@ -111,8 +111,10 @@ public class SpringAppConfig implements WebApplicationInitializer {
 
     ServletRegistration.Dynamic springDispatcher = servletContext.addServlet("marker", new DispatcherServlet(dispatcherContext));
     springDispatcher.setLoadOnStartup(1);
-    springDispatcher.addMapping("/login/*");
+    springDispatcher.addMapping("/token/*");
 
+
+//    appSpringVaadinServlet.getServletContext().addFilter("auth", new AuthFilter());
     servletContext.addFilter("auth", new AuthFilter()).addMappingForServletNames(null, false, "vaadin");
   }
 

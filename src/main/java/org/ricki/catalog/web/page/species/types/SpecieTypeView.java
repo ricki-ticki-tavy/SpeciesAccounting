@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * Стили для вывода разных ячеек
+ * Види живности
  */
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)

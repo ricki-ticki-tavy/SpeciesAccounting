@@ -116,7 +116,9 @@ public class OpenIdAuthenticator {
       // пришел авторизационный код
       requestToken(session, request);
       session.setAttribute("SPRING_SECURITY_CONTEXT", new Date());
-      chain.doFilter(request, response);
+      ((HttpServletResponse) response).sendRedirect(redirect_uri);
+
+//      chain.doFilter(request, response);
     } else {
       String state = UUID.randomUUID().toString();
 
@@ -124,6 +126,9 @@ public class OpenIdAuthenticator {
       if (redirectParams != null) {
         session.setAttribute(OPENID_AUTH_CODE_REQUEST_DATETIEM_PARAMNAME, new Date());
         session.setAttribute(OPENID_STATE_PARAMNAME, state);
+//        forwardPostRequest(loginUrl + "?" + redirectParams, (HttpServletRequest)request, (HttpServletResponse) response);
+//        RequestDispatcher dispatcher = request.getServletContext().getContext(loginUrl).getRequestDispatcher(loginUrl + "?" + redirectParams);
+//        dispatcher.forward(request, response);
         ((HttpServletResponse) response).sendRedirect(loginUrl + "?" + redirectParams);
       }
     }
@@ -179,8 +184,9 @@ public class OpenIdAuthenticator {
 //    пошлем запрос на сервер
     try {
       String requestResult = sendPostRequest(markerUrl, tokenParams);
-    } catch (Throwable th) {
 
+    } catch (Throwable th) {
+      throw new RuntimeException(th);
     }
     session.setAttribute(OPENID_AUTH_CODE_PARAMNAME, code);
   }
