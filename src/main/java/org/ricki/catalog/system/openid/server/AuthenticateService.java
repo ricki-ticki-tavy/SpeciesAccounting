@@ -1,4 +1,4 @@
-package org.ricki.catalog.system.openid;
+package org.ricki.catalog.system.openid.server;
 
 import org.ricki.catalog.entity.UserAccount;
 import org.ricki.catalog.service.UserAccountService;
@@ -12,15 +12,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static org.ricki.catalog.system.openid.common.ErrorAnswer.ERROR_INVALID_GRANT;
+
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class UserTokenHolder {
+public class AuthenticateService {
 
   @Inject
   UserAccountService userAccountService;
 
   private Map<String, UserTokenInfo> tokenToTokenInfo = new HashMap<>(100);
   private Map<String, UserTokenInfo> refreshTokenToTokenInfo = new HashMap<>(100);
+  private Map<String, UserTokenInfo> accessCodeToTokenInfo = new HashMap<>(100);
 
   private String generateRandomString(int len) {
     char[] table = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
@@ -34,6 +37,14 @@ public class UserTokenHolder {
     return sb.toString();
   }
 
+  /**
+   * Первичная авторизация. Создание кода авторизации со сроком "протухания" 30 сек
+   *
+   * @param I_S_code
+   * @param user
+   * @param password
+   * @return
+   */
   public UserTokenInfo authenticate(String I_S_code, String user, String password) {
     UserAccount userAccount = userAccountService.getUser(user);
     if (userAccount == null || !userAccount.getPassword().equals(password)) {
@@ -41,11 +52,30 @@ public class UserTokenHolder {
     }
     UserTokenInfo userTokenInfo = new UserTokenInfo(I_S_code, generateRandomString(64)
             , generateRandomString(64), generateRandomString(64)
-            , new Date(new Date().getTime() + 3600000), userAccount);
-    tokenToTokenInfo.put(userTokenInfo.token, userTokenInfo);
-    refreshTokenToTokenInfo.put(userTokenInfo.refreshToken, userTokenInfo);
+            , 30, userAccount, new Date());
+    accessCodeToTokenInfo.put(userTokenInfo.accessCode, userTokenInfo);
     return userTokenInfo;
   }
 
+  /**
+   * Обмен кода авторизации на токен
+   *
+   * @param code
+   * @return
+   */
+  public UserTokenInfo exchangeAccessCodeToToken(String code) {
+    UserTokenInfo tokenInfo = accessCodeToTokenInfo.get(code);
+    if (tokenInfo == null || (tokenInfo.validUntil.getTime() - new Date().getTime()) <= 0) {
+      throw new RuntimeException(ERROR_INVALID_GRANT);
+    }
+    accessCodeToTokenInfo.remove(code);
+    tokenInfo.setExpireDate(3600);
+    tokenInfo.tokenValidFrom = new Date();
+
+    tokenToTokenInfo.put(tokenInfo.token, tokenInfo);
+    refreshTokenToTokenInfo.put(tokenInfo.refreshToken, tokenInfo);
+
+    return tokenInfo;
+  }
 
 }

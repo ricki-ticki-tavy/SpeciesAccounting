@@ -4,7 +4,7 @@ import com.vaadin.spring.annotation.EnableVaadin;
 import com.vaadin.spring.server.SpringVaadinServlet;
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
-import org.ricki.catalog.web.filter.security.AuthFilter;
+import org.ricki.catalog.system.openid.client.AuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

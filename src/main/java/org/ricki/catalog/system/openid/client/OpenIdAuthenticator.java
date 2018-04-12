@@ -1,6 +1,10 @@
 package org.ricki.catalog.system.openid.client;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.ricki.catalog.system.openid.common.IdentityMarkerAssertionSection;
 import org.ricki.catalog.system.openid.common.PKCS7Signer;
+import org.ricki.catalog.system.openid.common.TokenRequestAnswer;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import sun.misc.BASE64Encoder;
@@ -18,24 +22,18 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
+import static org.ricki.catalog.system.openid.common.MsgConstants.*;
 import static org.ricki.catalog.system.openid.server.AuthCodeRequestStruct.*;
 
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class OpenIdAuthenticator {
-
-  private final static String OPENID_AUTH_CODE_REQUEST_DATETIEM_PARAMNAME = "openid__auth_req_date";
-  private final static String OPENID_STATE_PARAMNAME = "openid__request_state";
-  private final static String OPENID_AUTH_CODE_PARAMNAME = "openid__auth_code";
-  private final static String OPENID_CURRENT_TOKEN_PARAMNAME = "openid__current_token";
-
-
-  private final static String DEFAULT_AUTH_SCOPE = "fullname";
-  private final static String DEFAULT_AUTH_TOKEN_TYPE = "Bearer";
 
   @Inject
   PKCS7Signer signer;
@@ -48,6 +46,8 @@ public class OpenIdAuthenticator {
 
   private String keyAlias;
 
+  private String idpCertificateFileName;
+
   private String client_id;
 
   private String loginUrl;
@@ -57,7 +57,7 @@ public class OpenIdAuthenticator {
   private String markerUrl;
 
   public void configure(String client_id, String keystoreFileName, String keystorePassword
-          , String keyAlias, String keyPassword, String redirect_uri
+          , String keyAlias, String keyPassword, String idpCertificateFileName, String redirect_uri
           , String loginUrl, String markerUrl) {
     this.keystoreFileName = keystoreFileName;
     this.keystorePassword = keystorePassword;
@@ -67,6 +67,7 @@ public class OpenIdAuthenticator {
     this.redirect_uri = redirect_uri;
     this.loginUrl = loginUrl;
     this.markerUrl = markerUrl;
+    this.idpCertificateFileName = idpCertificateFileName;
   }
 
   private String sign(String data) {
@@ -92,7 +93,7 @@ public class OpenIdAuthenticator {
 
     StringBuilder sb = new StringBuilder(2048);
     try {
-      sb.append(RESPONSE_TYPE_PARAM_NAME + "=code")
+      sb.append(RESPONSE_TYPE_PARAM_NAME + "=" + OPENID_AUTH_CODE_VALUE)
               .append("&" + CLIENT_ID_PARAM_NAME + "=").append(URLEncoder.encode(client_id, "UTF-8"))
               .append("&" + REDIRECT_URI_PARAM_NAME + "=").append(URLEncoder.encode(redirect_uri, "UTF-8"))
               .append("&" + SCOPE_PARAM_NAME + "=").append(URLEncoder.encode(scope, "UTF-8"))
@@ -117,18 +118,12 @@ public class OpenIdAuthenticator {
       requestToken(session, request);
       session.setAttribute("SPRING_SECURITY_CONTEXT", new Date());
       ((HttpServletResponse) response).sendRedirect(redirect_uri);
-
-//      chain.doFilter(request, response);
     } else {
       String state = UUID.randomUUID().toString();
-
       String redirectParams = createAuthRequest(state);
       if (redirectParams != null) {
         session.setAttribute(OPENID_AUTH_CODE_REQUEST_DATETIEM_PARAMNAME, new Date());
         session.setAttribute(OPENID_STATE_PARAMNAME, state);
-//        forwardPostRequest(loginUrl + "?" + redirectParams, (HttpServletRequest)request, (HttpServletResponse) response);
-//        RequestDispatcher dispatcher = request.getServletContext().getContext(loginUrl).getRequestDispatcher(loginUrl + "?" + redirectParams);
-//        dispatcher.forward(request, response);
         ((HttpServletResponse) response).sendRedirect(loginUrl + "?" + redirectParams);
       }
     }
@@ -178,17 +173,34 @@ public class OpenIdAuthenticator {
     }
     // все совпало. формируем запрос обмена авторизационного кода на токен
     String code = request.getParameter(CODE_PARAM_NAME);
-
-    String tokenParams = buildTokenRequestParams(code);
+    String state = UUID.randomUUID().toString();
+    String tokenParams = buildTokenRequestParams(code, state);
 
 //    пошлем запрос на сервер
     try {
       String requestResult = sendPostRequest(markerUrl, tokenParams);
+      Gson json = new GsonBuilder().create();
+      TokenRequestAnswer answer = json.fromJson(requestResult, TokenRequestAnswer.class);
+      if (answer.state.equals(state)) {
+        session.setAttribute(OPENID_CURRENT_TOKEN_PARAMNAME, answer.access_token);
+//        session.setAttribute(OPENID_REFRESH_TOKEN_PARAMNAME, answer.refresh_token);
+        session.setAttribute(OPENID_TOKEN_EXPIRED_PARAMNAME, new Date(new Date().getTime() + answer.expires_in * 1000));
+        session.removeAttribute(OPENID_AUTH_CODE_PARAMNAME);
+        session.setAttribute(OPENID_AUTH_CODE_PARAMNAME, code);
+        String[] parts = answer.id_token.split("\\.");
 
-    } catch (Throwable th) {
+        IdentityMarkerAssertionSection identityMarker = json.fromJson(new String(Base64.getUrlDecoder()
+                .decode(parts[1].getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8), IdentityMarkerAssertionSection.class);
+
+        session.setAttribute(OPENID_SUB_CODE_PARAMNAME, identityMarker);
+      }
+    } catch (
+            Throwable th)
+
+    {
       throw new RuntimeException(th);
     }
-    session.setAttribute(OPENID_AUTH_CODE_PARAMNAME, code);
+
   }
   //-----------------------------------------------------------------------------------------
 
@@ -198,9 +210,8 @@ public class OpenIdAuthenticator {
    * @param code
    * @return
    */
-  private String buildTokenRequestParams(String code) {
+  private String buildTokenRequestParams(String code, String state) {
     StringBuilder sb = new StringBuilder(2000);
-    String state = UUID.randomUUID().toString();
     String scope = DEFAULT_AUTH_SCOPE;
     SimpleDateFormat fmt = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss +0000");
     String timestamp = fmt.format(new Date());
@@ -210,7 +221,7 @@ public class OpenIdAuthenticator {
     try {
       sb.append(CLIENT_ID_PARAM_NAME + "=").append(URLEncoder.encode(client_id, "UTF-8"))
               .append("&" + CODE_PARAM_NAME + "=").append(URLEncoder.encode(code, "UTF-8"))
-              .append("&" + GRANT_TYPE_PARAM_NAME).append("=authorization_code")
+              .append("&" + GRANT_TYPE_PARAM_NAME).append("=").append(OPENID_TOKEN_GRANT_TYPE_VALUE)
               .append("&" + CLIENT_SECRET_PARAM_NAME + "=").append(URLEncoder.encode(client_secret, "UTF-8"))
               .append("&" + STATE_PARAM_NAME + "=").append(URLEncoder.encode(state, "UTF-8"))
               .append("&" + REDIRECT_URI_PARAM_NAME + "=").append(URLEncoder.encode(redirect_uri, "UTF-8"))

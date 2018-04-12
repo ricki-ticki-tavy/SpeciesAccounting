@@ -1,8 +1,7 @@
-package org.ricki.catalog.web.filter.security;
+package org.ricki.catalog.system.openid.client;
 
 
 import org.apache.catalina.connector.RequestFacade;
-import org.ricki.catalog.system.openid.client.OpenIdAuthenticator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -38,6 +37,9 @@ public class AuthFilter implements Filter {
   @Value("${openid.login.marker.url:http://localhost:8080/token/factory}")
   private String openidMarkerUrl;
 
+  @Value("${openid.idp.certificate.filename:}")
+  private String idpCertificateFileName;
+
   public String thisAppAddress;
 
   @Override
@@ -47,8 +49,42 @@ public class AuthFilter implements Filter {
     }
     thisAppAddress = "http://localhost:8080";
     openIdAuthenticator.configure(client_id, keystoreFileName, keystorePassword, keyAlias, keyPassword
-            , thisAppAddress, openidLoginUrl, openidMarkerUrl);
+            , idpCertificateFileName, thisAppAddress, openidLoginUrl, openidMarkerUrl);
   }
+  //----------------------------------------------------------------------------------------------
+
+  public void configure(String client_id, String keystoreFileName, String keystorePassword
+          , String keyAlias, String keyPassword, String idpCertificateFileName, String redirect_uri
+          , String loginUrl, String markerUrl) {
+
+    this.keystoreFileName = keystoreFileName;
+    this.keystorePassword = keystorePassword;
+    this.keyPassword = keyPassword;
+    this.client_id = client_id;
+    this.keyAlias = keyAlias;
+    this.thisAppAddress = redirect_uri;
+    this.openidLoginUrl = loginUrl;
+    this.openidMarkerUrl = markerUrl;
+    this.idpCertificateFileName = idpCertificateFileName;
+
+    openIdAuthenticator.configure(client_id, keystoreFileName, keystorePassword, keyAlias, keyPassword
+            , idpCertificateFileName, thisAppAddress, openidLoginUrl, openidMarkerUrl);
+  }
+  //----------------------------------------------------------------------------------------------
+
+  /**
+   * Для вызова из другого фильтра. Не выполняется никаких проверок в отношении путей, на которые не нужно распространять действие фильтра
+   *
+   * @param request
+   * @param response
+   * @param chain
+   * @throws IOException
+   * @throws ServletException
+   */
+  public void authenticatorDoFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    openIdAuthenticator.doFilter(request, response, chain);
+  }
+  //----------------------------------------------------------------------------------------------
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -58,15 +94,6 @@ public class AuthFilter implements Filter {
 
     if (!"/login".equals(path) && !path.contains("/VAADIN/") && !path.contains("/VAADIN/") && !path.contains("/UIDL/") && session.getAttribute("SPRING_SECURITY_CONTEXT") == null) {
       openIdAuthenticator.doFilter(request, response, chain);
-//      if (request.getParameter("code") != null){
-//          // пришел авторизационный код
-//        openIdAuthenticator.doFilter(request, response, chain);
-//        session.setAttribute("SPRING_SECURITY_CONTEXT", new Date());
-//        chain.doFilter(request, response);
-//      } else {
-//        String redirectParams = openIdAuthenticator.createAuthRequest();
-//        ((HttpServletResponse) response).sendRedirect(openidLoginUrl + "?" + redirectParams);
-//      }
     } else {
       chain.doFilter(request, response);
     }

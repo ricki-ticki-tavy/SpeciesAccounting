@@ -7,9 +7,10 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import de.steinwedel.messagebox.MessageBox;
-import org.ricki.catalog.system.openid.UserTokenHolder;
-import org.ricki.catalog.system.openid.UserTokenInfo;
+import org.ricki.catalog.system.openid.common.MsgConstants;
 import org.ricki.catalog.system.openid.server.AuthCodeRequestStruct;
+import org.ricki.catalog.system.openid.server.AuthenticateService;
+import org.ricki.catalog.system.openid.server.UserTokenInfo;
 import org.springframework.beans.factory.BeanFactory;
 
 import javax.inject.Inject;
@@ -31,7 +32,7 @@ public class LoginPageUi extends UI {
   BeanFactory beanFactory;
 
   @Inject
-  UserTokenHolder userTokenHolder;
+  AuthenticateService userTokenHolder;
 
   private VaadinService vaadinService;
 
@@ -48,16 +49,14 @@ public class LoginPageUi extends UI {
 
   @Override
   protected void init(VaadinRequest request) {
-
-//    VaadinSession.getCurrent().addRequestHandler((RequestHandler) (session, request1, response) -> {
-//      if (backUrl != null && request.getPathInfo().startsWith(backUrl)) {
-//        response.setHeader(TOKEN, userTokenInfo.token);
-//        response.setHeader(TOKEN, userTokenInfo.token);
-//      }
-//      return false;
-//    });
-
     authRequest = AuthCodeRequestStruct.fromRequest(request);
+
+    if (!MsgConstants.OPENID_AUTH_CODE_VALUE.equals(authRequest.response_type)) {
+      MessageBox.createError().withCaption("Авторизация")
+              .withMessage("Неподдерживаемый тип авторизации\"" + (authRequest.response_type == null ? "null" : authRequest.response_type + "\"."))
+              .withOkButton().open();
+      return;
+    }
 
     addStyles();
     vaadinService = request.getService();
@@ -85,10 +84,7 @@ public class LoginPageUi extends UI {
                 .withMessage("Пользователь или пароль не верен!")
                 .withOkButton().open();
       } else {
-        if ("code".equals(authRequest.response_type)) {
-          // Соберем ответ с кодом авторизации
-          getCurrent().getPage().setLocation(authRequest.redirect_uri + "?code=" + userTokenInfo.accessCode + "&state=" + authRequest.state);
-        }
+        getCurrent().getPage().setLocation(authRequest.redirect_uri + "?code=" + userTokenInfo.accessCode + "&state=" + authRequest.state);
       }
     });
 
