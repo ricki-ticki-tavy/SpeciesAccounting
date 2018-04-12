@@ -2,7 +2,7 @@ package org.ricki.catalog.web.page.species.types;
 
 import org.ricki.catalog.entity.metadata.annotation.ColumnInfo;
 import org.ricki.catalog.entity.metadata.annotation.GridMetadata;
-import org.ricki.catalog.web.abstracts.component.MetadataGrid;
+import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
 
 @GridMetadata(columns = {@ColumnInfo(columnCaption = "Название", fieldName = "name", width = 400)
         , @ColumnInfo(columnCaption = "Вид", fieldName = "specieClass", width = 120)

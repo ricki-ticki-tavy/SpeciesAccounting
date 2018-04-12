@@ -1,4 +1,4 @@
-package org.ricki.catalog.web.abstracts.component;
+package org.ricki.catalog.web.abstracts.component.grid;
 
 class ColumnParamInfo {
   public String name;

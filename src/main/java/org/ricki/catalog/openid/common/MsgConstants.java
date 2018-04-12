@@ -1,4 +1,4 @@
-package org.ricki.catalog.system.openid.common;
+package org.ricki.catalog.openid.common;
 
 public class MsgConstants {
   public final static String OPENID_AUTH_CODE_REQUEST_DATETIEM_PARAMNAME = "openid__auth_req_date";

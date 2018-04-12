@@ -1,0 +1,44 @@
+@import "../valo/valo.scss";
+
+.base {
+  @include valo;
+
+  .base_form_content {
+    padding: 0 10px 10px 10px;
+  }
+
+  .base_tool_bar {
+    padding: 10px;
+    margin: 0px;
+    height: 50px;
+    width: 100%;
+    background-color: burlywood;
+
+    .v-button {
+      height: 28px;
+      width: 28px;
+      border: none;
+      background-repeat: no-repeat;
+      background-position: center;
+      padding-left: 15px;
+
+      &:hover {
+        background-position: 0 -28px;
+      }
+      &:active {
+        background-position: 0 -56px;
+      }
+
+    }
+  }
+
+  .toolButtonNew {
+    background-image: url('img/buttons/add-action.png');
+  }
+  .toolButtonEdit {
+    background-image: url('img/buttons/edit-action.png');
+  }
+  .toolButtonRemove {
+    background-image: url('img/buttons/delete-action.png');
+  }
+}

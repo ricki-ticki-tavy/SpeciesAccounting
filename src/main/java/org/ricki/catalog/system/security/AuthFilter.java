@@ -1,7 +1,8 @@
-package org.ricki.catalog.system.openid.client;
+package org.ricki.catalog.system.security;
 
 
 import org.apache.catalina.connector.RequestFacade;
+import org.ricki.catalog.openid.client.OpenIdAuthenticator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -10,6 +11,8 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+
+import static org.ricki.catalog.openid.common.MsgConstants.OPENID_SUB_CODE_PARAMNAME;
 
 
 public class AuthFilter implements Filter {
@@ -37,8 +40,23 @@ public class AuthFilter implements Filter {
   @Value("${openid.login.marker.url:http://localhost:8080/token/factory}")
   private String openidMarkerUrl;
 
+  /**
+   * либо этот параметр, либо idpKeystoreFileName, idpKeystorePassword, idpKeyAlias, idpKeyPassword
+   */
   @Value("${openid.idp.certificate.filename:}")
   private String idpCertificateFileName;
+
+  @Value("${openid.idp.keystore.filename:}")
+  private String idpKeystoreFileName;
+
+  @Value("${openid.idp.keystore.password:openid-pass}")
+  private String idpKeystorePassword;
+
+  @Value("${openid.idp.key.alias:openid-esia}")
+  private String idpKeyAlias;
+
+  @Value("${openid.idp.key.password:openid-pass}")
+  private String idpKeyPassword;
 
   public String thisAppAddress;
 
@@ -92,8 +110,8 @@ public class AuthFilter implements Filter {
     String path = ((RequestFacade) request).getPathInfo();
     HttpSession session = ((HttpServletRequest) request).getSession(true);
 
-    if (!"/login".equals(path) && !path.contains("/VAADIN/") && !path.contains("/VAADIN/") && !path.contains("/UIDL/") && session.getAttribute("SPRING_SECURITY_CONTEXT") == null) {
-      openIdAuthenticator.doFilter(request, response, chain);
+    if (!"/login".equals(path) && !path.contains("/VAADIN/") && !path.contains("/VAADIN/") && !path.contains("/UIDL/") && session.getAttribute(OPENID_SUB_CODE_PARAMNAME) == null) {
+      authenticatorDoFilter(request, response, chain);
     } else {
       chain.doFilter(request, response);
     }

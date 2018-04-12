@@ -1,11 +1,12 @@
 package org.ricki.catalog.web.page.styles;
 
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Button;
 import org.ricki.catalog.entity.UserWebStyle;
 import org.ricki.catalog.service.StyleService;
-import org.ricki.catalog.web.abstracts.form.BaseForm;
+import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
+import org.ricki.catalog.web.abstracts.component.toolbar.SimpleToolBar;
+import org.ricki.catalog.web.abstracts.form.BaseListForm;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
@@ -17,7 +18,7 @@ import javax.inject.Named;
  */
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class StyleView extends BaseForm {
+public class StyleView extends BaseListForm {
 
   @Inject
   StyleService styleService;
@@ -34,18 +35,28 @@ public class StyleView extends BaseForm {
     return "Стили отображения";
   }
 
-  @Override
-  public Layout buildContent() {
-    VerticalLayout content = new VerticalLayout();
-    content.setSizeFull();
-    setCaption(getPageCaption());
+  public void newRecord(Button.ClickEvent event) {
 
+  }
+
+  public void editRecord(Button.ClickEvent event) {
+
+  }
+
+  public void removeRecord(Button.ClickEvent event) {
+
+  }
+
+  @Override
+  public void addActions(SimpleToolBar toolbar) {
+
+  }
+
+  @Override
+  public MetadataGrid buildGrid() {
     grid = new StyleListGrid();
     grid.initGrid(UserWebStyle.class);
-    grid.setSizeFull();
-    content.addComponent(grid);
-
-    return content;
+    return grid;
   }
 
   @Override

@@ -1,4 +1,4 @@
-package org.ricki.catalog.system.openid.common;
+package org.ricki.catalog.openid.common;
 
 /**
  * Структура для упаковки / распаковки ответа по запросу обмена кода авторизации на маркер доступа

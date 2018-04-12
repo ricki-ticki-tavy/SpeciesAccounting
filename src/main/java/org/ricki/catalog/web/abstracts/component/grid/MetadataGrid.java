@@ -1,4 +1,4 @@
-package org.ricki.catalog.web.abstracts.component;
+package org.ricki.catalog.web.abstracts.component.grid;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

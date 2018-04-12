@@ -1,4 +1,4 @@
-package org.ricki.catalog.system.openid.common;
+package org.ricki.catalog.openid.common;
 
 import java.util.Date;
 

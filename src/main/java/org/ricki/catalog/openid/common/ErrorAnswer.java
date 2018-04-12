@@ -1,4 +1,4 @@
-package org.ricki.catalog.system.openid.common;
+package org.ricki.catalog.openid.common;
 
 /**
  * Структура для возврата данных об ошибке

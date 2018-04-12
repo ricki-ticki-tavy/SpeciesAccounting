@@ -1,4 +1,4 @@
-package org.ricki.catalog.system.openid.common;
+package org.ricki.catalog.openid.common;
 
 import org.bouncycastle.cert.jcajce.JcaCertStore;
 import org.bouncycastle.cms.*;
@@ -20,7 +20,10 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -66,6 +69,38 @@ public class PKCS7Signer {
     } catch (Throwable th) {
       // TODO exception handling
       return null;
+    }
+  }
+  //--------------------------------------------------------------------------------------------------
+
+  public String sign(String data, PrivateKey privateKey) {
+    try {
+      Signature privateSignature = Signature.getInstance("SHA256withRSA");
+      privateSignature.initSign(privateKey);
+      privateSignature.update(data.getBytes(UTF_8));
+
+      byte[] signature = privateSignature.sign();
+
+      return Base64.getEncoder().encodeToString(signature);
+    } catch (Throwable th) {
+      // TODO exception handling
+      return null;
+    }
+  }
+  //--------------------------------------------------------------------------------------------------
+
+  public boolean verify(String data, String signature, PublicKey publicKey) {
+    try {
+      Signature publicSignature = Signature.getInstance("SHA256withRSA");
+      publicSignature.initVerify(publicKey);
+      publicSignature.update(data.getBytes(UTF_8));
+
+      byte[] signatureBytes = Base64.getDecoder().decode(signature);
+
+      return publicSignature.verify(signatureBytes);
+    } catch (Throwable th) {
+      // TODO exception handling
+      throw new RuntimeException(th);
     }
   }
   //--------------------------------------------------------------------------------------------------

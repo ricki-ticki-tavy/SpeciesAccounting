@@ -1,10 +1,10 @@
-package org.ricki.catalog.system.openid.client;
+package org.ricki.catalog.openid.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.ricki.catalog.system.openid.common.IdentityMarkerAssertionSection;
-import org.ricki.catalog.system.openid.common.PKCS7Signer;
-import org.ricki.catalog.system.openid.common.TokenRequestAnswer;
+import org.ricki.catalog.openid.common.IdentityMarkerAssertionSection;
+import org.ricki.catalog.openid.common.PKCS7Signer;
+import org.ricki.catalog.openid.common.TokenRequestAnswer;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import sun.misc.BASE64Encoder;
@@ -28,8 +28,8 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
-import static org.ricki.catalog.system.openid.common.MsgConstants.*;
-import static org.ricki.catalog.system.openid.server.AuthCodeRequestStruct.*;
+import static org.ricki.catalog.openid.common.MsgConstants.*;
+import static org.ricki.catalog.openid.server.AuthCodeRequestStruct.*;
 
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -191,8 +191,8 @@ public class OpenIdAuthenticator {
 
         IdentityMarkerAssertionSection identityMarker = json.fromJson(new String(Base64.getUrlDecoder()
                 .decode(parts[1].getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8), IdentityMarkerAssertionSection.class);
-
         session.setAttribute(OPENID_SUB_CODE_PARAMNAME, identityMarker);
+
       }
     } catch (
             Throwable th)

@@ -1,4 +1,4 @@
-package org.ricki.catalog.system.openid.server;
+package org.ricki.catalog.openid.server;
 
 import com.vaadin.server.VaadinRequest;
 

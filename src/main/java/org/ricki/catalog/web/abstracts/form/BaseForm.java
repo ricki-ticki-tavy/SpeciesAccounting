@@ -6,6 +6,9 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 
 public abstract class BaseForm extends GridLayout implements View, PageIdentified {
+
+  public static final String FORM_CONTAINER_BASE_STYLE = "base_form_content";
+
   protected Navigator navigator;
   private Layout navigatorBar;
   private Layout mainLayout;
@@ -22,6 +25,7 @@ public abstract class BaseForm extends GridLayout implements View, PageIdentifie
     setId("mainView");
     setSizeFull();
     mainLayout = buildContent();
+    mainLayout.addStyleName(FORM_CONTAINER_BASE_STYLE);
     mainLayout.setId("mainLayout");
   }
 

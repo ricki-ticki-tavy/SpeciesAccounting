@@ -7,10 +7,10 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import de.steinwedel.messagebox.MessageBox;
-import org.ricki.catalog.system.openid.common.MsgConstants;
-import org.ricki.catalog.system.openid.server.AuthCodeRequestStruct;
-import org.ricki.catalog.system.openid.server.AuthenticateService;
-import org.ricki.catalog.system.openid.server.UserTokenInfo;
+import org.ricki.catalog.openid.common.MsgConstants;
+import org.ricki.catalog.openid.server.AuthCodeRequestStruct;
+import org.ricki.catalog.openid.server.AuthenticateService;
+import org.ricki.catalog.openid.server.UserTokenInfo;
 import org.springframework.beans.factory.BeanFactory;
 
 import javax.inject.Inject;

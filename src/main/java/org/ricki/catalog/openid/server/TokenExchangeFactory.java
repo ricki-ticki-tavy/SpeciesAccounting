@@ -1,18 +1,18 @@
-package org.ricki.catalog.system.openid.server;
+package org.ricki.catalog.openid.server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.ricki.catalog.system.openid.common.ErrorAnswer;
-import org.ricki.catalog.system.openid.common.IdentityMarkerAssertionSection;
-import org.ricki.catalog.system.openid.common.TokenRequestAnswer;
+import org.ricki.catalog.openid.common.ErrorAnswer;
+import org.ricki.catalog.openid.common.IdentityMarkerAssertionSection;
+import org.ricki.catalog.openid.common.TokenRequestAnswer;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import static org.ricki.catalog.system.openid.common.ErrorAnswer.ERROR_INVALID_GRANT;
-import static org.ricki.catalog.system.openid.server.AuthCodeRequestStruct.*;
+import static org.ricki.catalog.openid.common.ErrorAnswer.ERROR_INVALID_GRANT;
+import static org.ricki.catalog.openid.server.AuthCodeRequestStruct.*;
 
 @RestController
 @RequestMapping("/factory")

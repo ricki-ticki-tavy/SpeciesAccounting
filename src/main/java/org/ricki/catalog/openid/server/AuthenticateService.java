@@ -1,4 +1,4 @@
-package org.ricki.catalog.system.openid.server;
+package org.ricki.catalog.openid.server;
 
 import org.ricki.catalog.entity.UserAccount;
 import org.ricki.catalog.service.UserAccountService;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static org.ricki.catalog.system.openid.common.ErrorAnswer.ERROR_INVALID_GRANT;
+import static org.ricki.catalog.openid.common.ErrorAnswer.ERROR_INVALID_GRANT;
 
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)

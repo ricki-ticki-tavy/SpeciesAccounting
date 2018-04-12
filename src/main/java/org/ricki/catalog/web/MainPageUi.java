@@ -1,5 +1,6 @@
 package org.ricki.catalog.web;
 
+import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 
 @SpringUI
 @SpringViewDisplay
+@Theme("base")
 public class MainPageUi extends UI {
 
   Layout navigatorLayout;
