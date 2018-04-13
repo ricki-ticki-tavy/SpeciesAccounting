@@ -96,6 +96,7 @@ public class OpenIdAuthenticator {
       sb.append(RESPONSE_TYPE_PARAM_NAME + "=" + OPENID_AUTH_CODE_VALUE)
               .append("&" + CLIENT_ID_PARAM_NAME + "=").append(URLEncoder.encode(client_id, "UTF-8"))
               .append("&" + REDIRECT_URI_PARAM_NAME + "=").append(URLEncoder.encode(redirect_uri, "UTF-8"))
+//              .append("&" + REDIRECT_URI_PARAM_NAME + "=").append(URLEncoder.encode(back_uri, "UTF-8"))
               .append("&" + SCOPE_PARAM_NAME + "=").append(URLEncoder.encode(scope, "UTF-8"))
               .append("&" + CLIENT_SECRET_PARAM_NAME + "=").append(URLEncoder.encode(client_secret, "UTF-8"))
               .append("&" + STATE_PARAM_NAME + "=").append(URLEncoder.encode(state, "UTF-8"))

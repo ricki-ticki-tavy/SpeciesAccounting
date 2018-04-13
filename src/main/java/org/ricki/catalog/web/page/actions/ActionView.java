@@ -1,11 +1,11 @@
 package org.ricki.catalog.web.page.actions;
 
+import com.vaadin.event.selection.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Layout;
-import com.vaadin.ui.VerticalLayout;
 import org.ricki.catalog.entity.AnAction;
 import org.ricki.catalog.service.AnActionService;
-import org.ricki.catalog.web.abstracts.form.BaseForm;
+import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
+import org.ricki.catalog.web.abstracts.form.BaseListForm;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
@@ -17,12 +17,10 @@ import javax.inject.Named;
  */
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class ActionView extends BaseForm {
+public class ActionView extends BaseListForm<AnAction> {
 
   @Inject
   AnActionService actionService;
-
-  ActionListGrid grid;
 
   @Override
   public String getPageId() {
@@ -35,22 +33,25 @@ public class ActionView extends BaseForm {
   }
 
   @Override
-  public Layout buildContent() {
-    VerticalLayout content = new VerticalLayout();
-    content.setSizeFull();
-    setCaption(getPageCaption());
-
-    grid = new ActionListGrid();
+  public MetadataGrid buildGrid() {
+    ActionListGrid grid = new ActionListGrid();
     grid.initGrid(AnAction.class);
-    grid.setSizeFull();
-    content.addComponent(grid);
+    return grid;
+  }
 
-    return content;
+  @Override
+  public void recordSelected(SelectionEvent event) {
+    editBtn.setEnabled(event.getFirstSelectedItem().isPresent());
+  }
+
+  @Override
+  public void loadList() {
+    grid.setItems(actionService.getList());
   }
 
   @Override
   public void onOpen(ViewChangeListener.ViewChangeEvent event) {
-    grid.setItems(actionService.getList());
+    loadList();
   }
 
 }

@@ -22,11 +22,9 @@ public abstract class BaseForm extends GridLayout implements View, PageIdentifie
 
   public BaseForm() {
     super();
-    setId("mainView");
     setSizeFull();
     mainLayout = buildContent();
     mainLayout.addStyleName(FORM_CONTAINER_BASE_STYLE);
-    mainLayout.setId("mainLayout");
   }
 
   public abstract void onOpen(ViewChangeListener.ViewChangeEvent event);
@@ -42,10 +40,10 @@ public abstract class BaseForm extends GridLayout implements View, PageIdentifie
     captionLabel.setSizeFull();
     HorizontalLayout captionLayout = new HorizontalLayout(captionLabel);
     captionLayout.setComponentAlignment(captionLabel, Alignment.MIDDLE_CENTER);
-    captionLayout.addStyleName("myWindowTitle");
+    captionLayout.addStyleName("base_form_title");
     HorizontalLayout titlePanel = new HorizontalLayout(captionLayout);
     titlePanel.setWidth(100, Unit.PERCENTAGE);
-    titlePanel.setHeight(25, Unit.PIXELS);
+    titlePanel.setHeight(40, Unit.PIXELS);
 
     mainLayout.setSizeFull();
 

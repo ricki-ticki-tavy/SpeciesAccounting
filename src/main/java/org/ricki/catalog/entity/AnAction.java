@@ -1,6 +1,7 @@
 package org.ricki.catalog.entity;
 
 import org.ricki.catalog.entity.abstracts.BaseNamedCommentedEntity;
+import org.ricki.catalog.entity.abstracts.SystemRecordDetectable;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table
-public class AnAction extends BaseNamedCommentedEntity {
+public class AnAction extends BaseNamedCommentedEntity implements SystemRecordDetectable {
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
   private UserWebStyle planedStyle;
 
@@ -29,6 +30,7 @@ public class AnAction extends BaseNamedCommentedEntity {
     this.planedStyle = planedStyle;
   }
 
+  @Override
   public boolean isSystem() {
     return system;
   }

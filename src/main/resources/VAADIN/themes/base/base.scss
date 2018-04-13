@@ -3,42 +3,58 @@
 .base {
   @include valo;
 
+  .base_form_title {
+    background-color: lightgray;
+    font-size: 23px;
+    color: black;
+    font-weight: 500;
+    padding: 0 0 0 30px;
+    width: 100%;
+    height: 40px !important;
+    margin: 0 10px 0 10px;
+  }
+
   .base_form_content {
     padding: 0 10px 10px 10px;
   }
 
   .base_tool_bar {
-    padding: 10px;
+    padding: 4px;
     margin: 0px;
     height: 50px;
     width: 100%;
-    background-color: burlywood;
+    background-color: ivory;
 
     .v-button {
-      height: 28px;
-      width: 28px;
+      height: 40px;
+      width: 40px;
       border: none;
       background-repeat: no-repeat;
       background-position: center;
-      padding-left: 15px;
+      margin: 0 0 0 0;
 
-      &:hover {
-        background-position: 0 -28px;
-      }
-      &:active {
-        background-position: 0 -56px;
-      }
-
+      //&:hover {
+      //  background-position: 0 -28px;
+      //}
+      //&:active {
+      //  background-position: 0 -56px;
+      //}
+      //
     }
   }
 
+  .toolButtonReload {
+    background-image: url('img/buttons/icons8-repeat-32.png');
+    margin-right: 20px !important;
+  }
+
   .toolButtonNew {
-    background-image: url('img/buttons/add-action.png');
+    background-image: url('img/buttons/icons8-plus-math-32.png');
   }
   .toolButtonEdit {
-    background-image: url('img/buttons/edit-action.png');
+    background-image: url('img/buttons/icons8-edit-32.png');
   }
   .toolButtonRemove {
-    background-image: url('img/buttons/delete-action.png');
+    background-image: url('img/buttons/icons8-delete-32.png');
   }
 }

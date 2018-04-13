@@ -1,12 +1,13 @@
 package org.ricki.catalog.entity;
 
 import org.ricki.catalog.entity.abstracts.BaseNamedCommentedEntity;
+import org.ricki.catalog.entity.abstracts.SystemRecordDetectable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
-public class UserWebStyle extends BaseNamedCommentedEntity {
+public class UserWebStyle extends BaseNamedCommentedEntity implements SystemRecordDetectable {
 
   @Column(length = 128, nullable = false)
   private String systemName;
@@ -49,6 +50,7 @@ public class UserWebStyle extends BaseNamedCommentedEntity {
     this.systemName = systemName;
   }
 
+  @Override
   public boolean isSystem() {
     return system;
   }
