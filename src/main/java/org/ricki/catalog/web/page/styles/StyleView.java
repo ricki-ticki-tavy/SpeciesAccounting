@@ -2,9 +2,11 @@ package org.ricki.catalog.web.page.styles;
 
 import com.vaadin.event.selection.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.ui.Button;
 import org.ricki.catalog.entity.UserWebStyle;
 import org.ricki.catalog.service.StyleService;
 import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
+import org.ricki.catalog.web.abstracts.form.BaseEditForm;
 import org.ricki.catalog.web.abstracts.form.BaseListForm;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -54,4 +56,9 @@ public class StyleView extends BaseListForm<UserWebStyle> {
     super.onOpen(event);
   }
 
+  @Override
+  public void onNewRecord(Button.ClickEvent event) {
+    BaseEditForm editForm = new BaseEditForm();
+    mainUi.addWindow(editForm);
+  }
 }

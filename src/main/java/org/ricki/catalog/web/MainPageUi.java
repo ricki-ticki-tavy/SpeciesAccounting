@@ -43,7 +43,7 @@ public class MainPageUi extends UI {
       mainMenu = new MenuBar();
       menuLayout.addComponent(mainMenu);
     }
-    page.injectNavigator(navigator, navigatorLayout);
+    page.injectUI(this, navigator, navigatorLayout);
     MenuBar.MenuItem item;
     navigator.addView(page.getPageId(), page);
     MenuBar.Command cmd = (MenuBar.Command) selectedItem -> navigator.navigateTo(page.getPageId());

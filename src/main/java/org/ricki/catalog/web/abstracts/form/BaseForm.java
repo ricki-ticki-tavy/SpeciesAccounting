@@ -5,7 +5,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 
-public abstract class BaseForm extends GridLayout implements View, PageIdentified {
+public abstract class BaseForm extends GridLayout implements View, IdentifiedForm {
 
   public static final String FORM_CONTAINER_BASE_STYLE = "base_form_content";
 
@@ -13,11 +13,15 @@ public abstract class BaseForm extends GridLayout implements View, PageIdentifie
   private Layout navigatorBar;
   private Layout mainLayout;
 
+  protected UI mainUi;
+
   public abstract Layout buildContent();
 
-  public void injectNavigator(Navigator navigator, Layout navigatorLayout) {
+  public void injectUI(UI mainUi, Navigator navigator, Layout navigatorLayout) {
     this.navigator = navigator;
     this.navigatorBar = navigatorLayout;
+    this.mainUi = mainUi;
+
   }
 
   public BaseForm() {
