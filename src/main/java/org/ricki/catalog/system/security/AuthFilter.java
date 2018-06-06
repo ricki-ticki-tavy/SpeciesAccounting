@@ -34,10 +34,10 @@ public class AuthFilter implements Filter {
   @Value("${openid.keystore.client_id:sso}")
   private String client_id;
 
-  @Value("${openid.login.url:http://localhost:8080/login}")
+  @Value("${openid.login.url:http://localhost:9080/login}")
   private String openidLoginUrl;
 
-  @Value("${openid.login.marker.url:http://localhost:8080/token/factory}")
+  @Value("${openid.login.marker.url:http://localhost:9080/token/factory}")
   private String openidMarkerUrl;
 
   /**
@@ -65,7 +65,7 @@ public class AuthFilter implements Filter {
     if (openIdAuthenticator == null) {
       SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
-    thisAppAddress = "http://localhost:8080";
+    thisAppAddress = "http://localhost:9080";
     openIdAuthenticator.configure(client_id, keystoreFileName, keystorePassword, keyAlias, keyPassword
             , idpCertificateFileName, thisAppAddress, openidLoginUrl, openidMarkerUrl);
   }

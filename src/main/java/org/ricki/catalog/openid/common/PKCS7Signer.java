@@ -40,7 +40,7 @@ public class PKCS7Signer {
           , NoSuchAlgorithmException, UnrecoverableKeyException
           , OperatorCreationException, CMSException {
     KeyStore keyStore = keyStoreHolder.getKeyStore(keystoreFileName, keyStorePassword);
-    final List<java.security.cert.Certificate> certlist = new ArrayList(Arrays.asList((java.security.cert.Certificate[])
+    final List<Certificate> certlist = new ArrayList(Arrays.asList((Certificate[])
             keyStore.getCertificateChain(alias)));
 
     Store certstore = new JcaCertStore(certlist);
@@ -105,4 +105,7 @@ public class PKCS7Signer {
   }
   //--------------------------------------------------------------------------------------------------
 
+  public void evictKeyStoreHolder() {
+    keyStoreHolder.evict();
+  }
 }

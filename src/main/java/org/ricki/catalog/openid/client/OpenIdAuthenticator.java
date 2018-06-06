@@ -26,10 +26,11 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
+import static org.ricki.catalog.openid.common.AuthCodeRequestStruct.*;
 import static org.ricki.catalog.openid.common.MsgConstants.*;
-import static org.ricki.catalog.openid.server.AuthCodeRequestStruct.*;
 
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -59,6 +60,11 @@ public class OpenIdAuthenticator {
   public void configure(String client_id, String keystoreFileName, String keystorePassword
           , String keyAlias, String keyPassword, String idpCertificateFileName, String redirect_uri
           , String loginUrl, String markerUrl) {
+    Objects.requireNonNull(client_id, "Не задано имя системы");
+    Objects.requireNonNull(keystoreFileName, "Не задано имя файла хранилища");
+    Objects.requireNonNull(keystorePassword, "Не задан пароль хранилища");
+    Objects.requireNonNull(keyAlias, "Не задан псевдоним ключа");
+    Objects.requireNonNull(keyPassword, "Не задан пароль ключа");
     this.keystoreFileName = keystoreFileName;
     this.keystorePassword = keystorePassword;
     this.keyPassword = keyPassword;
@@ -68,6 +74,8 @@ public class OpenIdAuthenticator {
     this.loginUrl = loginUrl;
     this.markerUrl = markerUrl;
     this.idpCertificateFileName = idpCertificateFileName;
+    signer.evictKeyStoreHolder();
+
   }
 
   private String sign(String data) {
@@ -81,8 +89,7 @@ public class OpenIdAuthenticator {
 
   }
 
-
-  public String createAuthRequest(String state) {
+  public String createAuthRequest(String state, String redirectUrlPrefix) {
     String access_type = "online";
     SimpleDateFormat fmt = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss +0000");
     String timestamp = fmt.format(new Date());
@@ -95,7 +102,7 @@ public class OpenIdAuthenticator {
     try {
       sb.append(RESPONSE_TYPE_PARAM_NAME + "=" + OPENID_AUTH_CODE_VALUE)
               .append("&" + CLIENT_ID_PARAM_NAME + "=").append(URLEncoder.encode(client_id, "UTF-8"))
-              .append("&" + REDIRECT_URI_PARAM_NAME + "=").append(URLEncoder.encode(redirect_uri, "UTF-8"))
+              .append("&" + REDIRECT_URI_PARAM_NAME + "=").append(URLEncoder.encode(redirectUrlPrefix + redirect_uri, "UTF-8"))
 //              .append("&" + REDIRECT_URI_PARAM_NAME + "=").append(URLEncoder.encode(back_uri, "UTF-8"))
               .append("&" + SCOPE_PARAM_NAME + "=").append(URLEncoder.encode(scope, "UTF-8"))
               .append("&" + CLIENT_SECRET_PARAM_NAME + "=").append(URLEncoder.encode(client_secret, "UTF-8"))
@@ -106,6 +113,10 @@ public class OpenIdAuthenticator {
     } catch (UnsupportedEncodingException uee) {
       return null;
     }
+  }
+
+  public String createAuthRequest(String state) {
+    return createAuthRequest(state, "");
   }
 
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

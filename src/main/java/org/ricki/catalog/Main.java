@@ -19,7 +19,7 @@ public class Main {
   }
 
   public static void main(String[] args) {
-    System.setProperty("http.port", "8080");
+//    System.setProperty("http.port", "8080");
     if (System.getProperty("http.port") == null) {
       exitWithError("Не задан параметр -Dhttp.port");
     }

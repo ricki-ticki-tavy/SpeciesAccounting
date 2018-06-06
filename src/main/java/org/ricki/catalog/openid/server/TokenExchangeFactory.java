@@ -11,8 +11,8 @@ import javax.inject.Inject;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import static org.ricki.catalog.openid.common.AuthCodeRequestStruct.*;
 import static org.ricki.catalog.openid.common.ErrorAnswer.ERROR_INVALID_GRANT;
-import static org.ricki.catalog.openid.server.AuthCodeRequestStruct.*;
 
 @RestController
 @RequestMapping("/factory")
