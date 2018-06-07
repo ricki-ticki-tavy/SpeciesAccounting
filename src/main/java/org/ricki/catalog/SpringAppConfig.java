@@ -88,6 +88,16 @@ public class SpringAppConfig implements WebApplicationInitializer {
                 env.getProperty("spring.jpa.properties.hibernate.dialect"));
         setProperty("hibernate.globally_quoted_identifiers",
                 "true");
+
+//        setProperty("hibernate.cache.region.factory_class", "org.infinispan.hibernate.cache.InfinispanRegionFactory");
+        setProperty("hibernate.cache.region.factory_class", "org.hibernate.cache.infinispan.InfinispanRegionFactory");
+        setProperty("hibernate.cache.infinispan.cachemanager", "java:CacheManager/entity");
+        setProperty("hibernate.cache.inifinispan.statistics", "false");
+        setProperty("hibernate.cache.infinispan.cfg", "infinispan.xml");
+        setProperty("cache.default_cache_concurrency_strategy", "TRANSACTIONAL");
+        setProperty("hibernate.search.default.directory_provider", "filesystem");
+        setProperty("cache.use_query_cache", "true");
+        setProperty("hibernate.cache.auto_evict_collection_cache", "true");
       }
     };
   }
@@ -120,12 +130,3 @@ public class SpringAppConfig implements WebApplicationInitializer {
 
 
 }
-
-/*
-
-plan
-id, date, specie_id, actionVoc_id
------------------------
-
-
- */

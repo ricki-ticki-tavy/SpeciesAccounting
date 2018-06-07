@@ -1,0 +1,14 @@
+target
+*.iml
+*.ipr
+*.iws
+*.ids
+/out/
+.idea
+/.idea/
+.gradle
+gradle.bat
+build
+classes
+version.properties
+/local/

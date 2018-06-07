@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<infinispan xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="urn:infinispan:config:8.2 http://www.infinispan.org/schemas/infinispan-config-8.2.xsd"
+            xmlns="urn:infinispan:config:8.2">
+    <jgroups>
+        <stack-file name="udp" path="jgroups-udp.xml"/>
+    </jgroups>
+
+    <cache-container default-cache="repl" statistics="false">
+        <!--<transport cluster="qdp"/>-->
+        <transport cluster="qdp" stack="udp"/>
+        <!--<jmx enabled="false" cacheManagerName="HibernateSearch" allowDuplicateDomains="true" />-->
+
+        <!--<invalidation-cache-configuration name="invalidation*" mode="ASYNC">-->
+        <!--<eviction strategy="LRU" max-entries="10000"/>-->
+        <!--<expiration interval="10500" lifespan="11" max-idle="11"/>-->
+        <!--</invalidation-cache-configuration>-->
+
+        <!--<distributed-cache-configuration name="entity" statistics="false" />-->
+        <!--<distributed-cache-configuration name="distributed-query" statistics="true" />-->
+        <!--<local-cache name="xml-configured-cache">-->
+        <!--<eviction strategy="LRU" max-entries="10000"/>-->
+        <!--</local-cache>-->
+        <!--<invalidation-cache name="qdp.account2" mode="SYNC" >-->
+        <!--<eviction strategy="LRU" size="10000"/>-->
+        <!--<expiration interval="10500" lifespan="11" max-idle="11"/>-->
+        <!--</invalidation-cache>-->
+        <!--<invalidation-cache name="invalidation_all" mode="SYNC">-->
+        <!--<eviction strategy="LRU" max-entries="10000"/>-->
+        <!--<expiration interval="10500" lifespan="11" max-idle="11"/>-->
+        <!--</invalidation-cache>-->
+        <local-cache name="local">
+            <eviction strategy="LRU" size="10000"/>
+        </local-cache>
+        <replicated-cache mode="ASYNC" name="repl">
+            <eviction strategy="LRU" size="10000"/>
+            <state-transfer enabled="false"/>
+        </replicated-cache>
+    </cache-container>
+</infinispan>
