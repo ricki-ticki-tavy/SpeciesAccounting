@@ -1,8 +1,8 @@
 package org.ricki.catalog.web.page.styles;
 
-import org.ricki.catalog.entity.metadata.annotation.ColumnInfo;
-import org.ricki.catalog.entity.metadata.annotation.GridMetadata;
 import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
+import org.ricki.catalog.web.abstracts.form.list.ColumnInfo;
+import org.ricki.catalog.web.abstracts.form.list.GridMetadata;
 
 @GridMetadata(columns = {@ColumnInfo(columnCaption = "Название", fieldName = "name", width = 200)
         , @ColumnInfo(columnCaption = "Системное имя", fieldName = "systemName", width = 75)

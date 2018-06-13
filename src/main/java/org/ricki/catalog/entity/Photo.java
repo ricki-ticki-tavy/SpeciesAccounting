@@ -4,14 +4,13 @@ import org.ricki.catalog.entity.abstracts.BaseNamedCommentedEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import java.util.Date;
 
 @Entity
 public class Photo extends BaseNamedCommentedEntity {
 
-  @Column(nullable = false)
-  private Date dateTime;
-
+  //  @Column(nullable = false)
+//  private Date dateTime;
+//
   @Column(length = 128, nullable = true)
   private String alt;
 

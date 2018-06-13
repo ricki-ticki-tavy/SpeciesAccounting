@@ -3,7 +3,7 @@ package org.ricki.catalog.web.page;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import org.ricki.catalog.web.abstracts.form.BaseForm;
+import org.ricki.catalog.web.abstracts.form.list.BaseForm;
 
 /**
  * Стили для вывода разных ячеек

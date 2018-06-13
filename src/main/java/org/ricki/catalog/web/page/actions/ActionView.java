@@ -5,7 +5,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import org.ricki.catalog.entity.AnAction;
 import org.ricki.catalog.service.AnActionService;
 import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
-import org.ricki.catalog.web.abstracts.form.BaseListForm;
+import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 

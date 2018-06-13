@@ -3,8 +3,8 @@ package org.ricki.catalog.web.abstracts.component.grid;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.ricki.catalog.entity.abstracts.BaseEntity;
-import org.ricki.catalog.entity.metadata.annotation.GridMetadata;
 import org.ricki.catalog.service.SystemSettingService;
+import org.ricki.catalog.web.abstracts.form.list.GridMetadata;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.inject.Inject;

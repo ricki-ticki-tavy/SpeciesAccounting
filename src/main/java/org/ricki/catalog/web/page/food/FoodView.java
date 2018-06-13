@@ -5,7 +5,7 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
 import org.ricki.catalog.entity.Food;
 import org.ricki.catalog.service.FoodService;
-import org.ricki.catalog.web.abstracts.form.BaseForm;
+import org.ricki.catalog.web.abstracts.form.list.BaseForm;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 

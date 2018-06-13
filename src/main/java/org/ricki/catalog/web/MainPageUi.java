@@ -7,7 +7,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
-import org.ricki.catalog.web.abstracts.form.BaseForm;
+import org.ricki.catalog.web.abstracts.form.list.BaseForm;
 import org.ricki.catalog.web.page.ExpenditureView;
 import org.ricki.catalog.web.page.PlanView;
 import org.ricki.catalog.web.page.StartView;

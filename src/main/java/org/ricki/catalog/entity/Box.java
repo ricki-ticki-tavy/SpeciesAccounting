@@ -3,16 +3,14 @@ package org.ricki.catalog.entity;
 
 import org.ricki.catalog.entity.abstracts.BaseThing;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 /**
  * Контейнеры, терры
  */
 @Entity
+@Table
 public class Box extends BaseThing {
 
   @Column(length = 128, nullable = false)

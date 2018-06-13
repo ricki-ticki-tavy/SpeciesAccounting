@@ -21,4 +21,9 @@ public class StyleDao {
     Session session = sessionFactory.getCurrentSession();
     return session.createQuery("from UserWebStyle order by name").list();
   }
+
+  public UserWebStyle get(long id) {
+    Session session = sessionFactory.getCurrentSession();
+    return session.get(UserWebStyle.class, id);
+  }
 }

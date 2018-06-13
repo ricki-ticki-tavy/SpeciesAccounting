@@ -1,4 +1,4 @@
-package org.ricki.catalog.web.abstracts.form;
+package org.ricki.catalog.web.abstracts.form.list;
 
 import com.vaadin.event.selection.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;

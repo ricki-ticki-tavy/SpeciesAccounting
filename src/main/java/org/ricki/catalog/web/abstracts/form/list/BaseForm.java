@@ -1,9 +1,10 @@
-package org.ricki.catalog.web.abstracts.form;
+package org.ricki.catalog.web.abstracts.form.list;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
+import org.ricki.catalog.web.abstracts.form.common.IdentifiedForm;
 
 public abstract class BaseForm extends GridLayout implements View, IdentifiedForm {
 

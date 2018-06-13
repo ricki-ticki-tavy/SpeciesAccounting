@@ -3,20 +3,28 @@ apply plugin: 'jetty'
 apply plugin: 'war'
 
 project.ext {
+
+//    springVersion = '4.3.13.RELEASE'
+//    springSecurityVersion = '4.0.3.RELEASE'
+//    hibernateVersion = '4.3.10.Final'
+//    infinispanHibernateVersion = '4.3.10.Final'
+
+
     springVersion = "5.0.6.RELEASE"
-    springBootVersion = "2.0.0.RELEASE"
+//    springBootVersion = "2.0.0.RELEASE"
     springSecurityVersion = "5.0.3.RELEASE"
+    hibernateVersion = "5.2.6.Final"
+    infinispanHibernateVersion = '5.2.17.Final'
+    infinispanSpringVersion = '8.2.11.Final'
+
 //    vaadinVersion = "8.0.0"
     vaadinVersion = "8.3.2"
     vaadinSassVersion = "0.9.12"
-    hibernateVersion = "5.2.6.Final"
     gsonVersion = '2.3.1'
     bouncycastleVersion = '1.59'
     vaadinMessageBoxVersion = '4.0.21'
     slf4jVersion = '1.7.25'
     log4j2Version = '2.11.0'
-    infinispanHibernateVersion = '5.2.17.Final'
-    infinispanSpringVersion = '8.2.11.Final'
 
 }
 
@@ -59,9 +67,9 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-tx', version: project.ext.springVersion
     compile group: 'org.springframework', name: 'spring-orm', version: project.ext.springVersion
 
-    compile group: 'org.springframework.boot', name: 'spring-boot', version: project.ext.springBootVersion
-    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: project.ext.springBootVersion
-
+//    compile group: 'org.springframework.boot', name: 'spring-boot', version: project.ext.springBootVersion
+//    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: project.ext.springBootVersion
+//
 
     compile group: 'org.javassist', name: 'javassist', version: '3.12.1.GA'
 

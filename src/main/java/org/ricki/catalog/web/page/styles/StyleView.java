@@ -4,10 +4,10 @@ import com.vaadin.event.selection.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
 import org.ricki.catalog.entity.UserWebStyle;
-import org.ricki.catalog.service.StyleService;
+import org.ricki.catalog.service.base.BaseService;
 import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
-import org.ricki.catalog.web.abstracts.form.BaseEditForm;
-import org.ricki.catalog.web.abstracts.form.BaseListForm;
+import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
@@ -22,7 +22,8 @@ import javax.inject.Named;
 public class StyleView extends BaseListForm<UserWebStyle> {
 
   @Inject
-  StyleService styleService;
+  @Qualifier("styleService")
+  BaseService<UserWebStyle> styleService;
 
   @Override
   public String getPageId() {
@@ -58,7 +59,8 @@ public class StyleView extends BaseListForm<UserWebStyle> {
 
   @Override
   public void onNewRecord(Button.ClickEvent event) {
-    BaseEditForm editForm = new BaseEditForm();
+    StyleEditForm editForm = new StyleEditForm();
+//    editForm.load(event.)
     mainUi.addWindow(editForm);
   }
 }

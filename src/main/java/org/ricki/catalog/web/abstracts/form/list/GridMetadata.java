@@ -1,4 +1,4 @@
-package org.ricki.catalog.entity.metadata.annotation;
+package org.ricki.catalog.web.abstracts.form.list;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
