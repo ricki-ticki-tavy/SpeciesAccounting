@@ -4,28 +4,33 @@ import com.vaadin.ui.*;
 import org.ricki.catalog.entity.abstracts.BaseEntity;
 import org.ricki.catalog.service.base.BaseService;
 import org.ricki.catalog.web.abstracts.form.common.Styles;
+import org.ricki.catalog.web.abstracts.form.element.annotations.FieldType;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FormMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.area.TextAreaFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.area.TextAreaFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldsMetadata;
+import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.inject.Inject;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWithToolBar {
 
-  private Map<String, FormElement> elementsMap;
+  private Map<String, FormElement> formElementsMap;
 
   private GridLayout formLayout;
 
   protected E entity;
+
+  protected BaseListForm parentListForm;
 
   protected BaseService service;
 
@@ -55,6 +60,8 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
       String fieldName = null;
 
       if (abstractFieldMetadata instanceof TextFieldMetadata) {
+        newElement.fieldType = FieldType.TEXT;
+
         TextFieldMetadata fieldMetadata = (TextFieldMetadata) abstractFieldMetadata;
         int columnForField = addCaption(newElement, fieldMetadata.caption(), fieldMetadata.column(), fieldMetadata.row(), fieldMetadata.captionCellWidth());
 
@@ -65,6 +72,8 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
         formLayout.addComponent(newElement.field, columnForField, fieldMetadata.row(),
                 fieldMetadata.columnEnd(), fieldMetadata.row());
       } else if (abstractFieldMetadata instanceof TextAreaFieldMetadata) {
+        newElement.fieldType = FieldType.MULTI_LINE_TEXT;
+
         TextAreaFieldMetadata fieldMetadata = (TextAreaFieldMetadata) abstractFieldMetadata;
         int columnForField = addCaption(newElement, fieldMetadata.caption(), fieldMetadata.column(), fieldMetadata.row(), fieldMetadata.captionCellWidth());
 
@@ -80,7 +89,7 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
 
       if (!StringUtils.isEmpty(fieldName)) {
         newElement.field.setId(fieldName);
-        elementsMap.put(fieldName, newElement);
+        formElementsMap.put(fieldName, newElement);
       }
     }
   }
@@ -115,7 +124,7 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
     formLayout.setSizeFull();
     formLayout.setSpacing(true);
 
-    elementsMap = new HashMap<>();
+    formElementsMap = new HashMap<>();
 
     if (formMetadata != null) {
       formLayout.setColumns(formMetadata.columnCount());
@@ -146,4 +155,138 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
     return entity;
   }
 
+  private void setFieldValue(FormElement formElement, Object value) {
+    switch (formElement.fieldType) {
+      case TEXT: {
+        ((TextField) formElement.field).setValue(value.toString());
+        break;
+      }
+      case LABEL: {
+        ((Label) formElement.field).setValue(value.toString());
+        break;
+      }
+      case MULTI_LINE_TEXT: {
+        ((TextArea) formElement.field).setValue(value.toString());
+        break;
+      }
+      case CHECKBOX: {
+        if (value.getClass().equals(boolean.class) || value.getClass().equals(Boolean.class)) {
+          ((CheckBox) formElement.field).setValue((Boolean) value);
+        } else {
+          throw new RuntimeException("Invalid value type (" + value.getClass().getSimpleName() + ") for checkbox");
+        }
+        break;
+      }
+    }
+
+  }
+
+  private void setEntityFieldValue(FormElement formElement, String fieldName) {
+    String strValue = null;
+    Boolean boolValue = null;
+    switch (formElement.fieldType) {
+      case TEXT: {
+        strValue = ((TextField) formElement.field).getValue();
+        break;
+      }
+      case MULTI_LINE_TEXT: {
+        strValue = ((TextArea) formElement.field).getValue();
+        break;
+      }
+      case CHECKBOX: {
+        boolValue = ((CheckBox) formElement.field).getValue();
+        break;
+      }
+      case COMBOBOX: {
+        strValue = (String) ((ComboBox) formElement.field).getValue();
+        break;
+      }
+    }
+
+    Field entityField = getEntityFieldReflection(entity.getClass(), fieldName);
+
+    try {
+      Class<?> entityFieldType = entityField.getType();
+      if (entityFieldType == String.class) {
+        entityField.set(entity, strValue != null ? strValue : boolValue.toString());
+      } else if (entityFieldType == Integer.class) {
+        entityField.setInt(entity, Integer.parseInt(strValue));
+      } else if (entityFieldType == Long.class) {
+        entityField.setLong(entity, Long.parseLong(strValue));
+      } else if (entityFieldType == Boolean.class) {
+        entityField.setBoolean(entity, Boolean.parseBoolean(strValue));
+      } else if (entityFieldType == Double.class) {
+        entityField.setDouble(entity, Double.parseDouble(strValue));
+      } else if (entityFieldType == Float.class) {
+        entityField.setFloat(entity, Float.parseFloat(strValue));
+      }
+    } catch (IllegalAccessException iae) {
+      throw new RuntimeException(iae);
+    }
+  }
+
+  private Field getEntityFieldReflection(Class<?> clazz, String fieldName) {
+    while (clazz != null) {
+      try {
+        Field field = clazz.getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field;
+      } catch (NoSuchFieldException rex) {
+        clazz = clazz.getSuperclass();
+      }
+    }
+    throw new RuntimeException("Field \"" + fieldName + " not found");
+  }
+
+  public void fillForm() {
+    fillForm(null);
+  }
+
+  public void fillForm(E entity_) {
+    Field field;
+
+    if (entity_ != null) {
+      this.entity = entity_;
+    }
+
+    for (String fieldName : formElementsMap.keySet()) {
+      FormElement formElement = formElementsMap.get(fieldName);
+      field = getEntityFieldReflection(entity.getClass(), fieldName);
+
+      try {
+        setFieldValue(formElement, field.get(entity));
+      } catch (IllegalAccessException rex) {
+        throw new RuntimeException(rex);
+      }
+    }
+  }
+
+  public final E save() {
+    boolean isNew = false;
+    if (entity == null) {
+      entity = (E) service.create();
+      isNew = true;
+    }
+    for (String fieldName : formElementsMap.keySet()) {
+      FormElement formElement = formElementsMap.get(fieldName);
+
+      setEntityFieldValue(formElement, fieldName);
+    }
+
+    if (parentListForm != null) {
+      if (isNew) {
+
+      } else {
+
+      }
+
+    }
+
+    return (E) service.save(entity);
+
+  }
+
+  public void setParentListForm(BaseListForm parentListForm) {
+    this.parentListForm = parentListForm;
+  }
 }

@@ -121,4 +121,8 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
     loadList();
   }
 
+  public MetadataGrid getGrid() {
+    return grid;
+  }
+
 }

@@ -15,11 +15,13 @@ import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextF
 @TextFieldMetadata(fieldName = "systemName", caption = "Системное название", captionCellWidth = 16, row = 2, column = 3, columnEnd = 76)
 @TextAreaFieldMetadata(fieldName = "styleText", caption = "CSS код", captionCellWidth = 16, row = 3, column = 3, columnEnd = 76, height = 150)
 @TextFieldMetadata(fieldName = "comment", caption = "Примечание", captionCellWidth = 16, row = 4, column = 3, columnEnd = 76)
-public class StyleEditForm extends MetadataForm {
+public class StyleEditForm extends MetadataForm<UserWebStyle> {
 
   @Override
   public void addActions(SimpleToolBar toolbar) {
-
+    saveButton.addClickListener(event -> {
+      save();
+    });
   }
 
   @Override

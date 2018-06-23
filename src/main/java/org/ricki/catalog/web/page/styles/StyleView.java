@@ -60,7 +60,27 @@ public class StyleView extends BaseListForm<UserWebStyle> {
   @Override
   public void onNewRecord(Button.ClickEvent event) {
     StyleEditForm editForm = new StyleEditForm();
-//    editForm.load(event.)
     mainUi.addWindow(editForm);
   }
+
+  @Override
+  public void onEditRecord(UserWebStyle entity) {
+
+    Object[] recs = grid.getSelectedItems().toArray();
+    if (recs.length > 0) {
+      long id = ((UserWebStyle) recs[0]).getId();
+
+      StyleEditForm editForm = new StyleEditForm();
+      editForm.setParentListForm(this);
+      UserWebStyle userWebStyle = editForm.load(id);
+      if (userWebStyle != null) {
+        editForm.fillForm();
+        mainUi.addWindow(editForm);
+      } else {
+        editForm.close();
+      }
+    }
+  }
+
+
 }

@@ -2,6 +2,7 @@ package org.ricki.catalog.web.abstracts.form.element;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
+import org.ricki.catalog.web.abstracts.form.element.annotations.FieldType;
 
 /**
  * Элементы формы
@@ -9,4 +10,9 @@ import com.vaadin.ui.Label;
 public class FormElement {
   Component field;
   Label caption;
+  FieldType fieldType;
+
+
+  String getterName;
+  String setterName;
 }

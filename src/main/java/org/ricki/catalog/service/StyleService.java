@@ -32,6 +32,11 @@ public class StyleService implements BaseService<UserWebStyle> {
 
   @Override
   public UserWebStyle save(UserWebStyle entity) {
-    return null;
+    return styleDao.save(entity);
+  }
+
+  @Override
+  public UserWebStyle create() {
+    return new UserWebStyle();
   }
 }

@@ -26,4 +26,10 @@ public class StyleDao {
     Session session = sessionFactory.getCurrentSession();
     return session.get(UserWebStyle.class, id);
   }
+
+  public UserWebStyle save(UserWebStyle entity) {
+    Session session = sessionFactory.getCurrentSession();
+    session.saveOrUpdate(entity);
+    return entity;
+  }
 }

@@ -7,6 +7,8 @@ import java.util.List;
 public interface BaseService<E extends BaseEntity> {
   E get(long id);
 
+  E create();
+
   E save(E entity);
 
   List<E> getList();
