@@ -1,8 +1,8 @@
 package org.ricki.catalog.web.page.staff;
 
 import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
-import org.ricki.catalog.web.abstracts.form.list.ColumnInfo;
-import org.ricki.catalog.web.abstracts.form.list.GridMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.grid.ColumnInfo;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.grid.GridMetadata;
 
 @GridMetadata(columns = {@ColumnInfo(columnCaption = "Название", fieldName = "name", width = 200)
         , @ColumnInfo(columnCaption = "В наличии", fieldName = "present", width = 80)

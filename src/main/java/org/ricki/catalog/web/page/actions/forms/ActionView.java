@@ -1,12 +1,12 @@
-package org.ricki.catalog.web.page.styles;
+package org.ricki.catalog.web.page.actions.forms;
 
 import com.vaadin.event.selection.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
-import org.ricki.catalog.entity.UserWebStyle;
 import org.ricki.catalog.service.base.BaseService;
 import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
 import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
+import org.ricki.catalog.web.page.actions.entity.AnAction;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -19,20 +19,27 @@ import javax.inject.Named;
  */
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class StyleView extends BaseListForm<UserWebStyle> {
+public class ActionView extends BaseListForm<AnAction> {
 
   @Inject
-  @Qualifier("styleService")
-  BaseService<UserWebStyle> styleService;
+  @Qualifier("anActionService")
+  BaseService<AnAction> actionService;
 
   @Override
   public String getPageId() {
-    return "styles";
+    return "actions";
   }
 
   @Override
   public String getPageCaption() {
-    return "Стили отображения";
+    return "Действия";
+  }
+
+  @Override
+  public MetadataGrid buildGrid() {
+    ActionListGrid grid = new ActionListGrid();
+    grid.initGrid(AnAction.class);
+    return grid;
   }
 
   @Override
@@ -41,15 +48,8 @@ public class StyleView extends BaseListForm<UserWebStyle> {
   }
 
   @Override
-  public MetadataGrid buildGrid() {
-    StyleListGrid grid = new StyleListGrid();
-    grid.initGrid(UserWebStyle.class);
-    return grid;
-  }
-
-  @Override
   public void loadList() {
-    grid.setItems(styleService.getList());
+    grid.setItems(actionService.getList());
   }
 
   @Override
@@ -59,21 +59,22 @@ public class StyleView extends BaseListForm<UserWebStyle> {
 
   @Override
   public void onNewRecord(Button.ClickEvent event) {
-    StyleEditForm editForm = new StyleEditForm();
+    ActionEditForm editForm = new ActionEditForm();
+    editForm.setParentListForm(this);
     mainUi.addWindow(editForm);
   }
 
   @Override
-  public void onEditRecord(UserWebStyle entity) {
+  public void onEditRecord(AnAction entity) {
 
     Object[] recs = grid.getSelectedItems().toArray();
     if (recs.length > 0) {
-      long id = ((UserWebStyle) recs[0]).getId();
+      long id = ((AnAction) recs[0]).getId();
 
-      StyleEditForm editForm = new StyleEditForm();
+      ActionEditForm editForm = new ActionEditForm();
       editForm.setParentListForm(this);
-      UserWebStyle userWebStyle = editForm.load(id);
-      if (userWebStyle != null) {
+      AnAction anAction = editForm.load(id);
+      if (anAction != null) {
         editForm.fillForm();
         mainUi.addWindow(editForm);
       } else {
@@ -82,5 +83,12 @@ public class StyleView extends BaseListForm<UserWebStyle> {
     }
   }
 
-
+  @Override
+  public void onRemoveRecord(AnAction entity) {
+    Object[] recs = grid.getSelectedItems().toArray();
+    if (recs.length > 0) {
+      long id = ((AnAction) recs[0]).getId();
+      actionService.remove(id);
+    }
+  }
 }

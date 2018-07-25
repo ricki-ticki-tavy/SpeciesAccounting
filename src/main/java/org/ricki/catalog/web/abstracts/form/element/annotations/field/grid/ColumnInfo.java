@@ -1,4 +1,4 @@
-package org.ricki.catalog.web.abstracts.form.list;
+package org.ricki.catalog.web.abstracts.form.element.annotations.field.grid;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

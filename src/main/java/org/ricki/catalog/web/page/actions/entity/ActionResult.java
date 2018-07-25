@@ -1,6 +1,7 @@
-package org.ricki.catalog.entity;
+package org.ricki.catalog.web.page.actions.entity;
 
 import org.ricki.catalog.entity.abstracts.BaseNamedEntity;
+import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

@@ -1,14 +1,14 @@
-package org.ricki.catalog.web.page.styles;
+package org.ricki.catalog.web.page.styles.forms;
 
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Layout;
-import org.ricki.catalog.entity.UserWebStyle;
-import org.ricki.catalog.service.StyleService;
 import org.ricki.catalog.web.abstracts.component.toolbar.SimpleToolBar;
 import org.ricki.catalog.web.abstracts.form.element.MetadataForm;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FormMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.area.TextAreaFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldMetadata;
+import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
+import org.ricki.catalog.web.page.styles.service.StyleService;
 
 @FormMetadata(columnCount = 80, rowCount = 10, caption = "Стиль", entityClass = UserWebStyle.class, service = StyleService.class)
 @TextFieldMetadata(fieldName = "name", caption = "Название", captionCellWidth = 16, row = 1, column = 3, columnEnd = 76)

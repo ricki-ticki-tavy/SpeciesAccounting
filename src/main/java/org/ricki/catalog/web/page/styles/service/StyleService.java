@@ -1,9 +1,8 @@
-package org.ricki.catalog.service;
+package org.ricki.catalog.web.page.styles.service;
 
 import com.vaadin.spring.annotation.UIScope;
-import org.ricki.catalog.dao.StyleDao;
-import org.ricki.catalog.entity.UserWebStyle;
 import org.ricki.catalog.service.base.BaseService;
+import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
@@ -38,5 +37,15 @@ public class StyleService implements BaseService<UserWebStyle> {
   @Override
   public UserWebStyle create() {
     return new UserWebStyle();
+  }
+
+  @Override
+  public void remove(long id) {
+    styleDao.remove(id);
+  }
+
+  @Override
+  public void remove(UserWebStyle entity) {
+    styleDao.remove(entity);
   }
 }

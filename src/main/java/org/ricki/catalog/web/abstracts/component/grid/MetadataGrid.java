@@ -4,7 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.ricki.catalog.entity.abstracts.BaseEntity;
 import org.ricki.catalog.service.SystemSettingService;
-import org.ricki.catalog.web.abstracts.form.list.GridMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.grid.GridMetadata;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.inject.Inject;
@@ -17,6 +18,8 @@ public abstract class MetadataGrid<T> extends com.vaadin.ui.Grid<T> {
 
   private Gson json = new GsonBuilder().create();
   private boolean skipReorderEvent = false;
+
+  protected String gridUniqueId;
 
   @Inject
   SystemSettingService settingService;
@@ -34,9 +37,19 @@ public abstract class MetadataGrid<T> extends com.vaadin.ui.Grid<T> {
     }
   }
 
-  public abstract String getGridUniqueId();
+  public String getGridUniqueId() {
+    return gridUniqueId;
+  }
+
+  public void setGridUniqueId(String gridUniqueId) {
+    this.gridUniqueId = gridUniqueId;
+  }
 
   public void initGrid(Class<? extends BaseEntity> anClass) {
+    initGrid(anClass, null);
+  }
+
+  public void initGrid(Class<? extends BaseEntity> anClass, GridMetadata gridMetadata) {
     if (settingService == null) {
       SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
@@ -50,9 +63,16 @@ public abstract class MetadataGrid<T> extends com.vaadin.ui.Grid<T> {
     setBeanType((Class<T>) anClass);
     removeAllColumns();
     this.anClass = anClass;
-    GridMetadata gridMetadata = this.getClass().getDeclaredAnnotation(GridMetadata.class);
+
+    if (gridMetadata == null) {
+      gridMetadata = this.getClass().getDeclaredAnnotation(GridMetadata.class);
+    }
+
     if (gridMetadata != null) {
       skipReorderEvent = true;
+      if (!StringUtils.isEmpty(gridMetadata.gridUniqueId())) {
+        setGridUniqueId(gridMetadata.gridUniqueId());
+      }
       final String[] order = new String[gridMetadata.columns().length];
       final int[] cnt = {0};
       Arrays.stream(gridMetadata.columns()).forEach(info -> {

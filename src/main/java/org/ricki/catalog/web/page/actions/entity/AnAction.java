@@ -1,7 +1,8 @@
-package org.ricki.catalog.entity;
+package org.ricki.catalog.web.page.actions.entity;
 
 import org.ricki.catalog.entity.abstracts.BaseNamedCommentedEntity;
 import org.ricki.catalog.entity.abstracts.SystemRecordDetectable;
+import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
 
 import javax.persistence.*;
 import java.util.HashSet;

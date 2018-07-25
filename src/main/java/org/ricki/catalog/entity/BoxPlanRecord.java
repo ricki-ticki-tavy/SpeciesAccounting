@@ -1,6 +1,7 @@
 package org.ricki.catalog.entity;
 
 import org.ricki.catalog.entity.abstracts.BaseCommentedEntity;
+import org.ricki.catalog.web.page.actions.entity.AnAction;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

@@ -1,4 +1,4 @@
-package org.ricki.catalog.entity;
+package org.ricki.catalog.web.page.styles.entity;
 
 import org.ricki.catalog.entity.abstracts.BaseNamedCommentedEntity;
 import org.ricki.catalog.entity.abstracts.SystemRecordDetectable;
@@ -58,4 +58,6 @@ public class UserWebStyle extends BaseNamedCommentedEntity implements SystemReco
   public void setSystem(boolean system) {
     this.system = system;
   }
+
+
 }

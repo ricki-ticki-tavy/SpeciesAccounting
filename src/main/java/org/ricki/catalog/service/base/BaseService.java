@@ -12,4 +12,8 @@ public interface BaseService<E extends BaseEntity> {
   E save(E entity);
 
   List<E> getList();
+
+  void remove(long id);
+
+  void remove(E entity);
 }

@@ -1,8 +1,8 @@
-package org.ricki.catalog.dao;
+package org.ricki.catalog.web.page.styles.service;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.ricki.catalog.entity.UserWebStyle;
+import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
@@ -31,5 +31,16 @@ public class StyleDao {
     Session session = sessionFactory.getCurrentSession();
     session.saveOrUpdate(entity);
     return entity;
+  }
+
+  public void remove(UserWebStyle entity) {
+    Session session = sessionFactory.getCurrentSession();
+    session.remove(entity);
+  }
+
+  public void remove(long id) {
+    Session session = sessionFactory.getCurrentSession();
+    UserWebStyle uws = session.load(UserWebStyle.class, id);
+    remove(uws);
   }
 }

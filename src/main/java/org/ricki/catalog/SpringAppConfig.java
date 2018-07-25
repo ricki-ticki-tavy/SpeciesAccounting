@@ -34,6 +34,7 @@ import java.util.Properties;
 //@EnableVaadinNavigation
 @EnableVaadin
 @ComponentScan(basePackages = {"org.ricki.catalog", "org.ricki.catalog.web"})
+
 public class SpringAppConfig implements WebApplicationInitializer {
 
   @Inject
@@ -44,7 +45,7 @@ public class SpringAppConfig implements WebApplicationInitializer {
     LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
     sessionFactory.setDataSource(restDataSource());
     sessionFactory.setPackagesToScan(
-            new String[]{"org.ricki.catalog.entity"});
+            new String[]{"org.ricki.catalog"});
     sessionFactory.setHibernateProperties(hibernateProperties());
 
     return sessionFactory;

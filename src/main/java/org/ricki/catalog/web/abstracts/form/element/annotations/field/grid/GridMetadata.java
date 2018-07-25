@@ -1,4 +1,4 @@
-package org.ricki.catalog.web.abstracts.form.list;
+package org.ricki.catalog.web.abstracts.form.element.annotations.field.grid;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,5 +10,7 @@ import java.lang.annotation.Target;
 public @interface GridMetadata {
 
   ColumnInfo[] columns();
+
+  String gridUniqueId() default "";
 
 }

@@ -1,6 +1,7 @@
 package org.ricki.catalog.entity;
 
 import org.ricki.catalog.entity.abstracts.BaseNamedEntity;
+import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -8,6 +8,10 @@ import org.ricki.catalog.web.abstracts.form.element.annotations.FieldType;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FormMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.area.TextAreaFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.area.TextAreaFieldsMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.BooleanFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.BooleanFieldsMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.combobox.ComboBoxFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.combobox.ComboBoxFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
@@ -85,6 +89,33 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
         formLayout.addComponent(newElement.field, columnForField, fieldMetadata.row(),
                 fieldMetadata.columnEnd(), fieldMetadata.row());
 
+      } else if (abstractFieldMetadata instanceof BooleanFieldMetadata) {
+        newElement.fieldType = FieldType.CHECKBOX;
+
+        BooleanFieldMetadata fieldMetadata = (BooleanFieldMetadata) abstractFieldMetadata;
+        int columnForField = addCaption(newElement, fieldMetadata.caption(), fieldMetadata.column(), fieldMetadata.row(), fieldMetadata.captionCellWidth());
+
+        fieldName = fieldMetadata.fieldName();
+        newElement.field = new CheckBox();
+        newElement.field.setWidth(100, Unit.PERCENTAGE);
+
+        formLayout.addComponent(newElement.field, columnForField, fieldMetadata.row(),
+                columnForField, fieldMetadata.row());
+      } else if (abstractFieldMetadata instanceof ComboBoxFieldMetadata) {
+        newElement.fieldType = FieldType.COMBOBOX;
+
+        ComboBoxFieldMetadata fieldMetadata = (ComboBoxFieldMetadata) abstractFieldMetadata;
+        int columnForField = addCaption(newElement, fieldMetadata.caption(), fieldMetadata.column(), fieldMetadata.row(), fieldMetadata.captionCellWidth());
+
+        fieldName = fieldMetadata.fieldName();
+        ComboBox cb = new ComboBox();
+
+        cb.setItems(fieldMetadata.enumList().getEnumConstants());
+        newElement.field = cb;
+        newElement.field.setWidth(100, Unit.PERCENTAGE);
+
+        formLayout.addComponent(newElement.field, columnForField, fieldMetadata.row(),
+                fieldMetadata.columnEnd(), fieldMetadata.row());
       }
 
       if (!StringUtils.isEmpty(fieldName)) {
@@ -112,8 +143,10 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
   }
 
   private void createAllFields() {
+    processFieldAnnotationsByType(BooleanFieldsMetadata.class, BooleanFieldMetadata.class);
     processFieldAnnotationsByType(TextFieldsMetadata.class, TextFieldMetadata.class);
     processFieldAnnotationsByType(TextAreaFieldsMetadata.class, TextAreaFieldMetadata.class);
+    processFieldAnnotationsByType(ComboBoxFieldsMetadata.class, ComboBoxFieldMetadata.class);
   }
 
   @Override
@@ -177,6 +210,14 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
         }
         break;
       }
+      case COMBOBOX: {
+        if (value instanceof Enum) {
+          ((ComboBox) formElement.field).setValue(value);
+        } else {
+          throw new RuntimeException("Invalid value type (" + value.getClass().getSimpleName() + ") for combobox");
+        }
+        break;
+      }
     }
 
   }
@@ -184,6 +225,7 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
   private void setEntityFieldValue(FormElement formElement, String fieldName) {
     String strValue = null;
     Boolean boolValue = null;
+    Object objValue = null;
     switch (formElement.fieldType) {
       case TEXT: {
         strValue = ((TextField) formElement.field).getValue();
@@ -198,7 +240,7 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
         break;
       }
       case COMBOBOX: {
-        strValue = (String) ((ComboBox) formElement.field).getValue();
+        objValue = ((ComboBox) formElement.field).getValue();
         break;
       }
     }
@@ -219,6 +261,8 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
         entityField.setDouble(entity, Double.parseDouble(strValue));
       } else if (entityFieldType == Float.class) {
         entityField.setFloat(entity, Float.parseFloat(strValue));
+      } else if (entityFieldType.getSuperclass() == Enum.class) {
+        entityField.set(entity, objValue);
       }
     } catch (IllegalAccessException iae) {
       throw new RuntimeException(iae);
@@ -273,11 +317,13 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
       setEntityFieldValue(formElement, fieldName);
     }
 
+    E newEntity = (E) service.save(entity);
+
     if (parentListForm != null) {
       if (isNew) {
-
+        parentListForm.onRecordAdded(newEntity);
       } else {
-
+        parentListForm.onRecordUpdated(newEntity);
       }
 
     }

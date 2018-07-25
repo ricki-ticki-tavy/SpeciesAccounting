@@ -3,7 +3,12 @@ package org.ricki.catalog.service;
 import com.vaadin.spring.annotation.UIScope;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.ricki.catalog.entity.*;
+import org.ricki.catalog.entity.AggressionLevel;
+import org.ricki.catalog.entity.SpecieClass;
+import org.ricki.catalog.entity.UserAccount;
+import org.ricki.catalog.web.page.actions.entity.ActionResult;
+import org.ricki.catalog.web.page.actions.entity.AnAction;
+import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 

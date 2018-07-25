@@ -38,6 +38,28 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
 
   }
 
+  private void internalOnRemoveRecord(E entity) {
+    onRemoveRecord(entity);
+    loadList();
+  }
+
+  public void onRecordAdded(E entity) {
+    loadList();
+    grid.select(entity);
+    grid.markAsDirty();
+  }
+
+  public void onRecordUpdated(E entity) {
+//    grid.getDataProvider().refreshItem(entity);
+    loadList();
+    grid.select(entity);
+    //   grid.markAsDirty();
+  }
+
+  public void onRecordDeleted(E entity) {
+
+  }
+
   private void askForRemoveRecord(Button.ClickEvent event) {
     Set objs = grid.getSelectedItems();
     if (objs.size() == 0) {
@@ -48,7 +70,7 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
       E entity = (E) objs.toArray()[0];
       MessageBox.createQuestion().withCaption("Удаление")
               .withMessage("Удалить запись " + (entity instanceof BaseNamedEntity ? "\"" + ((BaseNamedEntity) entity).getName() + "\"" : "с кодом " + entity.getId()) + " ?")
-              .withOkButton(() -> onRemoveRecord(entity)).withCancelButton().open();
+              .withOkButton(() -> internalOnRemoveRecord(entity)).withCancelButton().open();
     }
   }
 
@@ -64,7 +86,9 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
   }
 
   private void doReloadTable(Button.ClickEvent event) {
+    Set<E> selectedItem = grid.getSelectedItems();
     loadList();
+    grid.getSelectionModel().select(selectedItem.toArray());
     editBtn.setEnabled(false);
     removeBtn.setEnabled(false);
   }

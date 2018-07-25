@@ -65,7 +65,7 @@ public class AuthFilter implements Filter {
     if (openIdAuthenticator == null) {
       SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
-    thisAppAddress = "http://localhost:9080";
+    thisAppAddress = "http://localhost:" + System.getProperty("http.port");
     openIdAuthenticator.configure(client_id, keystoreFileName, keystorePassword, keyAlias, keyPassword
             , idpCertificateFileName, thisAppAddress, openidLoginUrl, openidMarkerUrl);
   }
