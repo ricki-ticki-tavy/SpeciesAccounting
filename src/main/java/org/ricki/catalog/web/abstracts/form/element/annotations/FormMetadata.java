@@ -20,7 +20,5 @@ public @interface FormMetadata {
 
   String caption();
 
-  Class<?> entityClass();
-
   Class<? extends BaseService> service();
 }

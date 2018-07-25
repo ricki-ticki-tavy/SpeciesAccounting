@@ -16,4 +16,6 @@ public interface BaseService<E extends BaseEntity> {
   void remove(long id);
 
   void remove(E entity);
+
+  Class getEntity();
 }

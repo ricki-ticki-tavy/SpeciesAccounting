@@ -10,7 +10,7 @@ import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextF
 import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
 import org.ricki.catalog.web.page.styles.service.StyleService;
 
-@FormMetadata(columnCount = 80, rowCount = 10, caption = "Стиль", entityClass = UserWebStyle.class, service = StyleService.class)
+@FormMetadata(columnCount = 80, rowCount = 10, caption = "Стиль", service = StyleService.class)
 @TextFieldMetadata(fieldName = "name", caption = "Название", captionCellWidth = 16, row = 1, column = 3, columnEnd = 76)
 @TextFieldMetadata(fieldName = "systemName", caption = "Системное название", captionCellWidth = 16, row = 2, column = 3, columnEnd = 76)
 @TextAreaFieldMetadata(fieldName = "styleText", caption = "CSS код", captionCellWidth = 16, row = 3, column = 3, columnEnd = 76, height = 150)

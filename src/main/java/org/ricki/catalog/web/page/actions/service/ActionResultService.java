@@ -49,5 +49,8 @@ public class ActionResultService implements BaseService<ActionResult> {
     actionResultDao.remove(entity);
   }
 
-
+  @Override
+  public Class getEntity() {
+    return ActionResult.class;
+  }
 }

@@ -48,4 +48,10 @@ public class StyleService implements BaseService<UserWebStyle> {
   public void remove(UserWebStyle entity) {
     styleDao.remove(entity);
   }
+
+  @Override
+  public Class getEntity() {
+    return UserWebStyle.class;
+  }
+
 }

@@ -2,8 +2,10 @@ package org.ricki.catalog.web.abstracts.form.element;
 
 import com.vaadin.ui.*;
 import org.ricki.catalog.entity.abstracts.BaseEntity;
+import org.ricki.catalog.entity.abstracts.BaseNamedEntity;
 import org.ricki.catalog.service.base.BaseService;
 import org.ricki.catalog.web.abstracts.form.common.Styles;
+import org.ricki.catalog.web.abstracts.form.component.referenceField.ReferenceField;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FieldType;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FormMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.area.TextAreaFieldMetadata;
@@ -12,6 +14,8 @@ import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.Boole
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.BooleanFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.combobox.ComboBoxFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.combobox.ComboBoxFieldsMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.reference.ReferenceFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.reference.ReferenceFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
@@ -116,6 +120,19 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
 
         formLayout.addComponent(newElement.field, columnForField, fieldMetadata.row(),
                 fieldMetadata.columnEnd(), fieldMetadata.row());
+      } else if (abstractFieldMetadata instanceof ReferenceFieldMetadata) {
+        newElement.fieldType = FieldType.REFERENCE;
+
+        ReferenceFieldMetadata fieldMetadata = (ReferenceFieldMetadata) abstractFieldMetadata;
+        int columnForField = addCaption(newElement, fieldMetadata.caption(), fieldMetadata.column(), fieldMetadata.row(), fieldMetadata.captionCellWidth());
+
+        fieldName = fieldMetadata.fieldName();
+        ReferenceField refField = new ReferenceField();
+        newElement.field = refField;
+        newElement.field.setWidth(100, Unit.PERCENTAGE);
+
+        formLayout.addComponent(newElement.field, columnForField, fieldMetadata.row(),
+                fieldMetadata.columnEnd(), fieldMetadata.row());
       }
 
       if (!StringUtils.isEmpty(fieldName)) {
@@ -147,6 +164,7 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
     processFieldAnnotationsByType(TextFieldsMetadata.class, TextFieldMetadata.class);
     processFieldAnnotationsByType(TextAreaFieldsMetadata.class, TextAreaFieldMetadata.class);
     processFieldAnnotationsByType(ComboBoxFieldsMetadata.class, ComboBoxFieldMetadata.class);
+    processFieldAnnotationsByType(ReferenceFieldsMetadata.class, ReferenceFieldMetadata.class);
   }
 
   @Override
@@ -218,6 +236,15 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
         }
         break;
       }
+      case REFERENCE: {
+        if (value instanceof BaseNamedEntity) {
+          ((ReferenceField) formElement.field).setValue((BaseNamedEntity) value);
+        } else {
+          throw new RuntimeException("Invalid value type (" + value.getClass().getSimpleName() + ") for combobox");
+        }
+        break;
+      }
+
     }
 
   }

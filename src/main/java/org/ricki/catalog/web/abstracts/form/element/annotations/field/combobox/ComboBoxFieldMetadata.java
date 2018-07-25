@@ -26,7 +26,7 @@ public @interface ComboBoxFieldMetadata {
   int column();
 
   /**
-   * высота поля в ячейках
+   * ширина поля в ячейках
    *
    * @return
    */

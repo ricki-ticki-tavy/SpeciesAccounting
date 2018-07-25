@@ -1,7 +1,6 @@
 package org.ricki.catalog.web.abstracts.form.element.annotations.field.reference;
 
 import org.ricki.catalog.entity.abstracts.BaseEntity;
-import org.ricki.catalog.web.abstracts.form.element.annotations.field.grid.GridMetadata;
 
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -29,11 +28,11 @@ public @interface ReferenceFieldMetadata {
   int column();
 
   /**
-   * Ширина поля в колонках
+   * последняя колонка поля
    *
    * @return
    */
-  int height();
+  int columnEnd();
 
   /**
    * ширина подписи в ячейках
@@ -48,11 +47,4 @@ public @interface ReferenceFieldMetadata {
    * @return
    */
   Class<? extends BaseEntity> childClass();
-
-  /**
-   * Отображаемые колонки
-   *
-   * @return
-   */
-  GridMetadata gridMetadata();
 }

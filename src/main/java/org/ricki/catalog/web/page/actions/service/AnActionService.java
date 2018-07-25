@@ -49,5 +49,9 @@ public class AnActionService implements BaseService<AnAction> {
     anActionDao.remove(entity);
   }
 
+  @Override
+  public Class getEntity() {
+    return AnAction.class;
+  }
 
 }
