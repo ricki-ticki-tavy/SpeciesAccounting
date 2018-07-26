@@ -79,7 +79,7 @@ public class MetaFieldFactory {
     int columnForField = addCaption(newElement, fieldMetadata.caption(), fieldMetadata.column(), fieldMetadata.row(), fieldMetadata.captionCellWidth());
 
     String fieldName = fieldMetadata.fieldName();
-    ReferenceField refField = new ReferenceField();
+    ReferenceField refField = new ReferenceField(fieldMetadata.entitySelectorFormClass());
     newElement.field = refField;
     newElement.field.setWidth(100, Sizeable.Unit.PERCENTAGE);
 

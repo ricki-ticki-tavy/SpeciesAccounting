@@ -54,6 +54,6 @@ public @interface ReferenceFieldMetadata {
    *
    * @return
    */
-  Class<? extends BaseListForm> entitySelectorForm();
+  Class<? extends BaseListForm> entitySelectorFormClass();
 
 }

@@ -17,7 +17,8 @@ import java.util.Set;
 public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
   protected Button addBtn, editBtn, removeBtn, reloadBtn;
   protected MetadataGrid grid;
-  protected SelectRecordFromListFormEvent<E> selectorHandler;
+  protected RecordFromListFormSelectedEvent selectorHandler;
+  protected Window formWindow;
 
   public void addActions(SimpleToolBar toolbar) {
   }
@@ -49,14 +50,22 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
     grid.markAsDirty();
   }
 
-  public static void showForSelect(UI mainUi, SelectRecordFromListFormEvent selectorHandler) {
-    Window formWindow = new Window();
+  public void showForSelect(RecordFromListFormSelectedEvent selectorHandler) {
+    this.selectorHandler = selectorHandler;
+    formWindow = new Window();
     formWindow.setResizable(false);
 //    formWindow.setCaption(getCaption());
     formWindow.setModal(true);
     formWindow.setClosable(true);
+    formWindow.setCaption(null);
     formWindow.setWindowMode(WindowMode.MAXIMIZED);
-    mainUi.addWindow(formWindow);
+    HorizontalLayout rootLayout = new HorizontalLayout();
+    rootLayout.setSizeFull();
+    rootLayout.addComponent(this);
+    formWindow.setContent(rootLayout);
+    setSelectionMode();
+    enter(null);
+    UI.getCurrent().addWindow(formWindow);
   }
 
   public void onRecordUpdated(E entity) {
@@ -128,8 +137,21 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
 
     grid = buildGrid();
     grid.setSizeFull();
+//    grid.set
     grid.addSelectionListener(event -> doOnSelectRecord(event));
-//    grid.addItemClickListener(event -> recordSelected(event));
+    grid.addItemClickListener(event -> {
+      if (event.getMouseEventDetails().isDoubleClick()) {
+        if (selectionMode) {
+          E entity = (E) event.getItem();
+          formWindow.close();
+          if (selectorHandler != null) {
+            selectorHandler.onRecordSelected((BaseNamedEntity) entity);
+          }
+        } else if (editBtn.isEnabled()) {
+          editBtn.click();
+        }
+      }
+    });
     content.addComponent(buildToolbar(), 0, 0, 0, 0);
     content.addComponent(grid, 0, 1, 0, 99);
 
@@ -159,8 +181,11 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
     return grid;
   }
 
-  public interface SelectRecordFromListFormEvent<R extends BaseEntity> {
-    void onRecordSelected(R entity);
+  //===================================================================================================================
+  //===================================================================================================================
+
+  public interface RecordFromListFormSelectedEvent {
+    void onRecordSelected(BaseNamedEntity entity);
   }
 
 }

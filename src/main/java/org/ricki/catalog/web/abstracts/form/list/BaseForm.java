@@ -13,10 +13,14 @@ public abstract class BaseForm extends GridLayout implements View, IdentifiedFor
   protected Navigator navigator;
   private Layout navigatorBar;
   private Layout mainLayout;
-
+  protected boolean selectionMode = false;
   protected UI mainUi;
 
   public abstract Layout buildContent();
+
+  protected void setSelectionMode() {
+    selectionMode = true;
+  }
 
   public void injectUI(UI mainUi, Navigator navigator, Layout navigatorLayout) {
     this.navigator = navigator;
@@ -52,13 +56,16 @@ public abstract class BaseForm extends GridLayout implements View, IdentifiedFor
 
     mainLayout.setSizeFull();
 
-    addComponent(navigatorBar, 0, 0, 0, 0);
-    addComponent(titlePanel, 0, 1, 0, 1);
-    addComponent(mainLayout, 0, 2, 0, 99);
+    if (!selectionMode) {
+      addComponent(navigatorBar, 0, 0, 0, 0);
+      setComponentAlignment(navigatorBar, Alignment.TOP_LEFT);
+      addComponent(titlePanel, 0, 1, 0, 1);
+      setComponentAlignment(titlePanel, Alignment.MIDDLE_CENTER);
+    }
 
-    setComponentAlignment(navigatorBar, Alignment.TOP_LEFT);
-    setComponentAlignment(titlePanel, Alignment.MIDDLE_CENTER);
+    addComponent(mainLayout, 0, 2, 0, 99);
     setComponentAlignment(mainLayout, Alignment.MIDDLE_CENTER);
+
     setSpacing(false);
     setMargin(false);
 

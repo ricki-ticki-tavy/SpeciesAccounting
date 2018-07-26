@@ -3,6 +3,7 @@ package org.ricki.catalog.web.page.styles.forms;
 import com.vaadin.event.selection.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.UI;
 import org.ricki.catalog.service.base.BaseService;
 import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
 import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
@@ -61,7 +62,7 @@ public class StyleView extends BaseListForm<UserWebStyle> {
   public void onNewRecord(Button.ClickEvent event) {
     StyleEditForm editForm = new StyleEditForm();
     editForm.setParentListForm(this);
-    mainUi.addWindow(editForm);
+    UI.getCurrent().addWindow(editForm);
   }
 
   @Override
@@ -76,7 +77,7 @@ public class StyleView extends BaseListForm<UserWebStyle> {
       UserWebStyle userWebStyle = editForm.load(id);
       if (userWebStyle != null) {
         editForm.fillForm();
-        mainUi.addWindow(editForm);
+        UI.getCurrent().addWindow(editForm);
       } else {
         editForm.close();
       }

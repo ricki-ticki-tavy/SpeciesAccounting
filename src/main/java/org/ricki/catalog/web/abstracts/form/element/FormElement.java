@@ -84,6 +84,10 @@ public class FormElement {
         objValue = ((ComboBox) field).getValue();
         break;
       }
+      case REFERENCE: {
+        objValue = ((ReferenceField<BaseNamedEntity>) field).getValue();
+        break;
+      }
     }
 
     Field entityField = ReflectionUtils.getEntityFieldReflection(entity.getClass(), fieldName);
@@ -103,6 +107,8 @@ public class FormElement {
       } else if (entityFieldType == Float.class) {
         entityField.setFloat(entity, Float.parseFloat(strValue));
       } else if (entityFieldType.getSuperclass() == Enum.class) {
+        entityField.set(entity, objValue);
+      } else if (entity instanceof BaseNamedEntity) {
         entityField.set(entity, objValue);
       }
     } catch (IllegalAccessException iae) {
