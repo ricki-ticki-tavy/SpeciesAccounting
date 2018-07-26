@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
-  protected Button addBtn, editBtn, removeBtn, reloadBtn;
+  protected Button addBtn, editBtn, removeBtn, reloadBtn, closeButton, selectOkButton;
   protected MetadataGrid grid;
   protected RecordFromListFormSelectedEvent selectorHandler;
   protected Window formWindow;
@@ -50,13 +50,20 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
     grid.markAsDirty();
   }
 
+  @Override
+  protected void setSelectionMode() {
+    super.setSelectionMode();
+    selectOkButton.setVisible(true);
+    closeButton.setVisible(true);
+  }
+
   public void showForSelect(RecordFromListFormSelectedEvent selectorHandler) {
     this.selectorHandler = selectorHandler;
     formWindow = new Window();
     formWindow.setResizable(false);
 //    formWindow.setCaption(getCaption());
     formWindow.setModal(true);
-    formWindow.setClosable(true);
+    formWindow.setClosable(false);
     formWindow.setCaption(null);
     formWindow.setWindowMode(WindowMode.MAXIMIZED);
     HorizontalLayout rootLayout = new HorizontalLayout();
@@ -120,6 +127,9 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
   private void doOnSelectRecord(SelectionEvent event) {
     Optional optionalRecord = event.getFirstSelectedItem();
     removeBtn.setEnabled(optionalRecord.isPresent());
+    if (selectionMode) {
+      selectOkButton.setEnabled(optionalRecord.isPresent());
+    }
     if (optionalRecord.isPresent()) {
       Object obj = optionalRecord.get();
       if (obj instanceof SystemRecordDetectable) {
@@ -127,6 +137,13 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
       }
     }
     recordSelected(event);
+  }
+
+  private void returnSelectedRecordAndClose(E entity) {
+    formWindow.close();
+    if (selectorHandler != null) {
+      selectorHandler.onRecordSelected((BaseNamedEntity) entity);
+    }
   }
 
   @Override
@@ -143,10 +160,7 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
       if (event.getMouseEventDetails().isDoubleClick()) {
         if (selectionMode) {
           E entity = (E) event.getItem();
-          formWindow.close();
-          if (selectorHandler != null) {
-            selectorHandler.onRecordSelected((BaseNamedEntity) entity);
-          }
+          returnSelectedRecordAndClose(entity);
         } else if (editBtn.isEnabled()) {
           editBtn.click();
         }
@@ -160,6 +174,18 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
 
   private Layout buildToolbar() {
     SimpleToolBar toolbar = new SimpleToolBar();
+    selectOkButton = toolbar.createAndAddButton("", "toolButtonOk", event -> {
+      E entity = (E) grid.getSelectedItems().toArray()[0];
+      returnSelectedRecordAndClose(entity);
+    });
+    selectOkButton.setEnabled(false);
+    selectOkButton.setVisible(false);
+
+    closeButton = toolbar.createAndAddButton("", "toolButtonExit", event -> {
+      formWindow.close();
+    });
+    closeButton.setVisible(false);
+
     reloadBtn = toolbar.createAndAddButton("", "toolButtonReload", event -> doReloadTable(event));
     addBtn = toolbar.createAndAddButton("", "toolButtonNew", event -> onNewRecord(event));
     editBtn = toolbar.createAndAddButton("", "toolButtonEdit", event -> doEditRecord(event));
