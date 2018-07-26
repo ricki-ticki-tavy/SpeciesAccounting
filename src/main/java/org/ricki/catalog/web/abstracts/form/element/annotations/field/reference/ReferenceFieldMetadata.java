@@ -1,6 +1,7 @@
 package org.ricki.catalog.web.abstracts.form.element.annotations.field.reference;
 
 import org.ricki.catalog.entity.abstracts.BaseEntity;
+import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
 
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -47,4 +48,12 @@ public @interface ReferenceFieldMetadata {
    * @return
    */
   Class<? extends BaseEntity> childClass();
+
+  /**
+   * класс окна для формы выбора элемента из списка
+   *
+   * @return
+   */
+  Class<? extends BaseListForm> entitySelectorForm();
+
 }

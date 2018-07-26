@@ -2,9 +2,8 @@ package org.ricki.catalog.web.abstracts.form.list;
 
 import com.vaadin.event.selection.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Layout;
+import com.vaadin.shared.ui.window.WindowMode;
+import com.vaadin.ui.*;
 import de.steinwedel.messagebox.MessageBox;
 import org.ricki.catalog.entity.abstracts.BaseEntity;
 import org.ricki.catalog.entity.abstracts.BaseNamedEntity;
@@ -18,6 +17,7 @@ import java.util.Set;
 public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
   protected Button addBtn, editBtn, removeBtn, reloadBtn;
   protected MetadataGrid grid;
+  protected SelectRecordFromListFormEvent<E> selectorHandler;
 
   public void addActions(SimpleToolBar toolbar) {
   }
@@ -47,6 +47,16 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
     loadList();
     grid.select(entity);
     grid.markAsDirty();
+  }
+
+  public static void showForSelect(UI mainUi, SelectRecordFromListFormEvent selectorHandler) {
+    Window formWindow = new Window();
+    formWindow.setResizable(false);
+//    formWindow.setCaption(getCaption());
+    formWindow.setModal(true);
+    formWindow.setClosable(true);
+    formWindow.setWindowMode(WindowMode.MAXIMIZED);
+    mainUi.addWindow(formWindow);
   }
 
   public void onRecordUpdated(E entity) {
@@ -147,6 +157,10 @@ public abstract class BaseListForm<E extends BaseEntity> extends BaseForm {
 
   public MetadataGrid getGrid() {
     return grid;
+  }
+
+  public interface SelectRecordFromListFormEvent<R extends BaseEntity> {
+    void onRecordSelected(R entity);
   }
 
 }
