@@ -1,4 +1,4 @@
-package org.ricki.catalog.web.abstracts.form.element.annotations.field.area;
+package org.ricki.catalog.web.abstracts.form.element.annotations.field.textArea;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

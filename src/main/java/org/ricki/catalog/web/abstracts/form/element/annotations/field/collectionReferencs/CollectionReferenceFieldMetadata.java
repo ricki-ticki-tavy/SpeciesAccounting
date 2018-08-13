@@ -1,15 +1,16 @@
-package org.ricki.catalog.web.abstracts.form.element.annotations.field.reference;
+package org.ricki.catalog.web.abstracts.form.element.annotations.field.collectionReferencs;
 
 import org.ricki.catalog.entity.abstracts.BaseEntity;
-import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
+import org.ricki.catalog.web.abstracts.form.element.BaseEditForm;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.grid.GridMetadata;
 
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(ReferenceFieldsMetadata.class)
-public @interface ReferenceFieldMetadata {
+@Repeatable(CollectionReferenceFieldsMetadata.class)
+public @interface CollectionReferenceFieldMetadata {
   String fieldName();
 
   String caption() default "";
@@ -20,6 +21,13 @@ public @interface ReferenceFieldMetadata {
    * @return
    */
   int row();
+
+  /**
+   * Высота поля в строках
+   *
+   * @return
+   */
+  int height();
 
   /**
    * Начальная колонка поля
@@ -50,10 +58,17 @@ public @interface ReferenceFieldMetadata {
   Class<? extends BaseEntity> entityClass();
 
   /**
-   * класс окна для формы выбора элемента из списка
+   * класс окна для формы редактирования / добавления элемента в таблицу
    *
    * @return
    */
-  Class<? extends BaseListForm> entitySelectorFormClass();
+  Class<? extends BaseEditForm> entityEditorFormClass();
+
+  /**
+   * Колонки для отображаемой таблицы
+   *
+   * @return
+   */
+  GridMetadata gridMetadata();
 
 }

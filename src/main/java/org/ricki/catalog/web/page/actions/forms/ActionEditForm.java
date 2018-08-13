@@ -6,8 +6,12 @@ import org.ricki.catalog.web.abstracts.component.toolbar.SimpleToolBar;
 import org.ricki.catalog.web.abstracts.form.element.MetadataForm;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FormMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.BooleanFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.collectionReferencs.CollectionReferenceFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.combobox.ComboBoxFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.grid.ColumnInfo;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.grid.GridMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldMetadata;
+import org.ricki.catalog.web.page.actions.entity.ActionResult;
 import org.ricki.catalog.web.page.actions.entity.AnAction;
 import org.ricki.catalog.web.page.actions.service.AnActionService;
 
@@ -15,8 +19,13 @@ import org.ricki.catalog.web.page.actions.service.AnActionService;
 @BooleanFieldMetadata(fieldName = "system", caption = "Системное", captionCellWidth = 16, row = 1, column = 3)
 @TextFieldMetadata(fieldName = "name", caption = "Название", captionCellWidth = 16, row = 2, column = 3, columnEnd = 76)
 @ComboBoxFieldMetadata(fieldName = "actionRecipient", caption = "Применимо к", enumList = AnAction.ActionRecipient.class, captionCellWidth = 16, row = 3, column = 3, columnEnd = 76)
+@CollectionReferenceFieldMetadata(fieldName = "availableResults", caption = "Возможные результаты"
+        , height = 250, captionCellWidth = 16, row = 4, column = 3, columnEnd = 76
+        , entityClass = ActionResult.class, entityEditorFormClass = ActionResultEditForm.class, gridMetadata = @GridMetadata(gridUniqueId = "Action_actionResults"
+        , columns = {@ColumnInfo(fieldName = "name", columnCaption = "Название", width = 500)
+        , @ColumnInfo(fieldName = "style", columnCaption = "Стиль отображения", width = 180)}))
 //@ChildTableFieldMetadata(fieldName = "availableResults", caption = "Возможные результаты", captionCellWidth = 16, row = 3, column = 3
-//        , columnEnd = 76, height = 150, childClass = ActionResult.class, gridMetadata = @GridMetadata(gridUniqueId = "actionEditForm-availResults", columns = {
+//        , columnEnd = 76, height = 150, entityClass = ActionResult.class, gridMetadata = @GridMetadata(gridUniqueId = "actionEditForm-availResults", columns = {
 //        @ColumnInfo(fieldName =)}))
 //@TextFieldMetadata(fieldName = "systemName", caption = "Системное название", captionCellWidth = 16, row = 2, column = 3, columnEnd = 76)
 //@TextAreaFieldMetadata(fieldName = "styleText", caption = "CSS код", captionCellWidth = 16, row = 3, column = 3, columnEnd = 76, height = 150)

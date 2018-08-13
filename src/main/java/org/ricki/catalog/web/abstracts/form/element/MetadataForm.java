@@ -7,16 +7,18 @@ import org.ricki.catalog.entity.abstracts.BaseEntity;
 import org.ricki.catalog.service.base.BaseService;
 import org.ricki.catalog.system.ReflectionUtils;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FormMetadata;
-import org.ricki.catalog.web.abstracts.form.element.annotations.field.area.TextAreaFieldMetadata;
-import org.ricki.catalog.web.abstracts.form.element.annotations.field.area.TextAreaFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.BooleanFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.BooleanFieldsMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.collectionReferencs.CollectionReferenceFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.collectionReferencs.CollectionReferenceFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.combobox.ComboBoxFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.combobox.ComboBoxFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.reference.ReferenceFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.reference.ReferenceFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldsMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.textArea.TextAreaFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.textArea.TextAreaFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -40,7 +42,7 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
 
   protected BaseService service;
 
-  protected MetaFieldFactory metaFieldFactory;
+  protected MetaDataFieldFactory metaFieldFactory;
   @Inject
   BeanFactory beanFactory;
 
@@ -75,6 +77,7 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
     processFieldAnnotationsByType(TextAreaFieldsMetadata.class, TextAreaFieldMetadata.class);
     processFieldAnnotationsByType(ComboBoxFieldsMetadata.class, ComboBoxFieldMetadata.class);
     processFieldAnnotationsByType(ReferenceFieldsMetadata.class, ReferenceFieldMetadata.class);
+    processFieldAnnotationsByType(CollectionReferenceFieldsMetadata.class, CollectionReferenceFieldMetadata.class);
   }
   //--------------------------------------------------------------------------------------------------------------------
 
@@ -87,7 +90,7 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
     formLayout.setSpacing(true);
     formElementsMap = new HashMap<>();
 
-    metaFieldFactory = new MetaFieldFactory(formLayout, formElementsMap);
+    metaFieldFactory = new MetaDataFieldFactory(formLayout, formElementsMap);
 
     if (formMetadata != null) {
       formLayout.setColumns(formMetadata.columnCount());

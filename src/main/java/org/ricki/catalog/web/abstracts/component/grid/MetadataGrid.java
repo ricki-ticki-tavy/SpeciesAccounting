@@ -45,11 +45,11 @@ public abstract class MetadataGrid<T> extends com.vaadin.ui.Grid<T> {
     this.gridUniqueId = gridUniqueId;
   }
 
-  public void initGrid(Class<? extends BaseEntity> anClass) {
-    initGrid(anClass, null);
+  public void initGrid(Class<? extends BaseEntity> entityClass) {
+    initGrid(entityClass, null);
   }
 
-  public void initGrid(Class<? extends BaseEntity> anClass, GridMetadata gridMetadata) {
+  public void initGrid(Class<? extends BaseEntity> entityClass, GridMetadata gridMetadata) {
     if (settingService == null) {
       SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
@@ -60,9 +60,9 @@ public abstract class MetadataGrid<T> extends com.vaadin.ui.Grid<T> {
       columnParamInfos = json.fromJson(userColumnParams, ColumnParamInfo[].class);
     }
 
-    setBeanType((Class<T>) anClass);
+    setBeanType((Class<T>) entityClass);
     removeAllColumns();
-    this.anClass = anClass;
+    this.anClass = entityClass;
 
     if (gridMetadata == null) {
       gridMetadata = this.getClass().getDeclaredAnnotation(GridMetadata.class);

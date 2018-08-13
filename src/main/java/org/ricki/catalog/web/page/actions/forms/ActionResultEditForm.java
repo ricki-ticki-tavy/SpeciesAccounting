@@ -15,7 +15,7 @@ import org.ricki.catalog.web.page.styles.forms.StyleView;
 @FormMetadata(columnCount = 80, rowCount = 10, caption = "Результат выполнения действия", service = ActionResultService.class)
 @TextFieldMetadata(fieldName = "name", caption = "Название", captionCellWidth = 16, row = 2, column = 3, columnEnd = 76)
 @ReferenceFieldMetadata(fieldName = "style", caption = "Стиль отображения", captionCellWidth = 16, row = 3, column = 3, columnEnd = 76
-        , childClass = UserWebStyle.class, entitySelectorFormClass = StyleView.class)
+        , entityClass = UserWebStyle.class, entitySelectorFormClass = StyleView.class)
 public class ActionResultEditForm extends MetadataForm<ActionResult> {
 
   @Override

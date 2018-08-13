@@ -5,8 +5,8 @@ import com.vaadin.ui.Layout;
 import org.ricki.catalog.web.abstracts.component.toolbar.SimpleToolBar;
 import org.ricki.catalog.web.abstracts.form.element.MetadataForm;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FormMetadata;
-import org.ricki.catalog.web.abstracts.form.element.annotations.field.area.TextAreaFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.textArea.TextAreaFieldMetadata;
 import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
 import org.ricki.catalog.web.page.styles.service.StyleService;
 
