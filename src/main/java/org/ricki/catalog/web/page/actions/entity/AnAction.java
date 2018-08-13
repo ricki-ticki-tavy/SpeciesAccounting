@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 @Table
 public class AnAction extends BaseNamedCommentedEntity implements SystemRecordDetectable {
-  @ManyToOne(optional = false, fetch = FetchType.EAGER)
+  @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
   private UserWebStyle planedStyle;
 
   @Column(nullable = false)

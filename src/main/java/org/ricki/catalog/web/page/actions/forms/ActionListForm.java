@@ -19,7 +19,7 @@ import javax.inject.Named;
  */
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class ActionView extends BaseListForm<AnAction> {
+public class ActionListForm extends BaseListForm<AnAction> {
 
   @Inject
   @Qualifier("anActionService")

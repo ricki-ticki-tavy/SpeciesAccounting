@@ -9,12 +9,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public abstract class MetadataGrid<T> extends com.vaadin.ui.Grid<T> {
 
   private static final String COLUMNS_PARAM_NAME = "userColumnParams";
   Class<? extends BaseEntity> anClass;
+  protected List<T> items = null;
 
   private Gson json = new GsonBuilder().create();
   private boolean skipReorderEvent = false;
@@ -47,6 +51,20 @@ public abstract class MetadataGrid<T> extends com.vaadin.ui.Grid<T> {
 
   public void initGrid(Class<? extends BaseEntity> entityClass) {
     initGrid(entityClass, null);
+  }
+
+  @Override
+  public void setItems(Collection<T> items) {
+    if (items instanceof Collection) {
+      this.items = new ArrayList<T>(items);
+    } else {
+      throw new RuntimeException("bad collection");
+    }
+    super.setItems(items);
+  }
+
+  public List<T> getItems() {
+    return items;
   }
 
   public void initGrid(Class<? extends BaseEntity> entityClass, GridMetadata gridMetadata) {

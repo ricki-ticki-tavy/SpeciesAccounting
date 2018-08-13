@@ -5,7 +5,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
 import org.ricki.catalog.entity.abstracts.BaseEntity;
 import org.ricki.catalog.service.base.BaseService;
-import org.ricki.catalog.system.ReflectionUtils;
+import org.ricki.catalog.system.PersistentSupport;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FormMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.BooleanFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.BooleanFieldsMetadata;
@@ -25,7 +25,6 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.inject.Inject;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +44,9 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
   protected MetaDataFieldFactory metaFieldFactory;
   @Inject
   BeanFactory beanFactory;
+
+  @Inject
+  PersistentSupport<E> persistentSupport;
 
   private void parseFieldAnnotations(Object[] annotations) {
     for (Object abstractFieldMetadata : annotations) {
@@ -129,22 +131,21 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
   //--------------------------------------------------------------------------------------------------------------------
 
   public void fillForm(E entity_) {
-    Field field;
-
     if (entity_ != null) {
       this.entity = entity_;
     }
 
-    for (String fieldName : formElementsMap.keySet()) {
-      FormElement formElement = formElementsMap.get(fieldName);
-      field = ReflectionUtils.getEntityFieldReflection(entity.getClass(), fieldName);
-
-      try {
-        formElement.setValue(field.get(entity));
-      } catch (IllegalAccessException rex) {
-        throw new RuntimeException(rex);
-      }
-    }
+    this.entity = persistentSupport.fillFormData(formElementsMap, entity);
+//    for (String fieldName : formElementsMap.keySet()) {
+//      FormElement formElement = formElementsMap.get(fieldName);
+//      field = ReflectionUtils.getEntityFieldReflection(entity.getClass(), fieldName);
+//
+//      try {
+//        formElement.setValue(field.get(entity));
+//      } catch (IllegalAccessException rex) {
+//        throw new RuntimeException(rex);
+//      }
+//    }
   }
   //--------------------------------------------------------------------------------------------------------------------
 

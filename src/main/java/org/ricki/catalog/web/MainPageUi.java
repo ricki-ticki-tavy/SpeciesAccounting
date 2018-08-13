@@ -11,8 +11,8 @@ import org.ricki.catalog.web.abstracts.form.list.BaseForm;
 import org.ricki.catalog.web.page.ExpenditureView;
 import org.ricki.catalog.web.page.PlanView;
 import org.ricki.catalog.web.page.StartView;
-import org.ricki.catalog.web.page.actions.forms.ActionResultView;
-import org.ricki.catalog.web.page.actions.forms.ActionView;
+import org.ricki.catalog.web.page.actions.forms.ActionListForm;
+import org.ricki.catalog.web.page.actions.forms.ActionResultListForm;
 import org.ricki.catalog.web.page.boxes.BoxView;
 import org.ricki.catalog.web.page.food.FoodView;
 import org.ricki.catalog.web.page.sales.SaleView;
@@ -106,8 +106,8 @@ public class MainPageUi extends UI {
     MenuBar.MenuItem libr = mainMenu.addItem("Справочники", null);
 
     addPageToMenu(StyleView.class, libr);
-    addPageToMenu(ActionView.class, libr);
-    addPageToMenu(ActionResultView.class, libr);
+    addPageToMenu(ActionListForm.class, libr);
+    addPageToMenu(ActionResultListForm.class, libr);
     addPageToMenu(FoodView.class, libr);
   }
 }

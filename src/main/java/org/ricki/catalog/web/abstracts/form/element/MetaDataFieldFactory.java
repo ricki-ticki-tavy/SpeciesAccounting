@@ -2,7 +2,7 @@ package org.ricki.catalog.web.abstracts.form.element;
 
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
-import org.ricki.catalog.web.abstracts.component.grid.MetadataGridForCollection;
+import org.ricki.catalog.web.abstracts.component.grid.TableReferenceField;
 import org.ricki.catalog.web.abstracts.component.toolbar.SimpleToolBar;
 import org.ricki.catalog.web.abstracts.form.common.Styles;
 import org.ricki.catalog.web.abstracts.form.component.referenceField.ReferenceField;
@@ -223,13 +223,13 @@ public class MetaDataFieldFactory {
     newElement.fieldType = FieldType.COLLECTION;
     int columnForField = addCaption(newElement, fieldMetadata.caption(), fieldMetadata.column(), fieldMetadata.row(), fieldMetadata.captionCellWidth());
 
-    MetadataGridForCollection grid = new MetadataGridForCollection(true) {
+    TableReferenceField grid = new TableReferenceField(true) {
       @Override
       public void addUserActions(SimpleToolBar simpleToolBar) {
       }
     };
     newElement.field = grid;
-    grid.initGrid(fieldMetadata.entityClass(), fieldMetadata.gridMetadata());
+    grid.initGrid(fieldMetadata.entityClass(), fieldMetadata);
     String fieldName = fieldMetadata.fieldName();
     grid.setWidth(100, Sizeable.Unit.PERCENTAGE);
     grid.setHeight(fieldMetadata.height(), Sizeable.Unit.PIXELS);

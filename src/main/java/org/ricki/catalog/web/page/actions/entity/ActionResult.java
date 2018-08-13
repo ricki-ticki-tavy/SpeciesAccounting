@@ -3,6 +3,7 @@ package org.ricki.catalog.web.page.actions.entity;
 import org.ricki.catalog.entity.abstracts.BaseNamedEntity;
 import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -13,10 +14,10 @@ import javax.persistence.ManyToOne;
 @Entity
 public class ActionResult extends BaseNamedEntity {
 
-  @ManyToOne(fetch = FetchType.EAGER, optional = false)
+  @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.PERSIST)
   private UserWebStyle style;
 
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
   private AnAction action;
 
   public UserWebStyle getStyle() {

@@ -21,7 +21,7 @@ import org.ricki.catalog.web.page.actions.service.AnActionService;
 @ComboBoxFieldMetadata(fieldName = "actionRecipient", caption = "Применимо к", enumList = AnAction.ActionRecipient.class, captionCellWidth = 16, row = 3, column = 3, columnEnd = 76)
 @CollectionReferenceFieldMetadata(fieldName = "availableResults", caption = "Возможные результаты"
         , height = 250, captionCellWidth = 16, row = 4, column = 3, columnEnd = 76
-        , entityClass = ActionResult.class, entityEditorFormClass = ActionResultEditForm.class, gridMetadata = @GridMetadata(gridUniqueId = "Action_actionResults"
+        , entityClass = ActionResult.class, entityListFormClass = ActionResultListForm.class, gridMetadata = @GridMetadata(gridUniqueId = "Action_actionResults"
         , columns = {@ColumnInfo(fieldName = "name", columnCaption = "Название", width = 500)
         , @ColumnInfo(fieldName = "style", columnCaption = "Стиль отображения", width = 180)}))
 //@ChildTableFieldMetadata(fieldName = "availableResults", caption = "Возможные результаты", captionCellWidth = 16, row = 3, column = 3

@@ -3,6 +3,7 @@ package org.ricki.catalog.web.abstracts.form.element.annotations.field.collectio
 import org.ricki.catalog.entity.abstracts.BaseEntity;
 import org.ricki.catalog.web.abstracts.form.element.BaseEditForm;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.grid.GridMetadata;
+import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
 
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -62,7 +63,14 @@ public @interface CollectionReferenceFieldMetadata {
    *
    * @return
    */
-  Class<? extends BaseEditForm> entityEditorFormClass();
+  Class<? extends BaseEditForm> entityEditorFormClass() default NULL_EDIT_FORM.class;
+
+  /**
+   * класс окна для формы списка из которого выбирать запись
+   *
+   * @return
+   */
+  Class<? extends BaseListForm> entityListFormClass() default NULL_LIST_FORM.class;
 
   /**
    * Колонки для отображаемой таблицы
@@ -70,5 +78,13 @@ public @interface CollectionReferenceFieldMetadata {
    * @return
    */
   GridMetadata gridMetadata();
+
+  static final BaseEditForm DEFAULT = null;
+
+  public abstract class NULL_EDIT_FORM extends BaseEditForm {
+  }
+
+  public abstract class NULL_LIST_FORM extends BaseListForm {
+  }
 
 }
