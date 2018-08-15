@@ -1,7 +1,6 @@
 package org.ricki.catalog.web.abstracts.component.grid;
 
 import com.vaadin.event.selection.SelectionEvent;
-import com.vaadin.event.selection.SelectionListener;
 import com.vaadin.ui.Button;
 import org.ricki.catalog.entity.abstracts.BaseEntity;
 import org.ricki.catalog.web.abstracts.component.toolbar.SimpleToolBar;
@@ -53,6 +52,7 @@ public class TableReferenceField<E> extends MetadataGridWithToolBar<E> {
     Collection<E> items = metadataGrid.getItems();
     items.remove(entityToRemoveFromList);
     metadataGrid.setItems(items);
+    removeButton.setEnabled(false);
   }
 
   public void addUserActions(SimpleToolBar toolBar) {
@@ -72,6 +72,8 @@ public class TableReferenceField<E> extends MetadataGridWithToolBar<E> {
     if (gridMetadata.entityListFormClass() != CollectionReferenceFieldMetadata.NULL_LIST_FORM.class) {
       selectorForm = gridMetadata.entityListFormClass();
     }
+    metadataGrid.addSelectionListener(event -> onItemClick(event));
+
   }
 
   @Override
@@ -83,18 +85,11 @@ public class TableReferenceField<E> extends MetadataGridWithToolBar<E> {
   }
 
   protected void onItemClick(SelectionEvent event) {
-    removeButton.setEnabled(!metadataGrid.getSelectionModel().getSelectedItems().isEmpty());
+    removeButton.setEnabled(!event.getAllSelectedItems().isEmpty());
   }
 
   public TableReferenceField(boolean withToolBar) {
     super(withToolBar);
-//    metadataGrid.addListener()
-    metadataGrid.addListener(event -> {
-      if (event instanceof SelectionListener) {
-        int i = 20;
-        i++;
-      }
-    });
   }
 
   public void setValue(Collection<E> value) {
