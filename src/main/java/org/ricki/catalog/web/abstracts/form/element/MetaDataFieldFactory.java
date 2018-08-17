@@ -2,15 +2,16 @@ package org.ricki.catalog.web.abstracts.form.element;
 
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
-import org.ricki.catalog.web.abstracts.component.grid.TableReferenceField;
 import org.ricki.catalog.web.abstracts.component.toolbar.SimpleToolBar;
 import org.ricki.catalog.web.abstracts.form.common.Styles;
 import org.ricki.catalog.web.abstracts.form.component.referenceField.ReferenceField;
+import org.ricki.catalog.web.abstracts.form.component.referenceField.TableReferenceField;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FieldType;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.BooleanFieldMetadata;
-import org.ricki.catalog.web.abstracts.form.element.annotations.field.collectionReferencs.CollectionReferenceFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.combobox.ComboBoxFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.numeric.NumericFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.reference.ReferenceFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.tableReferencs.TableReferenceFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.textArea.TextAreaFieldMetadata;
 import org.springframework.util.StringUtils;
@@ -35,8 +36,10 @@ public class MetaDataFieldFactory {
       newElement = createComboBoxMetaField((ComboBoxFieldMetadata) abstractFieldMetadata);
     } else if (abstractFieldMetadata instanceof ReferenceFieldMetadata) {
       newElement = createReferenceMetaField((ReferenceFieldMetadata) abstractFieldMetadata);
-    } else if (abstractFieldMetadata instanceof CollectionReferenceFieldMetadata) {
-      newElement = createCollectionMetaField((CollectionReferenceFieldMetadata) abstractFieldMetadata);
+    } else if (abstractFieldMetadata instanceof TableReferenceFieldMetadata) {
+      newElement = createCollectionMetaField((TableReferenceFieldMetadata) abstractFieldMetadata);
+    } else if (abstractFieldMetadata instanceof NumericFieldMetadata) {
+      newElement = createNumericMetaField((NumericFieldMetadata) abstractFieldMetadata);
     } else {
       throw new RuntimeException("Не поддерживаемый тип метеданных " + abstractFieldMetadata.toString());
     }
@@ -212,12 +215,37 @@ public class MetaDataFieldFactory {
   }
 
   /**
+   * Добавление на форму поля для ввода  текста
+   *
+   * @param fieldMetadata
+   * @return
+   */
+  public FormElement createNumericMetaField(NumericFieldMetadata fieldMetadata) {
+    FormElement newElement = new FormElement(fieldMetadata);
+
+    newElement.fieldType = FieldType.NUMERIC;
+    int columnForField = addCaption(newElement, fieldMetadata.caption(), fieldMetadata.column(), fieldMetadata.row(), fieldMetadata.captionCellWidth());
+
+    String fieldName = fieldMetadata.fieldName();
+    newElement.field = new TextField();
+    newElement.field.setWidth(100, Sizeable.Unit.PERCENTAGE);
+
+    formLayout.addComponent(newElement.field, columnForField, fieldMetadata.row(),
+            fieldMetadata.columnEnd(), fieldMetadata.row());
+
+    newElement.field.setId(fieldName);
+    formElementsMap.put(fieldName, newElement);
+
+    return newElement;
+  }
+
+  /**
    * Добавление на форму поля c таблицей подчиненных записей
    *
    * @param fieldMetadata
    * @return
    */
-  public FormElement createCollectionMetaField(CollectionReferenceFieldMetadata fieldMetadata) {
+  public FormElement createCollectionMetaField(TableReferenceFieldMetadata fieldMetadata) {
     FormElement newElement = new FormElement();
 
     newElement.fieldType = FieldType.COLLECTION;

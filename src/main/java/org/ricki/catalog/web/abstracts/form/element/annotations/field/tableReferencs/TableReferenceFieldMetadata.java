@@ -1,4 +1,4 @@
-package org.ricki.catalog.web.abstracts.form.element.annotations.field.collectionReferencs;
+package org.ricki.catalog.web.abstracts.form.element.annotations.field.tableReferencs;
 
 import org.ricki.catalog.entity.abstracts.BaseEntity;
 import org.ricki.catalog.web.abstracts.form.element.BaseEditForm;
@@ -10,8 +10,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Repeatable(CollectionReferenceFieldsMetadata.class)
-public @interface CollectionReferenceFieldMetadata {
+@Repeatable(TableReferenceFieldsMetadata.class)
+public @interface TableReferenceFieldMetadata {
   String fieldName();
 
   String caption() default "";

@@ -10,12 +10,12 @@ import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextF
 import org.ricki.catalog.web.page.actions.entity.ActionResult;
 import org.ricki.catalog.web.page.actions.service.ActionResultService;
 import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
-import org.ricki.catalog.web.page.styles.forms.StyleView;
+import org.ricki.catalog.web.page.styles.forms.StyleListForm;
 
 @FormMetadata(columnCount = 80, rowCount = 10, caption = "Результат выполнения действия", service = ActionResultService.class)
 @TextFieldMetadata(fieldName = "name", caption = "Название", captionCellWidth = 16, row = 2, column = 3, columnEnd = 76)
 @ReferenceFieldMetadata(fieldName = "style", caption = "Стиль отображения", captionCellWidth = 16, row = 3, column = 3, columnEnd = 76
-        , entityClass = UserWebStyle.class, entitySelectorFormClass = StyleView.class)
+        , entityClass = UserWebStyle.class, entitySelectorFormClass = StyleListForm.class)
 public class ActionResultEditForm extends MetadataForm<ActionResult> {
 
   @Override

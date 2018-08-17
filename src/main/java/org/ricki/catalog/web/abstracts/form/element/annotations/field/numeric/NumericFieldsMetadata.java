@@ -1,12 +1,12 @@
-package org.ricki.catalog.web.abstracts.form.element.annotations.field.childTable;
+package org.ricki.catalog.web.abstracts.form.element.annotations.field.numeric;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.TYPE})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ChildTableFieldsMetadata {
-  ChildTableFieldMetadata[] value();
+public @interface NumericFieldsMetadata {
+  NumericFieldMetadata[] value();
 }

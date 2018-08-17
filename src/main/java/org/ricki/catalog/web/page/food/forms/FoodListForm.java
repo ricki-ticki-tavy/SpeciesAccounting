@@ -1,13 +1,12 @@
-package org.ricki.catalog.web.page.styles.forms;
+package org.ricki.catalog.web.page.food.forms;
 
 import com.vaadin.event.selection.SelectionEvent;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.UI;
 import org.ricki.catalog.service.base.BaseService;
 import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
 import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
-import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
+import org.ricki.catalog.web.page.food.entity.Food;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -20,20 +19,28 @@ import javax.inject.Named;
  */
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class StyleView extends BaseListForm<UserWebStyle> {
+public class FoodListForm extends BaseListForm<Food> {
 
   @Inject
-  @Qualifier("styleService")
-  BaseService<UserWebStyle> styleService;
+  @Qualifier("foodService")
+  BaseService<Food> foodService;
 
   @Override
   public String getPageId() {
-    return "styles";
+    return "food";
   }
 
   @Override
   public String getPageCaption() {
-    return "Стили отображения";
+    return "Корм";
+  }
+
+
+  @Override
+  public MetadataGrid buildGrid() {
+    FoodListGrid grid = new FoodListGrid();
+    grid.initGrid(Food.class);
+    return grid;
   }
 
   @Override
@@ -42,15 +49,8 @@ public class StyleView extends BaseListForm<UserWebStyle> {
   }
 
   @Override
-  public MetadataGrid buildGrid() {
-    StyleListGrid grid = new StyleListGrid();
-    grid.initGrid(UserWebStyle.class);
-    return grid;
-  }
-
-  @Override
   public void loadList() {
-    grid.setItems(styleService.getList());
+    grid.setItems(foodService.getList());
   }
 
   @Override
@@ -60,24 +60,24 @@ public class StyleView extends BaseListForm<UserWebStyle> {
 
   @Override
   public void onNewRecord(Button.ClickEvent event) {
-    StyleEditForm editForm = new StyleEditForm();
+    FoodEditForm editForm = new FoodEditForm();
     editForm.setParentListForm(this);
-    UI.getCurrent().addWindow(editForm);
+    mainUi.addWindow(editForm);
   }
 
   @Override
-  public void onEditRecord(UserWebStyle entity) {
+  public void onEditRecord(Food entity) {
 
     Object[] recs = grid.getSelectedItems().toArray();
     if (recs.length > 0) {
-      long id = ((UserWebStyle) recs[0]).getId();
+      long id = ((Food) recs[0]).getId();
 
-      StyleEditForm editForm = new StyleEditForm();
+      FoodEditForm editForm = new FoodEditForm();
       editForm.setParentListForm(this);
-      UserWebStyle userWebStyle = editForm.load(id);
-      if (userWebStyle != null) {
+      Food food = editForm.load(id);
+      if (food != null) {
         editForm.fillForm();
-        UI.getCurrent().addWindow(editForm);
+        mainUi.addWindow(editForm);
       } else {
         editForm.close();
       }
@@ -85,12 +85,11 @@ public class StyleView extends BaseListForm<UserWebStyle> {
   }
 
   @Override
-  public void onRemoveRecord(UserWebStyle entity) {
+  public void onRemoveRecord(Food entity) {
     Object[] recs = grid.getSelectedItems().toArray();
     if (recs.length > 0) {
-      long id = ((UserWebStyle) recs[0]).getId();
-      styleService.remove(id);
+      long id = ((Food) recs[0]).getId();
+      foodService.remove(id);
     }
   }
-
 }

@@ -7,9 +7,9 @@ import org.ricki.catalog.web.abstracts.form.element.annotations.field.grid.GridM
 
 public abstract class MetadataGridWithToolBar<T> extends GridLayout {
 
-  MetadataGrid metadataGrid;
-  SimpleToolBar toolBar;
-  boolean withToolBar;
+  protected MetadataGrid metadataGrid;
+  protected SimpleToolBar toolBar;
+  protected boolean withToolBar;
 
   public MetadataGridWithToolBar(boolean withToolBar) {
     this.withToolBar = withToolBar;

@@ -1,4 +1,4 @@
-package org.ricki.catalog.web.page.food;
+package org.ricki.catalog.web.page.food.forms;
 
 import org.ricki.catalog.web.abstracts.component.grid.MetadataGrid;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.grid.ColumnInfo;

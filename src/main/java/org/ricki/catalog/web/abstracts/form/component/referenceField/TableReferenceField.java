@@ -1,12 +1,13 @@
-package org.ricki.catalog.web.abstracts.component.grid;
+package org.ricki.catalog.web.abstracts.form.component.referenceField;
 
 import com.vaadin.event.selection.SelectionEvent;
 import com.vaadin.ui.Button;
 import org.ricki.catalog.entity.abstracts.BaseEntity;
+import org.ricki.catalog.web.abstracts.component.grid.MetadataGridWithToolBar;
 import org.ricki.catalog.web.abstracts.component.toolbar.SimpleToolBar;
 import org.ricki.catalog.web.abstracts.form.element.BaseEditForm;
-import org.ricki.catalog.web.abstracts.form.element.annotations.field.collectionReferencs.CollectionReferenceFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.grid.GridMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.tableReferencs.TableReferenceFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.list.BaseListForm;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -61,15 +62,15 @@ public class TableReferenceField<E> extends MetadataGridWithToolBar<E> {
 
   @Override
   public void initGrid(Class<? extends BaseEntity> entityClass, GridMetadata gridMetadata) {
-    throw new RuntimeException("use initGrid(BaseEntity, CollectionReferenceFieldMetadata");
+    throw new RuntimeException("use initGrid(BaseEntity, TableReferenceFieldMetadata");
   }
 
-  public void initGrid(Class<? extends BaseEntity> entityClass, CollectionReferenceFieldMetadata gridMetadata) {
+  public void initGrid(Class<? extends BaseEntity> entityClass, TableReferenceFieldMetadata gridMetadata) {
     super.initGrid(entityClass, gridMetadata.gridMetadata());
-    if (gridMetadata.entityEditorFormClass() != CollectionReferenceFieldMetadata.NULL_EDIT_FORM.class) {
+    if (gridMetadata.entityEditorFormClass() != TableReferenceFieldMetadata.NULL_EDIT_FORM.class) {
       editorElementForm = gridMetadata.entityEditorFormClass();
     }
-    if (gridMetadata.entityListFormClass() != CollectionReferenceFieldMetadata.NULL_LIST_FORM.class) {
+    if (gridMetadata.entityListFormClass() != TableReferenceFieldMetadata.NULL_LIST_FORM.class) {
       selectorForm = gridMetadata.entityListFormClass();
     }
     metadataGrid.addSelectionListener(event -> onItemClick(event));

@@ -9,12 +9,14 @@ import org.ricki.catalog.system.PersistentSupport;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FormMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.BooleanFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.bool.BooleanFieldsMetadata;
-import org.ricki.catalog.web.abstracts.form.element.annotations.field.collectionReferencs.CollectionReferenceFieldMetadata;
-import org.ricki.catalog.web.abstracts.form.element.annotations.field.collectionReferencs.CollectionReferenceFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.combobox.ComboBoxFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.combobox.ComboBoxFieldsMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.numeric.NumericFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.numeric.NumericFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.reference.ReferenceFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.reference.ReferenceFieldsMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.tableReferencs.TableReferenceFieldMetadata;
+import org.ricki.catalog.web.abstracts.form.element.annotations.field.tableReferencs.TableReferenceFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldsMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.textArea.TextAreaFieldMetadata;
@@ -79,7 +81,8 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
     processFieldAnnotationsByType(TextAreaFieldsMetadata.class, TextAreaFieldMetadata.class);
     processFieldAnnotationsByType(ComboBoxFieldsMetadata.class, ComboBoxFieldMetadata.class);
     processFieldAnnotationsByType(ReferenceFieldsMetadata.class, ReferenceFieldMetadata.class);
-    processFieldAnnotationsByType(CollectionReferenceFieldsMetadata.class, CollectionReferenceFieldMetadata.class);
+    processFieldAnnotationsByType(TableReferenceFieldsMetadata.class, TableReferenceFieldMetadata.class);
+    processFieldAnnotationsByType(NumericFieldsMetadata.class, NumericFieldMetadata.class);
   }
   //--------------------------------------------------------------------------------------------------------------------
 

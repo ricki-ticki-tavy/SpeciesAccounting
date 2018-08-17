@@ -1,4 +1,4 @@
-package org.ricki.catalog.entity;
+package org.ricki.catalog.web.page.food.entity;
 
 
 import org.ricki.catalog.entity.abstracts.BaseThing;

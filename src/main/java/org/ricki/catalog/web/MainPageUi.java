@@ -14,12 +14,12 @@ import org.ricki.catalog.web.page.StartView;
 import org.ricki.catalog.web.page.actions.forms.ActionListForm;
 import org.ricki.catalog.web.page.actions.forms.ActionResultListForm;
 import org.ricki.catalog.web.page.boxes.BoxView;
-import org.ricki.catalog.web.page.food.FoodView;
+import org.ricki.catalog.web.page.food.forms.FoodListForm;
 import org.ricki.catalog.web.page.sales.SaleView;
 import org.ricki.catalog.web.page.species.SpecieView;
 import org.ricki.catalog.web.page.species.types.SpecieTypeView;
 import org.ricki.catalog.web.page.staff.StaffView;
-import org.ricki.catalog.web.page.styles.forms.StyleView;
+import org.ricki.catalog.web.page.styles.forms.StyleListForm;
 import org.springframework.beans.factory.BeanFactory;
 
 import javax.inject.Inject;
@@ -105,9 +105,9 @@ public class MainPageUi extends UI {
 
     MenuBar.MenuItem libr = mainMenu.addItem("Справочники", null);
 
-    addPageToMenu(StyleView.class, libr);
+    addPageToMenu(StyleListForm.class, libr);
     addPageToMenu(ActionListForm.class, libr);
     addPageToMenu(ActionResultListForm.class, libr);
-    addPageToMenu(FoodView.class, libr);
+    addPageToMenu(FoodListForm.class, libr);
   }
 }
