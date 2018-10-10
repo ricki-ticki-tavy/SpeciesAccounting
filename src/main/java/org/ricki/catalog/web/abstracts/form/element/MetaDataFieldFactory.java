@@ -2,6 +2,7 @@ package org.ricki.catalog.web.abstracts.form.element;
 
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
+import org.ricki.catalog.service.base.BaseNamedEntityFIlteredSelectorService;
 import org.ricki.catalog.web.abstracts.component.toolbar.SimpleToolBar;
 import org.ricki.catalog.web.abstracts.form.common.Styles;
 import org.ricki.catalog.web.abstracts.form.component.referenceField.ReferenceField;
@@ -14,8 +15,11 @@ import org.ricki.catalog.web.abstracts.form.element.annotations.field.reference.
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.tableReferencs.TableReferenceFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.text.TextFieldMetadata;
 import org.ricki.catalog.web.abstracts.form.element.annotations.field.textArea.TextAreaFieldMetadata;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import javax.inject.Inject;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
@@ -23,6 +27,9 @@ public class MetaDataFieldFactory {
 
   private GridLayout formLayout;
   private Map<String, FormElement> formElementsMap;
+
+  @Inject
+  private BeanFactory beanFactory;
 
   public FormElement createMetaFieldFromMetaDate(Annotation abstractFieldMetadata) {
     FormElement newElement;
@@ -117,7 +124,25 @@ public class MetaDataFieldFactory {
     String fieldName = fieldMetadata.fieldName();
     ComboBox cb = new ComboBox();
 
-    cb.setItems(fieldMetadata.enumList().getEnumConstants());
+    if (fieldMetadata.entityClass() == BaseNamedEntityFIlteredSelectorService.class) {
+      // данные из энума
+      cb.setItems(fieldMetadata.enumList().getEnumConstants());
+    } else {
+      // данные из БД или еще откуда
+      if (beanFactory == null) {
+        synchronized (this) {
+          if (beanFactory == null) {
+            SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+          }
+        }
+      }
+      BaseNamedEntityFIlteredSelectorService service = beanFactory.getBean(fieldMetadata.entityClass());
+      if (service == null) {
+        throw new RuntimeException("Не найден сервис " + fieldMetadata.entityClass().getName() + " для " + fieldMetadata);
+      }
+      cb.setItems(service.getList(fieldMetadata.entityFilter()));
+    }
+
     newElement.field = cb;
     newElement.field.setWidth(100, Sizeable.Unit.PERCENTAGE);
 

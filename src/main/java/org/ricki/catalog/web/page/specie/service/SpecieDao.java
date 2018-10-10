@@ -1,8 +1,8 @@
-package org.ricki.catalog.dao;
+package org.ricki.catalog.web.page.specie.service;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.ricki.catalog.entity.Specie;
+import org.ricki.catalog.web.page.specie.entity.Specie;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 

@@ -44,4 +44,8 @@ public class ActionResultDao {
     remove(uws);
   }
 
+  public ActionResult findByName(String name) {
+    throw new RuntimeException("not implemented");
+  }
+
 }

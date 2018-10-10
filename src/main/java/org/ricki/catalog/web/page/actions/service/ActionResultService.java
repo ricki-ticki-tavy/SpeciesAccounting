@@ -1,7 +1,7 @@
 package org.ricki.catalog.web.page.actions.service;
 
 import com.vaadin.spring.annotation.UIScope;
-import org.ricki.catalog.service.base.BaseService;
+import org.ricki.catalog.service.base.BaseNamedEntityService;
 import org.ricki.catalog.web.page.actions.entity.ActionResult;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -15,7 +15,7 @@ import java.util.List;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @UIScope
 @Transactional
-public class ActionResultService implements BaseService<ActionResult> {
+public class ActionResultService implements BaseNamedEntityService<ActionResult> {
 
   @Inject
   ActionResultDao actionResultDao;
@@ -52,5 +52,10 @@ public class ActionResultService implements BaseService<ActionResult> {
   @Override
   public Class getEntity() {
     return ActionResult.class;
+  }
+
+  @Override
+  public ActionResult findByName(String name) {
+    return actionResultDao.findByName(name);
   }
 }

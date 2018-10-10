@@ -1,5 +1,7 @@
 package org.ricki.catalog.web.abstracts.form.element.annotations.field.combobox;
 
+import org.ricki.catalog.service.base.BaseNamedEntityFIlteredSelectorService;
+
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -38,6 +40,21 @@ public @interface ComboBoxFieldMetadata {
    * @return
    */
   int captionCellWidth();
+
+  /**
+   * Класс сервиса, предоставляющего список значений. Так же при этом возможно заполнение
+   * фильтра отбора выпадающих значений @entityFilter
+   *
+   * @return
+   */
+  Class<? extends BaseNamedEntityFIlteredSelectorService> entityClass() default BaseNamedEntityFIlteredSelectorService.class;
+
+  /**
+   * Фильтр для отбора значения выпадающего списка, если данные для выпадающего списка выбираются из БД
+   *
+   * @return
+   */
+  String entityFilter() default "";
 
   /**
    * Класс списка значений (enum)

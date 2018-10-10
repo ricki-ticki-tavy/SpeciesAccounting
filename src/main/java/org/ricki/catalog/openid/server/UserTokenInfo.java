@@ -1,6 +1,6 @@
 package org.ricki.catalog.openid.server;
 
-import org.ricki.catalog.entity.UserAccount;
+import org.ricki.catalog.web.page.user.entity.UserAccount;
 
 import java.util.Date;
 

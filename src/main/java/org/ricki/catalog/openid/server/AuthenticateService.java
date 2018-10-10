@@ -1,7 +1,7 @@
 package org.ricki.catalog.openid.server;
 
-import org.ricki.catalog.entity.UserAccount;
-import org.ricki.catalog.service.UserAccountService;
+import org.ricki.catalog.web.page.user.entity.UserAccount;
+import org.ricki.catalog.web.page.user.service.UserAccountService;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 

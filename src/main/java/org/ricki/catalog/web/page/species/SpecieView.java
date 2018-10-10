@@ -3,9 +3,9 @@ package org.ricki.catalog.web.page.species;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import org.ricki.catalog.entity.Specie;
-import org.ricki.catalog.service.SpecieService;
 import org.ricki.catalog.web.abstracts.form.list.BaseForm;
+import org.ricki.catalog.web.page.specie.entity.Specie;
+import org.ricki.catalog.web.page.specie.service.SpecieService;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 

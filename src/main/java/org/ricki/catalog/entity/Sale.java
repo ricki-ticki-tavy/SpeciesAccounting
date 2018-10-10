@@ -1,6 +1,7 @@
 package org.ricki.catalog.entity;
 
 import org.ricki.catalog.entity.abstracts.BaseCommentedEntity;
+import org.ricki.catalog.web.page.specie.entity.Specie;
 
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;

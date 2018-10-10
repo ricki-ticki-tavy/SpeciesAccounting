@@ -17,7 +17,8 @@ public class AnAction extends BaseNamedCommentedEntity implements SystemRecordDe
   @Column(nullable = false)
   private boolean system;
 
-  @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+  //  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
   private Set<ActionResult> availableResults;
 
   @Column(nullable = false)

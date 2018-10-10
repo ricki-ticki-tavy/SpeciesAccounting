@@ -3,9 +3,9 @@ package org.ricki.catalog.web.page.species.types;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import org.ricki.catalog.entity.SpecieType;
-import org.ricki.catalog.service.SpecieTypeService;
 import org.ricki.catalog.web.abstracts.form.list.BaseForm;
+import org.ricki.catalog.web.page.specie.entity.SpecieType;
+import org.ricki.catalog.web.page.specie.service.SpecieClassService;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
@@ -20,7 +20,7 @@ import javax.inject.Named;
 public class SpecieTypeView extends BaseForm {
 
   @Inject
-  SpecieTypeService specieTypeService;
+  SpecieClassService specieTypeService;
 
   SpecieTypeListGrid grid;
 

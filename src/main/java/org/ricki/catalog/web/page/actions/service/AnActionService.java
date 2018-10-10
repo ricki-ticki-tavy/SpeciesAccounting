@@ -1,8 +1,10 @@
 package org.ricki.catalog.web.page.actions.service;
 
 import com.vaadin.spring.annotation.UIScope;
-import org.ricki.catalog.service.base.BaseService;
+import org.ricki.catalog.service.base.BaseNamedEntityService;
 import org.ricki.catalog.web.page.actions.entity.AnAction;
+import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
+import org.ricki.catalog.web.page.styles.service.SystemStyleEnum;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
@@ -10,12 +12,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 
 @Named
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @UIScope
 @Transactional
-public class AnActionService implements BaseService<AnAction> {
+public class AnActionService implements BaseNamedEntityService<AnAction> {
 
   @Inject
   AnActionDao anActionDao;
@@ -54,4 +57,12 @@ public class AnActionService implements BaseService<AnAction> {
     return AnAction.class;
   }
 
+  @Override
+  public AnAction findByName(String name) {
+    return anActionDao.findByName(name);
+  }
+
+  public void initSystemActions(Map<SystemStyleEnum, UserWebStyle> systemStyles) {
+    anActionDao.initSystemActions(systemStyles);
+  }
 }

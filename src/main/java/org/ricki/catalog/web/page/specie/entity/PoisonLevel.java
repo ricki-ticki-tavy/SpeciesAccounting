@@ -1,4 +1,4 @@
-package org.ricki.catalog.entity;
+package org.ricki.catalog.web.page.specie.entity;
 
 import org.ricki.catalog.entity.abstracts.BaseNamedEntity;
 import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
@@ -8,11 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-/**
- * Уровень агрессивности
- */
 @Entity
-public class AggressionLevel extends BaseNamedEntity {
+public class PoisonLevel extends BaseNamedEntity {
   @ManyToOne
   @JoinColumn(nullable = false)
   private UserWebStyle userWebStyle;
@@ -39,17 +36,14 @@ public class AggressionLevel extends BaseNamedEntity {
     this.balls = balls;
   }
 
-  public String toString() {
-    return getName();
-  }
-
-  public AggressionLevel() {
+  public PoisonLevel() {
 
   }
 
-  public AggressionLevel(String name, UserWebStyle style, int balls) {
+  public PoisonLevel(String name, int balls, UserWebStyle style) {
+    this.balls = balls;
+    this.userWebStyle = style;
     setName(name);
-    setBalls(balls);
-    setUserWebStyle(style);
   }
+
 }
