@@ -104,7 +104,7 @@ public class FormElement {
           String valStr = ((TextField) field).getValue().replace(",", ".").replace("."
                   , ((DecimalFormat) DecimalFormat.getInstance()).getDecimalFormatSymbols().getDecimalSeparator() + "");
 
-          doubleValue = (Double) fmt.parse(valStr.trim());
+          doubleValue = fmt.parse(valStr.trim()).doubleValue();
         } catch (ParseException pe) {
 
         }

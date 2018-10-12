@@ -64,7 +64,7 @@ public class AggressionLevelService implements BaseNamedEntityFIlteredSelectorSe
 
   @Override
   public List<AggressionLevel> getList(String filter) {
-    return null;
+    return aggressionLevelDao.getList(filter);
   }
 
   public void initSystemActions(Map<SystemStyleEnum, UserWebStyle> systemStyles) {

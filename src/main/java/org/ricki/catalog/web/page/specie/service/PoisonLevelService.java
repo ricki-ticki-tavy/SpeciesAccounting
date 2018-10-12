@@ -1,7 +1,6 @@
 package org.ricki.catalog.web.page.specie.service;
 
 import com.vaadin.spring.annotation.UIScope;
-import org.ricki.catalog.service.base.BaseNamedEntityFIlteredSelectorService;
 import org.ricki.catalog.web.page.specie.entity.PoisonLevel;
 import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
 import org.ricki.catalog.web.page.styles.service.SystemStyleEnum;
@@ -18,7 +17,7 @@ import java.util.Map;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @UIScope
 @Transactional
-public class PoisonLevelService implements BaseNamedEntityFIlteredSelectorService<PoisonLevel> {
+public class PoisonLevelService implements PoisonLevelServiceI {
 
   @Inject
   PoisonLevelDao poisonLevelDao;
@@ -64,7 +63,7 @@ public class PoisonLevelService implements BaseNamedEntityFIlteredSelectorServic
 
   @Override
   public List<PoisonLevel> getList(String filter) {
-    return null;
+    return poisonLevelDao.getList(filter);
   }
 
   public void initSystemActions(Map<SystemStyleEnum, UserWebStyle> systemStyles) {

@@ -1,7 +1,6 @@
 package org.ricki.catalog.web.page.styles.service;
 
 import com.vaadin.spring.annotation.UIScope;
-import org.ricki.catalog.service.base.BaseNamedEntityService;
 import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -16,7 +15,7 @@ import java.util.Map;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @UIScope
 @Transactional
-public class StyleService implements BaseNamedEntityService<UserWebStyle> {
+public class StyleService implements StyleServiceI {
 
   @Inject
   StyleDao styleDao;
@@ -60,6 +59,7 @@ public class StyleService implements BaseNamedEntityService<UserWebStyle> {
     return styleDao.findByName(name);
   }
 
+  @Override
   public Map<SystemStyleEnum, UserWebStyle> initSystemStyles() {
     return styleDao.initSystemStyles();
   }

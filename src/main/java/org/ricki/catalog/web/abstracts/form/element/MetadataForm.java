@@ -3,7 +3,9 @@ package org.ricki.catalog.web.abstracts.form.element;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Layout;
+import de.steinwedel.messagebox.MessageBox;
 import org.ricki.catalog.entity.abstracts.BaseEntity;
+import org.ricki.catalog.entity.abstracts.BaseNamedEntity;
 import org.ricki.catalog.service.base.BaseService;
 import org.ricki.catalog.system.PersistentSupport;
 import org.ricki.catalog.web.abstracts.form.element.annotations.FormMetadata;
@@ -153,25 +155,35 @@ public abstract class MetadataForm<E extends BaseEntity> extends BaseEditFormWit
   //--------------------------------------------------------------------------------------------------------------------
 
   public final E save() {
-    boolean isNew = false;
-    if (entity == null) {
-      entity = (E) service.create();
-      isNew = true;
-    }
-    for (String fieldName : formElementsMap.keySet()) {
-      formElementsMap.get(fieldName).readValueToEntity(fieldName, entity);
-    }
-
-    E newEntity = (E) service.save(entity);
-    if (parentListForm != null) {
-      if (isNew) {
-        parentListForm.onRecordAdded(newEntity);
-      } else {
-        parentListForm.onRecordUpdated(newEntity);
+    try {
+      boolean isNew = false;
+      if (entity == null) {
+        entity = (E) service.create();
+        isNew = true;
       }
-    }
+      for (String fieldName : formElementsMap.keySet()) {
+        formElementsMap.get(fieldName).readValueToEntity(fieldName, entity);
+      }
 
-    return (E) service.save(entity);
+      E newEntity = (E) service.save(entity);
+      if (parentListForm != null) {
+        if (isNew) {
+          parentListForm.onRecordAdded(newEntity);
+        } else {
+          parentListForm.onRecordUpdated(newEntity);
+        }
+      }
+
+      close();
+      return (E) service.save(entity);
+    } catch (Throwable th) {
+      MessageBox.createError().withCaption("Ошибка сохранения ")
+              .withMessage("Ошибка сохранения записи " + (entity instanceof BaseNamedEntity ? "\""
+                      + ((BaseNamedEntity) entity).getName() + "\"" : "с кодом " + entity.getId()) + "\r\n "
+                      + th.getLocalizedMessage())
+              .open();
+      return null;
+    }
   }
   //--------------------------------------------------------------------------------------------------------------------
 

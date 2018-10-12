@@ -1,7 +1,7 @@
 package org.ricki.catalog.entity.abstracts;
 
-import org.ricki.catalog.web.page.actions.entity.ActionResult;
-import org.ricki.catalog.web.page.actions.entity.AnAction;
+import org.ricki.catalog.web.page.action.entity.ActionResult;
+import org.ricki.catalog.web.page.action.entity.AnAction;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;

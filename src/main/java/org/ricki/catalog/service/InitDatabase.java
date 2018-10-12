@@ -1,13 +1,12 @@
 package org.ricki.catalog.service;
 
 import com.vaadin.spring.annotation.UIScope;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.ricki.catalog.web.page.actions.service.AnActionService;
-import org.ricki.catalog.web.page.specie.service.PoisonLevelService;
-import org.ricki.catalog.web.page.specie.service.SpecieClassService;
+import org.ricki.catalog.web.page.action.service.AnActionServiceI;
+import org.ricki.catalog.web.page.specie.service.PoisonLevelServiceI;
+import org.ricki.catalog.web.page.specie.service.SpecieClassServiceI;
 import org.ricki.catalog.web.page.styles.entity.UserWebStyle;
-import org.ricki.catalog.web.page.styles.service.StyleService;
+import org.ricki.catalog.web.page.styles.service.StyleServiceI;
 import org.ricki.catalog.web.page.styles.service.SystemStyleEnum;
 import org.ricki.catalog.web.page.user.service.UserAccountService;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -27,23 +26,21 @@ public class InitDatabase {
   SessionFactory sessionFactory;
 
   @Inject
-  StyleService styleService;
+  StyleServiceI styleService;
 
   @Inject
-  AnActionService anActionService;
+  AnActionServiceI anActionService;
 
   @Inject
   UserAccountService userAccountService;
 
   @Inject
-  SpecieClassService specieTypeService;
+  SpecieClassServiceI specieTypeService;
 
   @Inject
-  PoisonLevelService poisonLevelService;
+  PoisonLevelServiceI poisonLevelService;
 
   public void init() {
-    Session session = sessionFactory.getCurrentSession();
-
     Map<SystemStyleEnum, UserWebStyle> systemStyles = styleService.initSystemStyles();
     anActionService.initSystemActions(systemStyles);
     userAccountService.initSystemActions(systemStyles);

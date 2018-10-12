@@ -15,7 +15,9 @@ public class SimpleToolBar extends HorizontalLayout {
     Button button = new Button();
     button.addStyleName(styleName);
     addComponent(button);
-    button.addClickListener(listener);
+    if (listener != null) {
+      button.addClickListener(listener);
+    }
     return button;
   }
 }

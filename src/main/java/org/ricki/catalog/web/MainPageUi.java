@@ -11,15 +11,14 @@ import org.ricki.catalog.web.abstracts.form.list.BaseForm;
 import org.ricki.catalog.web.page.ExpenditureView;
 import org.ricki.catalog.web.page.PlanView;
 import org.ricki.catalog.web.page.StartView;
-import org.ricki.catalog.web.page.actions.forms.ActionListForm;
-import org.ricki.catalog.web.page.actions.forms.ActionResultListForm;
-import org.ricki.catalog.web.page.boxes.BoxView;
-import org.ricki.catalog.web.page.food.forms.FoodListForm;
+import org.ricki.catalog.web.page.action.form.ActionListForm;
+import org.ricki.catalog.web.page.action.form.ActionResultListForm;
+import org.ricki.catalog.web.page.box.forms.BoxListForm;
+import org.ricki.catalog.web.page.food.form.FoodListForm;
 import org.ricki.catalog.web.page.sales.SaleView;
-import org.ricki.catalog.web.page.species.SpecieView;
-import org.ricki.catalog.web.page.species.types.SpecieTypeView;
+import org.ricki.catalog.web.page.specie.form.SpecieListForm;
 import org.ricki.catalog.web.page.staff.StaffView;
-import org.ricki.catalog.web.page.styles.forms.StyleListForm;
+import org.ricki.catalog.web.page.styles.form.StyleListForm;
 import org.springframework.beans.factory.BeanFactory;
 
 import javax.inject.Inject;
@@ -28,6 +27,9 @@ import javax.inject.Inject;
 @SpringViewDisplay
 @Theme("base")
 public class MainPageUi extends UI {
+
+  private String appTitle = "Инсектариум 0.01";
+  private Label appTitleLabel;
 
   Layout navigatorLayout;
   Layout menuLayout;
@@ -78,7 +80,8 @@ public class MainPageUi extends UI {
     topLineLayout.addStyleName("myTopMenu");
     topLineLayout.setHeight(30, Unit.PIXELS);
     topLineLayout.setWidth("100%");
-    topLineLayout.addComponent(new Label("asdasdadad"));
+    appTitleLabel = new Label(appTitle);
+    topLineLayout.addComponent(appTitleLabel);
     navigatorLayout.addComponent(topLineLayout);
 
     menuLayout = new HorizontalLayout();
@@ -91,11 +94,11 @@ public class MainPageUi extends UI {
     addPageToMenu(StartView.class, null);
 
     MenuBar.MenuItem spec = mainMenu.addItem("Особи", null);
-    addPageToMenu(SpecieView.class, spec);
-    addPageToMenu(SpecieTypeView.class, spec);
+    addPageToMenu(SpecieListForm.class, spec);
+//    addPageToMenu(SpecieTypeView.class, spec);
 
     addPageToMenu(PlanView.class, null);
-    addPageToMenu(BoxView.class, null);
+    addPageToMenu(BoxListForm.class, null);
     addPageToMenu(StaffView.class, null);
 
     MenuBar.MenuItem finance = mainMenu.addItem("Финансы", null);

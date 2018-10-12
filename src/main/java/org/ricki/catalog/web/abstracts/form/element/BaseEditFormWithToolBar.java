@@ -27,7 +27,7 @@ public abstract class BaseEditFormWithToolBar extends BaseEditForm {
 
   protected Layout buildToolbar() {
     SimpleToolBar toolbar = new SimpleToolBar();
-    saveButton = toolbar.createAndAddButton("", "toolButtonOk", event -> this.close());
+    saveButton = toolbar.createAndAddButton("", "toolButtonOk", null);
     toolbar.createAndAddButton("", "toolButtonCancel", event -> this.close());
     toolbar.addStyleName("base_window_form_toolbar_position_style");
     addActions(toolbar);

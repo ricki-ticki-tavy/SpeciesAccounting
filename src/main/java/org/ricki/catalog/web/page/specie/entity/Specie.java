@@ -1,7 +1,7 @@
 package org.ricki.catalog.web.page.specie.entity;
 
-import org.ricki.catalog.entity.Box;
 import org.ricki.catalog.entity.abstracts.BaseThing;
+import org.ricki.catalog.web.page.box.entity.Box;
 
 import javax.persistence.*;
 import java.util.Set;
